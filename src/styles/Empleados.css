@@ -1,0 +1,74 @@
+/* Estilo general */
+.employee-container {
+    background-color: #e5e5e5;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+  }
+  
+  /* Estilo del título */
+  .employee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+  }
+  
+  /* Botón de agregar empleado */
+  .btn-add {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* Estilos de la tabla */
+  .employee-table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .employee-table th {
+    background-color: #f0f0f0;
+    text-align: left;
+    padding: 10px;
+  }
+  
+  .employee-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Estilo del formulario */
+  .employee-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .employee-form input,
+  .employee-form select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .form-buttons .btn {
+    width: 48%;
+  }
+  

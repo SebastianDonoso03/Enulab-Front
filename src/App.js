@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Empleado from "./components/admin/Empleado";
+import Dashboard from "./components/admin/DashboardAdmin";
+import CrearEmpleado from "./components/admin/CrearEmpleado";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CrearRestaurante from "./components/admin/CrearRestaurant";
+import VisualizarRestaurantes from "./components/admin/Visualizar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="d-flex">
+        <Sidebar />
+        <div className="content p-4">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/empleados" element={<Empleado />} />
+            <Route path="/empleados/nuevo" element={<CrearEmpleado />} />
+            <Route path="/crear-restaurantes" element={<CrearRestaurante />} />
+            <Route path="/Visualizar" element={<VisualizarRestaurantes />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
