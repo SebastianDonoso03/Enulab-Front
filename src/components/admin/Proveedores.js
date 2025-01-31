@@ -12,7 +12,7 @@ const Proveedores = () => {
   return (
     <div className="container">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Empleados</h2>
+        <h2>Proveedores</h2>
         <Link to="/Proveedores/nuevo" className="btn btn-primary">Agregar proveeedor +</Link>
       </div>
 

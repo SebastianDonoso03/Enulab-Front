@@ -11,6 +11,9 @@ import CrearRestaurante from "./components/admin/CrearRestaurant";
 import VisualizarRestaurantes from "./components/admin/Visualizar";
 import Proveedores from "./components/admin/Proveedores";
 import CrearProveedor from "./components/admin/CrearProveedor";
+import Inventario from "./components/admin/Inventario";
+import CrearInventario from "./components/admin/CrearInventario";
+
 
 function App() {
   return (
@@ -27,6 +30,8 @@ function App() {
             <Route path="/Visualizar" element={<VisualizarRestaurantes />} />
             <Route path="/Proveedores" element={<Proveedores />} />
             <Route path="/Proveedores/nuevo" element={<CrearProveedor />} />
+            <Route path="/Inventario" element={<Inventario />} />
+            <Route path="/Inventario/nuevo" element={<CrearInventario />} />
           </Routes>
         </div>
       </div>

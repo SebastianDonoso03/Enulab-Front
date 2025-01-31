@@ -41,6 +41,12 @@ const Sidebar = () => {
               Proveedores
             </Link>
           </li>
+          <li className="nav-item mb-2">
+            <Link className="nav-link text-white" to="/Inventario">
+              <i className="bi bi-people me-2"></i>
+              Inventario
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
