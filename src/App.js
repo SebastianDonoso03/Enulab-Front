@@ -9,6 +9,8 @@ import CrearEmpleado from "./components/admin/CrearEmpleado";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CrearRestaurante from "./components/admin/CrearRestaurant";
 import VisualizarRestaurantes from "./components/admin/Visualizar";
+import Proveedores from "./components/admin/Proveedores";
+import CrearProveedor from "./components/admin/CrearProveedor";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
             <Route path="/empleados/nuevo" element={<CrearEmpleado />} />
             <Route path="/crear-restaurantes" element={<CrearRestaurante />} />
             <Route path="/Visualizar" element={<VisualizarRestaurantes />} />
+            <Route path="/Proveedores" element={<Proveedores />} />
+            <Route path="/Proveedores/nuevo" element={<CrearProveedor />} />
           </Routes>
         </div>
       </div>
