@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CrearProveedor = () => {
   const [formData, setFormData] = useState({
     nombre: "",
+    producto:"",
     contacto: "",
     email: "",
     direccion: "",
@@ -31,6 +32,10 @@ const CrearProveedor = () => {
       <form className="employee-form" onSubmit={handleSubmit}>
         <label>Nombre del proveedor</label>
         <input type="text" name="nombre" onChange={handleChange} required />
+
+        <label>Producto</label>
+        <input type="text" name="producto" onChange={handleChange} required />
+
 
         <label>Número de contacto</label>
         <input type="text" name="Número de contacto" onChange={handleChange} required />

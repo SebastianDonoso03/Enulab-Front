@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 const Proveedores = () => {
   const employees = [
-    { id: 1, name: "José G. Vera", contacto: "715652348", producto: "carne" },
-    { id: 2, name: "María López", contacto: "715652349", producto: "vegetales" }
+    { id: 1, name: "José G. Vera", contacto: "715652348",email: "jose@gmail.com", direccion: "Calderon", ciudad: "Quito", provincia: "Pichincha" ,producto: "carne" },
+    { id: 2, name: "María López", contacto: "715652349", email: "maria@gmail.com", direccion: "ElInca", ciudad: "Quito", provincia: "Pichincha" ,producto: "vegetales" }
   ];
 
   return (
@@ -21,6 +21,10 @@ const Proveedores = () => {
           <tr>
             <th>Nombre</th>
             <th>Contacto</th>
+            <th>email</th>
+            <th>direccion</th>
+            <th>ciudad</th>
+            <th>provincia</th>
             <th>Producto</th>
           </tr>
         </thead>
@@ -29,6 +33,10 @@ const Proveedores = () => {
             <tr key={emp.id}>
               <td>{emp.name}</td>
               <td>{emp.contacto}</td>
+              <td>{emp.direccion}</td>
+              <td>{emp.email}</td>
+              <td>{emp.ciudad}</td>
+              <td>{emp.provincia}</td>
               <td>{emp.producto}</td>
             </tr>
           ))}
