@@ -1,26 +1,55 @@
-import React,{useState,useEffect}from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllRestaurants } from "../../services/restaurantServices"; 
 import "../../styles/Restaurantes.css";
 import "../../images/logo.png";
+import { Modal, Button } from "react-bootstrap";
+
 const Restaurantes = () => {
-  const [restaurantes, setRestaurantes] = useState([]); // Estado para los restaurantes
-  const [loading, setLoading] = useState(true); // Estado para manejar el estado de carga
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRestaurante, setSelectedRestaurante] = useState(null);
+  const [restaurantes, setRestaurantes] = useState([
+    {
+      id: 1,
+      nombre: "Restaurante 1",
+      tipoComida: "Comida rápida",
+    },
+    {
+      id: 2,
+      nombre: "Restaurante 2",
+      tipoComida: "Comida italiana",
+    },
+    {
+      id: 3,
+      nombre: "Restaurante 3",
+      tipoComida: "Comida mexicana",
+    },
+    {
+      id: 4,
+      nombre: "Restaurante 4",
+      tipoComida: "Comida japonesa",
+    },
+  ]);
 
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      try {
-        const data = await getAllRestaurants(); // Llamada al servicio
-        setRestaurantes(data); // Almacenar los restaurantes obtenidos
-      } catch (error) {
-        console.error("Error fetching restaurants:", error);
-      } finally {
-        setLoading(false); // Finaliza el estado de carga
-      }
-    };
+  const handleUpdateClick = (restaurante) => {
+    setSelectedRestaurante(restaurante);
+    setShowModal(true);
+  };
 
-    fetchRestaurants(); // Llamar la función para obtener los restaurantes
-  }, []); // Se ejecuta una sola vez al cargar el componente
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedRestaurante(null);
+  };
+
+  const handleDeleteClick = (id) => {
+    if (
+      window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")
+    ) {
+      const updatedRestaurantes = restaurantes.filter((rest) => rest.id !== id);
+      setRestaurantes(updatedRestaurantes); 
+      console.log("Restaurante eliminado:", id);
+    }
+  };
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
@@ -32,29 +61,80 @@ const Restaurantes = () => {
         </Link>
       </div>
 
-      {loading ? ( // Mostrar un indicador de carga mientras los datos se están recuperando
-        <div>Loading...</div>
-      ) : (
-        <div className="restaurantes-grid">
-          {restaurantes.length > 0 ? (
-            restaurantes.map((rest) => (
-              <div key={rest.id} className="restaurante-card">
-                <div className="restaurante-info">
-                  <img
-                    src={require("../../images/logo.png")}
-                    alt="Logo"
-                    className="restaurante-logo"
-                  />
-                  <h3>{rest.name}</h3> {/* Mostrar el nombre del restaurante */}
-                  <p>{rest.ubicacion}</p> {/* Mostrar la ubicación o tipo de comida */}
-                </div>
+      <div className="restaurantes-grid">
+        {restaurantes.map((rest) => (
+          <div key={rest.id} className="restaurante-card">
+            <div className="restaurante-info">
+              <img
+                src={require("../../images/logo.png")}
+                alt="Logo"
+                className="restaurante-logo"
+              />
+              <h3>{rest.nombre}</h3>
+              <p>{rest.tipoComida}</p>
+              <div className="d-flex gap-2">
+                <button
+                  className="btn btn-sm"
+                  onClick={() => handleUpdateClick(rest)}
+                >
+                  <i className="bi bi-arrow-repeat"></i> Actualizar
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDeleteClick(rest.id)}
+                >
+                  <i className="bi bi-trash"></i> Eliminar
+                </button>
               </div>
-            ))
-          ) : (
-            <p>No hay restaurantes disponibles.</p>
-          )}
-        </div>
-      )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <i className="bi bi-pencil-square me-2"></i>
+            Actualizar Restaurante
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="mb-3">
+              <label className="form-label">Nombre del Restaurante</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedRestaurante?.nombre || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Ubicación</label>
+              <input type="text" className="form-control" />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Objetivos</label>
+              <input type="text" className="form-control" />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Descripción del Negocio</label>
+              <textarea className="form-control"></textarea>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Logo del Restaurante</label>
+              <input type="file" className="form-control" />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

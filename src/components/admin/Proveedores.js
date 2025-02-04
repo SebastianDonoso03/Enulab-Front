@@ -1,9 +1,11 @@
-// src/pages/Proveedores.js
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap"; 
 
 const Proveedores = () => {
-  const employees = [
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProveedor, setSelectedProveedor] = useState(null); 
+  const [proveedores, setProveedores] = useState([
     {
       id: 1,
       name: "José G. Vera",
@@ -24,14 +26,34 @@ const Proveedores = () => {
       provincia: "Pichincha",
       producto: "vegetales",
     },
-  ];
+  ]);
+
+  const handleUpdateClick = (proveedor) => {
+    setSelectedProveedor(proveedor);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProveedor(null);
+  };
+
+  const handleDeleteClick = (id) => {
+    if (
+      window.confirm("¿Estás seguro de que deseas eliminar este proveedor?")
+    ) {
+      const updatedProveedores = proveedores.filter((prov) => prov.id !== id);
+      setProveedores(updatedProveedores); 
+      console.log("Proveedor eliminado:", id);
+    }
+  };
 
   return (
     <div className="container">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Proveedores</h2>
         <Link to="/Proveedores/nuevo" className="btn btn-primary">
-          Agregar proveeedor +
+          Agregar proveedor +
         </Link>
       </div>
 
@@ -40,27 +62,119 @@ const Proveedores = () => {
           <tr>
             <th>Nombre</th>
             <th>Contacto</th>
-            <th>email</th>
-            <th>direccion</th>
-            <th>ciudad</th>
-            <th>provincia</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Ciudad</th>
+            <th>Provincia</th>
             <th>Producto</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {employees.map((emp) => (
-            <tr key={emp.id}>
-              <td>{emp.name}</td>
-              <td>{emp.contacto}</td>
-              <td>{emp.direccion}</td>
-              <td>{emp.email}</td>
-              <td>{emp.ciudad}</td>
-              <td>{emp.provincia}</td>
-              <td>{emp.producto}</td>
+          {proveedores.map((prov) => (
+            <tr key={prov.id}>
+              <td>{prov.name}</td>
+              <td>{prov.contacto}</td>
+              <td>{prov.email}</td>
+              <td>{prov.direccion}</td>
+              <td>{prov.ciudad}</td>
+              <td>{prov.provincia}</td>
+              <td>{prov.producto}</td>
+              <td>
+                <button
+                  className="btn  btn-sm me-2"
+                  onClick={() => handleUpdateClick(prov)}
+                >
+                  <i className="bi bi-pencil"></i> Actualizar
+                </button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDeleteClick(prov.id)}
+                >
+                  <i className="bi bi-trash"></i> Eliminar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <i className="bi bi-pencil-square me-2"></i>
+            Actualizar Proveedor
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="mb-3">
+              <label className="form-label">Nombre del Proveedor</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.name || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Contacto</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.contacto || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.email || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Dirección</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.direccion || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Ciudad</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.ciudad || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Provincia</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.provincia || ""}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Producto</label>
+              <input
+                type="text"
+                className="form-control"
+                defaultValue={selectedProveedor?.producto || ""}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleCloseModal}>
+            Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
