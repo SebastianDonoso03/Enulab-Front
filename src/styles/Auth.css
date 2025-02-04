@@ -1,0 +1,57 @@
+/* Contenedor principal */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  /* Tarjeta de autenticación */
+  .auth-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Logo */
+  .auth-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  
+  /* Título */
+  .auth-card h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Botón */
+  .btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+  }
+  
+  /* Enlaces */
+  .text-primary {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .text-primary:hover {
+    text-decoration: underline;
+  }

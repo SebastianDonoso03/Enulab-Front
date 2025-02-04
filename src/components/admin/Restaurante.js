@@ -25,17 +25,15 @@ const Restaurantes = () => {
       nombre: "Restaurante 4",
       tipoComida: "Comida japonesa",
     },
-    
-    
   ];
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
       <h2 className="restaurantes-title">Mis restaurantes</h2>
-      <hr />
+
       <div className="d-flex justify-content-end">
         <Link to="/crear-restaurantes" className="btn btn-primary">
-          Agregar restaurante
+          Agregar restaurante +
         </Link>
       </div>
 

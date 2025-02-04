@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/logout">
+              <Link className="nav-link" to="/Login">
                 Cerrar Sesión
               </Link>
             </li>
