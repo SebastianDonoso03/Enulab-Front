@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const CrearRestaurante = () => {
   return (
@@ -17,7 +18,11 @@ const CrearRestaurante = () => {
               <input type="text" className="form-control" />
             </div>
             <div className="mb-3">
-              <label className="form-label">Tipo de Comida</label>
+              <label className="form-label">Ubicación</label>
+              <input type="text" className="form-control" />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Objetivos</label>
               <input type="text" className="form-control" />
             </div>
             <div className="mb-3">
@@ -29,6 +34,10 @@ const CrearRestaurante = () => {
               <input type="file" className="form-control" />
             </div>
             <div className="d-flex justify-content-end">
+              {/* Botón para cancelar y regresar a la vista de Restaurantes */}
+              <Link to="/restaurantes" className="btn btn-secondary me-2">
+                Cancelar
+              </Link>
               <button type="submit" className="btn btn-primary">
                 Guardar
               </button>

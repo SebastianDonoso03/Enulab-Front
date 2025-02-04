@@ -36,14 +36,14 @@ const CrearEmpleado = () => {
         <label>Número de cédula</label>
         <input type="text" name="cedula" onChange={handleChange} required />
 
+        <label>Edad</label>
+        <input type="number" name="edad" onChange={handleChange} required />
+
         <label>Género</label>
         <select name="genero" onChange={handleChange}>
           <option value="Masculino">Masculino</option>
           <option value="Femenino">Femenino</option>
         </select>
-
-        <label>Cargo</label>
-        <input type="text" name="cargo" onChange={handleChange} required />
 
         <label>Sueldo</label>
         <input type="number" name="sueldo" onChange={handleChange} required />
@@ -51,14 +51,17 @@ const CrearEmpleado = () => {
         <label>Número de teléfono</label>
         <input type="text" name="telefono" onChange={handleChange} required />
 
-        <label>Edad</label>
-        <input type="number" name="edad" onChange={handleChange} required />
-
         <label>Jornada laboral</label>
         <select name="jornada" onChange={handleChange}>
           <option value="Matutina">Matutina (09:00 - 17:00)</option>
           <option value="Vespertina">Vespertina (12:00 - 17:00)</option>
           <option value="Nocturna">Nocturna (18:00 - 00:00)</option>
+        </select>
+
+        <label>Disposición</label>
+        <select name="disponibilidad" onChange={handleChange}>
+          <option value={true}>Disponible</option>
+          <option value={false}>No Disponible</option>
         </select>
 
         <div className="form-buttons">

@@ -5,10 +5,10 @@ import Sidebar from "./components/Sidebar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Empleado from "./components/admin/Empleado";
 import Dashboard from "./components/admin/DashboardAdmin";
+import Restaurantes from "./components/admin/Restaurante";
 import CrearEmpleado from "./components/admin/CrearEmpleado";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CrearRestaurante from "./components/admin/CrearRestaurant";
-import VisualizarRestaurantes from "./components/admin/Visualizar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
             <Route path="/empleados" element={<Empleado />} />
             <Route path="/empleados/nuevo" element={<CrearEmpleado />} />
             <Route path="/crear-restaurantes" element={<CrearRestaurante />} />
-            <Route path="/Visualizar" element={<VisualizarRestaurantes />} />
+            <Route path="/restaurantes" element={<Restaurantes />} />
           </Routes>
         </div>
       </div>
