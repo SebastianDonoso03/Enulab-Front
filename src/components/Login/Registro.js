@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Auth.css";
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate('/login');
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -16,7 +23,7 @@ const Register = () => {
 
         <h2 className="text-center mb-4">Registro</h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Nombre Completo
@@ -68,7 +75,7 @@ const Register = () => {
 
         <div className="text-center">
           <span>¿Ya tienes una cuenta? </span>
-          <Link to="/login" className="text-primary">
+          <Link to="/Login" className="text-primary">
             Inicia Sesión
           </Link>
         </div>
