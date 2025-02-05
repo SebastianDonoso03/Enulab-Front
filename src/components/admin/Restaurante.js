@@ -1,41 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  getAllRestaurants,
-  updateRestaurant,
-  deleteRestaurant,
-} from "../../services/restaurantServices";
-import { Modal, Button } from "react-bootstrap";
 import "../../styles/Restaurantes.css";
+import "../../images/logo.png";
+import { Modal, Button } from "react-bootstrap";
 
 const Restaurantes = () => {
-  const [restaurantes, setRestaurantes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedRestaurante, setSelectedRestaurante] = useState(null);
-  const [formData, setFormData] = useState({ name: "", ubicacion: "", objetivos: "", logo: "" });
-
-  // Obtener todos los restaurantes al cargar la página
-  useEffect(() => {
-    fetchRestaurantes();
-  }, []);
-
-  const fetchRestaurantes = async () => {
-    try {
-      const data = await getAllRestaurants();
-      setRestaurantes(data);
-    } catch (error) {
-      console.error("Error al obtener restaurantes:", error);
-    }
-  };
+  const [restaurantes, setRestaurantes] = useState([
+    {
+      id: 1,
+      nombre: "Restaurante 1",
+      tipoComida: "Comida rápida",
+    },
+    {
+      id: 2,
+      nombre: "Restaurante 2",
+      tipoComida: "Comida italiana",
+    },
+    {
+      id: 3,
+      nombre: "Restaurante 3",
+      tipoComida: "Comida mexicana",
+    },
+    {
+      id: 4,
+      nombre: "Restaurante 4",
+      tipoComida: "Comida japonesa",
+    },
+  ]);
 
   const handleUpdateClick = (restaurante) => {
     setSelectedRestaurante(restaurante);
-    setFormData({
-      name: restaurante.name,
-      ubicacion: restaurante.ubicacion,
-      objetivos: restaurante.objetivos,
-      logo: restaurante.logo,
-    });
     setShowModal(true);
   };
 
@@ -44,29 +40,13 @@ const Restaurantes = () => {
     setSelectedRestaurante(null);
   };
 
-  const handleDeleteClick = async (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")) {
-      try {
-        await deleteRestaurant(id);
-        fetchRestaurantes(); // Actualizar la lista después de eliminar
-      } catch (error) {
-        console.error("Error al eliminar restaurante:", error);
-      }
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSaveChanges = async () => {
-    try {
-      await updateRestaurant(selectedRestaurante.id, formData);
-      fetchRestaurantes(); // Actualizar la lista después de actualizar
-      handleCloseModal();
-    } catch (error) {
-      console.error("Error al actualizar restaurante:", error);
+  const handleDeleteClick = (id) => {
+    if (
+      window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")
+    ) {
+      const updatedRestaurantes = restaurantes.filter((rest) => rest.id !== id);
+      setRestaurantes(updatedRestaurantes); 
+      console.log("Restaurante eliminado:", id);
     }
   };
 
@@ -85,16 +65,15 @@ const Restaurantes = () => {
           <div key={rest.id} className="restaurante-card">
             <div className="restaurante-info">
               <img
-                src={rest.logo || require("../../images/logo.png")}
+                src={require("../../images/logo.png")}
                 alt="Logo"
                 className="restaurante-logo"
               />
-              <h3>{rest.name}</h3>
-              <p>{rest.ubicacion}</p>
-              <p>{rest.objetivos}</p>
+              <h3>{rest.nombre}</h3>
+              <p>{rest.tipoComida}</p>
               <div className="d-flex gap-2">
                 <button
-                  className="btn btn-sm btn-info"
+                  className="btn btn-sm"
                   onClick={() => handleUpdateClick(rest)}
                 >
                   <i className="bi bi-arrow-repeat"></i> Actualizar
@@ -125,40 +104,24 @@ const Restaurantes = () => {
               <input
                 type="text"
                 className="form-control"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
+                defaultValue={selectedRestaurante?.nombre || ""}
               />
             </div>
-          
             <div className="mb-3">
               <label className="form-label">Ubicación</label>
-              <input
-                type="text"
-                className="form-control"
-                name="ubicacion"
-                value={formData.ubicacion}
-                onChange={handleInputChange}
-              />
+              <input type="text" className="form-control" />
             </div>
             <div className="mb-3">
-              <label className="form-label">Descripción</label>
-              <textarea
-                className="form-control"
-                name="objetivos"
-                value={formData.objetivos}
-                onChange={handleInputChange}
-              ></textarea>
+              <label className="form-label">Objetivos</label>
+              <input type="text" className="form-control" />
             </div>
             <div className="mb-3">
-              <label className="form-label">Logo (URL)</label>
-              <input
-                type="text"
-                className="form-control"
-                name="logo"
-                value={formData.logo}
-                onChange={handleInputChange}
-              />
+              <label className="form-label">Descripción del Negocio</label>
+              <textarea className="form-control"></textarea>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Logo del Restaurante</label>
+              <input type="file" className="form-control" />
             </div>
           </form>
         </Modal.Body>
@@ -166,7 +129,7 @@ const Restaurantes = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
+          <Button variant="primary" onClick={handleCloseModal}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
