@@ -5,15 +5,17 @@ import "../../styles/Restaurantes.css";
 
 const CrearRestaurante = () => {
   const navigate = useNavigate(); // Para redirigir después de crear el restaurante
+
+  // Estado del formulario
   const [formData, setFormData] = useState({
     name: "",
     ubicacion: "",
     objetivos: "",
     descripcion: "",
-    logo: "", // Ahora el logo es un texto (por ejemplo, una URL)
+    logo: null, // Inicialmente null para el archivo
   });
 
-  // Manejar el cambio de los campos del formulario
+  // Manejar cambios en los campos de texto
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -22,13 +24,31 @@ const CrearRestaurante = () => {
     }));
   };
 
+  // Manejar la carga de archivos
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]; // Obtener el archivo seleccionado
+    setFormData((prevState) => ({
+      ...prevState,
+      logo: file, // Guardar el archivo en el estado
+    }));
+  };
+
   // Enviar el formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formDataToSend = new FormData(); // Crear FormData para enviar archivos
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("ubicacion", formData.ubicacion);
+    formDataToSend.append("objetivos", formData.objetivos);
+    formDataToSend.append("descripcion", formData.descripcion);
+    if (formData.logo) {
+      formDataToSend.append("logo", formData.logo); // Agregar el archivo si existe
+    }
+
     try {
-      await createRestaurant(formData); // Llamada al servicio
+      await createRestaurant(formDataToSend); // Enviar FormData al backend
       console.log("Restaurante creado exitosamente");
-      navigate("/restaurantes"); // Redirigir después de la creación
+      navigate("/restaurantes"); // Redirigir a la lista de restaurantes
     } catch (error) {
       console.error("Error al crear el restaurante:", error);
     }
@@ -44,7 +64,7 @@ const CrearRestaurante = () => {
           </h4>
         </div>
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="mb-3">
               <label className="form-label">Nombre del Restaurante</label>
               <input
@@ -87,14 +107,13 @@ const CrearRestaurante = () => {
               ></textarea>
             </div>
             <div className="mb-3">
-              <label className="form-label">Logo (URL o texto)</label>
+              <label className="form-label">Logo (Imagen)</label>
               <input
-                type="text"
+                type="file"
                 className="form-control"
                 name="logo"
-                value={formData.logo}
-                onChange={handleInputChange}
-                placeholder="Ej: https://mi-logo.com/logo.png"
+                accept="image/*"
+                onChange={handleFileChange} // Capturar el archivo
               />
             </div>
             <div className="d-flex justify-content-end">

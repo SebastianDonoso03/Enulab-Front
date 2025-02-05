@@ -32,15 +32,18 @@ export const createRestaurant = async (restaurantData) => {
     }
 }
 
-// Actualizar un restaurante
 export const updateRestaurant = async (id, restaurantData) => {
     try {
-        const response = await axios.put(`${apiUrl}/${id}`, restaurantData);
+        const response = await axios.put(`${apiUrl}/${id}`, restaurantData, {
+            headers: { "Content-Type": "multipart/form-data" } // OPCIONAL, axios lo maneja automáticamente
+        });
         return response.data;
     } catch (error) {
-        console.error("Error updating restaurant:", error);
+        console.error("Error updating restaurant:", error.response?.data || error.message);
+        throw error; // Importante lanzar el error para manejarlo en el frontend
     }
-}
+};
+
 
 // Eliminar un restaurante
 export const deleteRestaurant = async (id) => {

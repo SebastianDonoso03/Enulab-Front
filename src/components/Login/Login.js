@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Auth.css";
+import { loginUser } from "../../services/loginServices";
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    correoelectronico: "",
+    password: "",
+  });
+
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para el mensaje de error
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.location.href = "/inicio";
+    setErrorMessage(""); // Limpiar mensaje previo
+
+    loginUser(formData)
+      .then(() => {
+        window.location.href = "/restaurantes"; // Redirigir después de iniciar sesión
+      })
+      .catch((error) => {
+        setErrorMessage(error.message || "Error en el inicio de sesión, revisa tus credenciales");
+      });
   };
 
   return (
@@ -23,13 +46,16 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">
+            <label htmlFor="correoelectronico" className="form-label">
               Correo Electrónico
             </label>
             <input
               type="email"
               className="form-control"
-              id="email"
+              id="correoelectronico"
+              name="correoelectronico"
+              value={formData.correoelectronico}
+              onChange={handleChange}
               placeholder="Ingresa tu correo"
             />
           </div>
@@ -41,9 +67,16 @@ const Login = () => {
               type="password"
               className="form-control"
               id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Ingresa tu contraseña"
             />
           </div>
+
+          {/* Mostrar mensaje de error si existe */}
+          {errorMessage && <p className="text-danger">{errorMessage}</p>}
+
           <button type="submit" className="btn btn-primary w-100 mb-3">
             Iniciar Sesión
           </button>
@@ -59,4 +92,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;
