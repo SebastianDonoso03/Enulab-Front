@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import "../../styles/Restaurantes.css";
 import "../../images/logo.png";
 import { Modal, Button } from "react-bootstrap";
-import "../../styles/Restaurantes.css";
+import { getRestaurantsByUser } from '../../services/restaurantServices'; // Ajusta la ruta según tu estructura
+
 
 const Restaurantes = () => {
+  const [restaurantes, setRestaurantes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedRestaurante, setSelectedRestaurante] = useState(null);
   const [formData, setFormData] = useState({
@@ -113,8 +115,8 @@ const Restaurantes = () => {
             <p>{rest.ubicacion}</p>
             <div className="d-flex gap-2">
                 <button
-                  className="btn btn-sm btn-info"
-                  onClick={() => handleUpdateClick(rest)}
+                    className="btn btn-sm"
+                    onClick={() => handleUpdateClick(rest)}
                 >
                     <i className="bi bi-arrow-repeat"></i> Actualizar
                 </button>
@@ -144,16 +146,20 @@ const Restaurantes = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedRestaurante?.nombre || ""}
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
               />
             </div>
             <div className="mb-3">
               <label className="form-label">Ubicación</label>
-              <input type="text" className="form-control" />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Objetivos</label>
-              <input type="text" className="form-control" />
+              <input
+                type="text"
+                className="form-control"
+                name="ubicacion"
+                value={formData.ubicacion}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Objetivos</label>
@@ -175,12 +181,11 @@ const Restaurantes = () => {
               ></textarea>
             </div>
             <div className="mb-3">
-              <label className="form-label">Logo (URL)</label>
+              <label className="form-label">Logo del Restaurante</label>
               <input
-                type="text"
+                type="file"
                 className="form-control"
                 name="logo"
-                value={formData.logo}
                 onChange={handleInputChange}
               />
             </div>
@@ -190,7 +195,7 @@ const Restaurantes = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
+          <Button variant="primary" onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
