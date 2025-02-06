@@ -1,56 +1,67 @@
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:4200/api/restaurante'; // Asegúrate de que esta URL sea la correcta
+const API_URL = 'http://localhost:4200'; // Cambia esto según tu configuración
 
-// Obtener todos los restaurantes
-export const getAllRestaurants = async () => {
-    try {
-        const response = await axios.get(apiUrl);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching restaurants:", error);
-    }
-}
+// Crear una instancia de axios con la configuración necesaria
+const api = axios.create({
+    baseURL: API_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
-// Obtener un restaurante por ID
-export const getRestaurantById = async (id) => {
+export const createRestaurant = async (formData) => {
+    const user_id = localStorage.getItem('user_id'); // Obtener el user_id del localStorage
+        if (!user_id) {
+            throw new Error('No se ha encontrado el user_id. El usuario debe estar autenticado.');
+        }
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('ubicacion', formData.ubicacion);
+    data.append('objetivos', formData.objetivos);
+    data.append('descripcion', formData.descripcion);
+    data.append('logo', formData.logo);
+    data.append('user_id', user_id); // Enviar el user_id al servidor
     try {
-        const response = await axios.get(`${apiUrl}/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching restaurant by id:", error);
-    }
-}
-
-// Crear un nuevo restaurante
-export const createRestaurant = async (restaurantData) => {
-    try {
-        const response = await axios.post(apiUrl, restaurantData);
-        return response.data;
-    } catch (error) {
-        console.error("Error creating restaurant:", error);
-    }
-}
-
-export const updateRestaurant = async (id, restaurantData) => {
-    try {
-        const response = await axios.put(`${apiUrl}/${id}`, restaurantData, {
-            headers: { "Content-Type": "multipart/form-data" } // OPCIONAL, axios lo maneja automáticamente
+        const response = await api.post("/api/restaurante", data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
         });
-        return response.data;
+            return response.data;
     } catch (error) {
-        console.error("Error updating restaurant:", error.response?.data || error.message);
-        throw error; // Importante lanzar el error para manejarlo en el frontend
+        if (error.response) {
+            console.error("Error en la respuesta del servidor:", error.response.data);
+            throw new Error(error.response.data.error || "Error en el servidor");
+        } else if (error.request) {
+            console.error("Error en la solicitud:", error.request);
+            throw new Error("Error en la solicitud. Por favor, inténtalo más tarde.");
+        } else {
+            console.error("Error desconocido:", error.message);
+            throw new Error("Ha ocurrido un error desconocido");
+        }
     }
 };
 
-
-// Eliminar un restaurante
-export const deleteRestaurant = async (id) => {
+export const getRestaurantsByUser = async () => {
+    const user_id = localStorage.getItem('user_id');
+    console.log('User ID:', user_id);
+    if (!user_id) {
+        throw new Error('No se ha encontrado el user_id. El usuario debe estar autenticado.');
+    }
     try {
-        const response = await axios.delete(`${apiUrl}/${id}`);
+        const response = await api.get(`api/restaurante/${user_id}`);
         return response.data;
     } catch (error) {
-        console.error("Error deleting restaurant:", error);
+        if (error.response) {
+            console.error("Error en la respuesta del servidor:", error.response.data);
+            throw new Error(error.response.data.error || "Error en el servidor");
+        } else if (error.request) {
+            console.error("Error en la solicitud:", error.request);
+            throw new Error("Error en la solicitud. Por favor, inténtalo más tarde.");
+        } else {
+            console.error("Error desconocido:", error.message);
+            throw new Error("Ha ocurrido un error desconocido");
+        }
     }
-}
+};

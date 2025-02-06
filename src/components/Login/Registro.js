@@ -1,43 +1,66 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUser } from "../../services/loginServices";
+import authService from "../../services/registerServices"; // Importar el servicio de registro
 import "../../styles/Auth.css";
 
 const Register = () => {
   const navigate = useNavigate();
 
+  // Definir el estado para manejar los valores del formulario y los errores
   const [formData, setFormData] = useState({
-    nombreCompleto: '',
-    correoElectronico: '',
-    password: '',
-    ruc: '',
-    contacto: ''
+    nombreCompleto: "",
+    correoElectronico: "",
+    password: "",
+    ruc: "",  // Agregar el campo RUC aquí
+    contacto: "", // Agregar el campo contacto aquí
   });
 
+  const [error, setError] = useState(null);
+
+  // Manejar cambios en los campos del formulario
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    formDataToSend.append("nombreCompleto", formData.nombreCompleto);
-    formDataToSend.append("correoElectronico", formData.correoElectronico);
-    formDataToSend.append("password", formData.password);
-    formDataToSend.append("ruc", formData.ruc);
-    formDataToSend.append("contacto", formData.contacto);
-
+  
+    console.log("Estado actual de formData:", formData); // Esto te muestra todos los valores
+  
+    if (
+      !formData.nombreCompleto ||
+      !formData.correoElectronico ||
+      !formData.password ||
+      !formData.ruc ||
+      !formData.contacto
+    ) {
+      setError("Todos los campos son requeridos.");
+      return;
+    }
+  
     try {
-      await createUser(formDataToSend);
-      console.log('Usuario creado');
-      navigate('/login');
+      const userData = {
+        nombreCompleto: formData.nombreCompleto,
+        correoElectronico: formData.correoElectronico,
+        password: formData.password,
+        ruc: formData.ruc,
+        contacto: formData.contacto,
+      };
+  
+      console.log("Datos a enviar:", userData); // Verifica los datos que se van a enviar
+  
+      await authService.register(userData);
+      navigate('/login'); // Redirigir a login si el registro es exitoso
     } catch (error) {
-      console.error(error);
+      console.error("Error en la respuesta del servidor:", error);
+      setError(error.message); // Mostrar el mensaje de error recibido
     }
   };
+  
 
   return (
     <div className="auth-container">
@@ -52,67 +75,76 @@ const Register = () => {
 
         <h2 className="text-center mb-4">Registro</h2>
 
+        {/* Mostrar error si existe */}
+        {error && <div className="alert alert-danger">{error}</div>}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="nombreCompleto" className="form-label">Nombre Completo</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="nombreCompleto" 
-              name="nombreCompleto" 
-              placeholder="Ingresa tu nombre" 
-              value={formData.nombreCompleto} 
-              onChange={handleChange} 
+            <label htmlFor="name" className="form-label">
+              Nombre Completo
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="nombreCompleto"
+              value={formData.nombreCompleto}
+              onChange={handleChange}
+              placeholder="Ingresa tu nombre"
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="correoElectronico" className="form-label">Correo Electrónico</label>
-            <input 
-              type="email" 
-              className="form-control" 
-              id="correoElectronico" 
-              name="correoElectronico" 
-              placeholder="Ingresa tu correo" 
-              value={formData.correoElectronico} 
-              onChange={handleChange} 
+            <label htmlFor="email" className="form-label">
+              Correo Electrónico
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="correoElectronico"
+              value={formData.correoElectronico}
+              onChange={handleChange}
+              placeholder="Ingresa tu correo"
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">Contraseña</label>
-            <input 
-              type="password" 
-              className="form-control" 
-              id="password" 
-              name="password" 
-              placeholder="Ingresa tu contraseña" 
-              value={formData.password} 
-              onChange={handleChange} 
+            <label htmlFor="ruc" className="form-label">
+              RUC
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="ruc"
+              value={formData.ruc}
+              onChange={handleChange}
+              placeholder="Ingresa tu RUC"
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="ruc" className="form-label">RUC</label>
-            <input 
-              type="number" 
-              className="form-control" 
-              id="ruc" 
-              name="ruc" 
-              placeholder="Ingresa tu número de RUC" 
-              value={formData.ruc} 
-              onChange={handleChange} 
+            <label htmlFor="contacto" className="form-label">
+              Contacto
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="contacto"
+              value={formData.contacto}
+              onChange={handleChange}
+              placeholder="Ingresa tu contacto"
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="contacto" className="form-label">Teléfono</label>
-            <input 
-              type="number" 
-              className="form-control" 
-              id="contacto" 
-              name="contacto" 
-              placeholder="Ingresa tu número de teléfono" 
-              value={formData.contacto} 
-              onChange={handleChange} 
+            <label htmlFor="password" className="form-label">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Ingresa tu contraseña"
             />
           </div>
+        
           <button type="submit" className="btn btn-primary w-100 mb-3">
             Registrarse
           </button>
@@ -120,7 +152,9 @@ const Register = () => {
 
         <div className="text-center">
           <span>¿Ya tienes una cuenta? </span>
-          <Link to="/Login" className="text-primary">Inicia Sesión</Link>
+          <Link to="/login" className="text-primary">
+            Inicia Sesión
+          </Link>
         </div>
       </div>
     </div>

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getAllRestaurants, updateRestaurant, deleteRestaurant } from "../../services/restaurantServices";
-import { Modal, Button } from "react-bootstrap";
 import "../../styles/Restaurantes.css";
+import "../../images/logo.png";
+import { Modal, Button } from "react-bootstrap";
+import { getRestaurantsByUser } from '../../services/restaurantServices'; // Ajusta la ruta según tu estructura
+
 
 const Restaurantes = () => {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -13,7 +15,7 @@ const Restaurantes = () => {
     ubicacion: "",
     objetivos: "",
     descripcion: "",
-    logo: null, // Ahora el logo es un archivo
+    logo: null, // Para el archivo del logo
   });
 
   useEffect(() => {
@@ -22,12 +24,14 @@ const Restaurantes = () => {
 
   const fetchRestaurantes = async () => {
     try {
-      const data = await getAllRestaurants();
-      setRestaurantes(data);
+        console.log("Obteniendo restaurantes para el user_id:", localStorage.getItem('user_id'));
+        const data = await getRestaurantsByUser(localStorage.getItem('user_id'));
+        setRestaurantes(data);
     } catch (error) {
-      console.error("Error al obtener restaurantes:", error);
+        console.error(error.message);
     }
-  };
+};
+
 
   const handleUpdateClick = (restaurante) => {
     setSelectedRestaurante(restaurante);
@@ -36,7 +40,7 @@ const Restaurantes = () => {
       ubicacion: restaurante.ubicacion,
       objetivos: restaurante.objetivos,
       descripcion: restaurante.descripcion,
-      logo: null, // Se limpiará para permitir nueva imagen
+      logo: null, // Limpiamos el logo para permitir una nueva carga
     });
     setShowModal(true);
   };
@@ -49,10 +53,10 @@ const Restaurantes = () => {
   const handleDeleteClick = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")) {
       try {
-        await deleteRestaurant(id);
-        fetchRestaurantes();
+        await fetch(`/api/restaurante/${id}`, { method: "DELETE" });
+        fetchRestaurantes(); // Refrescar la lista
       } catch (error) {
-        console.error("Error al eliminar restaurante:", error);
+        console.error("Error al eliminar el restaurante:", error);
       }
     }
   };
@@ -61,29 +65,32 @@ const Restaurantes = () => {
     const { name, type, files, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "file" ? files[0] : value, // Maneja texto y archivos
+      [name]: type === "file" ? files[0] : value,
     }));
   };
 
   const handleSaveChanges = async () => {
     try {
-        const formDataToSend = new FormData();
-        formDataToSend.append("name", formData.name);
-        formDataToSend.append("ubicacion", formData.ubicacion);
-        formDataToSend.append("objetivos", formData.objetivos);
-        formDataToSend.append("descripcion", formData.descripcion);
-        if (formData.logo) {
-            formDataToSend.append("logo", formData.logo);
-        }
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("ubicacion", formData.ubicacion);
+      formDataToSend.append("objetivos", formData.objetivos);
+      formDataToSend.append("descripcion", formData.descripcion);
+      if (formData.logo) {
+        formDataToSend.append("logo", formData.logo);
+      }
+      
+      await fetch(`/restaurante/${selectedRestaurante.user_id}`, {
+        method: "PUT",
+        body: formDataToSend,
+      });
 
-        await updateRestaurant(selectedRestaurante.id, formDataToSend);
-        await fetchRestaurantes(); // Actualizar la lista
-        handleCloseModal();
+      fetchRestaurantes();
+      handleCloseModal();
     } catch (error) {
-        alert("Error al actualizar el restaurante: " + error.response?.data || error.message);
+      console.error("Error al actualizar el restaurante:", error);
     }
-};
-
+  };
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
@@ -96,36 +103,33 @@ const Restaurantes = () => {
       </div>
 
       <div className="restaurantes-grid">
-        {restaurantes.map((rest) => {
-          return (
-            <div key={rest.id} className="restaurante-card">
-              <div className="restaurante-info">
-                <img
+      {restaurantes.map((rest) => (
+    <div key={rest.id} className="restaurante-card">
+        <div className="restaurante-info">
+        <img
                   src={`http://localhost:4200/img/usuario/${rest.logo}`}  
                   alt="Logo"
                   className="restaurante-logo"
                 />
-                <h3>{rest.name}</h3>
-                <p>{rest.ubicacion}</p>
-                <p>{rest.objetivos}</p>
-                <div className="d-flex gap-2">
-                  <button
-                    className="btn btn-sm btn-info"
+            <h3>{rest.name}</h3>
+            <p>{rest.ubicacion}</p>
+            <div className="d-flex gap-2">
+                <button
+                    className="btn btn-sm"
                     onClick={() => handleUpdateClick(rest)}
-                  >
+                >
                     <i className="bi bi-arrow-repeat"></i> Actualizar
-                  </button>
-                  <button
+                </button>
+                <button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleDeleteClick(rest.id)}
-                  >
+                >
                     <i className="bi bi-trash"></i> Eliminar
-                  </button>
-                </div>
-              </div>
+                </button>
             </div>
-          );
-        })}
+        </div>
+    </div>
+))}
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -147,7 +151,6 @@ const Restaurantes = () => {
                 onChange={handleInputChange}
               />
             </div>
-
             <div className="mb-3">
               <label className="form-label">Ubicación</label>
               <input
@@ -158,18 +161,18 @@ const Restaurantes = () => {
                 onChange={handleInputChange}
               />
             </div>
-
             <div className="mb-3">
               <label className="form-label">Objetivos</label>
-              <textarea
+              <input
+                type="text"
                 className="form-control"
                 name="objetivos"
                 value={formData.objetivos}
                 onChange={handleInputChange}
-              ></textarea>
+              />
             </div>
             <div className="mb-3">
-              <label className="form-label">Descripción</label>
+              <label className="form-label">Descripción del Negocio</label>
               <textarea
                 className="form-control"
                 name="descripcion"
@@ -177,14 +180,12 @@ const Restaurantes = () => {
                 onChange={handleInputChange}
               ></textarea>
             </div>
-
             <div className="mb-3">
-              <label className="form-label">Logo (Archivo)</label>
+              <label className="form-label">Logo del Restaurante</label>
               <input
                 type="file"
                 className="form-control"
                 name="logo"
-                accept="image/*"
                 onChange={handleInputChange}
               />
             </div>

@@ -1,34 +1,46 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import loginService from "../../services/loginServices"; // Importar el servicio de login
 import "../../styles/Auth.css";
-import { loginUser } from "../../services/loginServices";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    correoelectronico: "",
+    correoElectronico: "",
     password: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState(""); // Estado para el mensaje de error
+  const [error, setError] = useState(null);
 
+  // Manejar los cambios en los campos de entrada
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  // Manejar el envío del formulario
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Limpiar mensaje previo
-
-    loginUser(formData)
-      .then(() => {
-        window.location.href = "/restaurantes"; // Redirigir después de iniciar sesión
-      })
-      .catch((error) => {
-        setErrorMessage(error.message || "Error en el inicio de sesión, revisa tus credenciales");
-      });
+  
+    if (!formData.correoElectronico || !formData.password) {
+      setError("Todos los campos son requeridos.");
+      return;
+    }
+  
+    try {
+      const response = await loginService.login(formData.correoElectronico, formData.password);
+      console.log("Respuesta del servidor:", response);
+  
+      // Redirigir a la página de inicio o dashboard
+      navigate("/inicio");
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      setError(error.message); // Mostrar el mensaje de error
+    }
   };
 
   return (
@@ -44,17 +56,19 @@ const Login = () => {
 
         <h2 className="text-center mb-4">Iniciar Sesión</h2>
 
+        {/* Mostrar error si existe */}
+        {error && <div className="alert alert-danger">{error}</div>}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="correoelectronico" className="form-label">
+            <label htmlFor="email" className="form-label">
               Correo Electrónico
             </label>
             <input
               type="email"
               className="form-control"
-              id="correoelectronico"
-              name="correoelectronico"
-              value={formData.correoelectronico}
+              id="correoElectronico"
+              value={formData.correoElectronico}
               onChange={handleChange}
               placeholder="Ingresa tu correo"
             />
@@ -67,16 +81,11 @@ const Login = () => {
               type="password"
               className="form-control"
               id="password"
-              name="password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Ingresa tu contraseña"
             />
           </div>
-
-          {/* Mostrar mensaje de error si existe */}
-          {errorMessage && <p className="text-danger">{errorMessage}</p>}
-
           <button type="submit" className="btn btn-primary w-100 mb-3">
             Iniciar Sesión
           </button>

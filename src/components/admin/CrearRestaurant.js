@@ -1,56 +1,36 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createRestaurant } from "../../services/restaurantServices"; // Importar el servicio
+import { createRestaurant } from "../../services/restaurantServices";
 import "../../styles/Restaurantes.css"; 
 
 const CrearRestaurante = () => {
-  const navigate = useNavigate(); // Para redirigir después de crear el restaurante
-
-  // Estado del formulario
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     ubicacion: "",
     objetivos: "",
     descripcion: "",
-    logo: null, // Inicialmente null para el archivo
+    logo: null,
   });
 
-  // Manejar cambios en los campos de texto
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      setFormData({ ...formData, [name]: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  // Manejar la carga de archivos
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Obtener el archivo seleccionado
-    setFormData((prevState) => ({
-      ...prevState,
-      logo: file, // Guardar el archivo en el estado
-    }));
-  };
-
-  // Enviar el formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData(); // Crear FormData para enviar archivos
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("ubicacion", formData.ubicacion);
-    formDataToSend.append("objetivos", formData.objetivos);
-    formDataToSend.append("descripcion", formData.descripcion);
-    if (formData.logo) {
-      formDataToSend.append("logo", formData.logo); // Agregar el archivo si existe
-    }
-
     try {
-      await createRestaurant(formDataToSend); // Enviar FormData al backend
+      await createRestaurant(formData); // Ya incluye la verificación del user_id
       console.log("Restaurante creado exitosamente");
       navigate("/restaurantes"); // Redirigir a la lista de restaurantes
     } catch (error) {
-      console.error("Error al crear el restaurante:", error);
+      console.error("Error al crear el restaurante:", error.message);
+      alert(error.message); // Mostrar el error al usuario
     }
   };
 
@@ -72,7 +52,7 @@ const CrearRestaurante = () => {
                 className="form-control"
                 name="name"
                 value={formData.name}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -83,7 +63,7 @@ const CrearRestaurante = () => {
                 className="form-control"
                 name="ubicacion"
                 value={formData.ubicacion}
-                onChange={handleInputChange}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -94,7 +74,7 @@ const CrearRestaurante = () => {
                 className="form-control"
                 name="objetivos"
                 value={formData.objetivos}
-                onChange={handleInputChange}
+                onChange={handleChange}
               />
             </div>
             <div className="mb-3">
@@ -103,7 +83,7 @@ const CrearRestaurante = () => {
                 className="form-control"
                 name="descripcion"
                 value={formData.descripcion}
-                onChange={handleInputChange}
+                onChange={handleChange}
               ></textarea>
             </div>
             <div className="mb-3">
@@ -113,7 +93,7 @@ const CrearRestaurante = () => {
                 className="form-control"
                 name="logo"
                 accept="image/*"
-                onChange={handleFileChange} // Capturar el archivo
+                onChange={handleChange} // Capturar el archivo
               />
             </div>
             <div className="d-flex justify-content-end">
