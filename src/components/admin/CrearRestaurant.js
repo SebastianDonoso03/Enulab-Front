@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createRestaurant } from "../../services/restaurantServices";
+import { createRestaurant } from "../../services/restaurantServices"; // Importar el servicio
+import "../../styles/Restaurantes.css"; 
 
 const CrearRestaurante = () => {
   const navigate = useNavigate();
@@ -11,18 +12,6 @@ const CrearRestaurante = () => {
     descripcion: "",
     logo: null,
   });
-
-  // Obtener el user_id del localStorage
-  const user_id = localStorage.getItem('user_id');
-  const parsedUserId = parseInt(user_id, 10); // Convertir a número
-
-  // Verificar si el usuario está autenticado
-  useEffect(() => {
-    if (!user_id || isNaN(parsedUserId)) {
-      alert("Debes iniciar sesión para crear un restaurante.");
-      navigate("/login"); // Redirigir al login si no está autenticado
-    }
-  }, [user_id, parsedUserId, navigate]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -37,11 +26,12 @@ const CrearRestaurante = () => {
     e.preventDefault();
 
     try {
-      await createRestaurant(formData); // Enviar los datos del restaurante
-      navigate("/restaurantes");
+      await createRestaurant(formData); // Ya incluye la verificación del user_id
+      console.log("Restaurante creado exitosamente");
+      navigate("/restaurantes"); // Redirigir a la lista de restaurantes
     } catch (error) {
-      console.error("Error al crear el restaurante:", error);
-      alert("Error al crear el restaurante. Por favor, inténtalo de nuevo.");
+      console.error("Error al crear el restaurante:", error.message);
+      alert(error.message); // Mostrar el error al usuario
     }
   };
 
@@ -55,26 +45,57 @@ const CrearRestaurante = () => {
           </h4>
         </div>
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="mb-3">
               <label className="form-label">Nombre del Restaurante</label>
-              <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Ubicación</label>
-              <input type="text" className="form-control" name="ubicacion" value={formData.ubicacion} onChange={handleChange} required />
+              <input
+                type="text"
+                className="form-control"
+                name="ubicacion"
+                value={formData.ubicacion}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Objetivos</label>
-              <input type="text" className="form-control" name="objetivos" value={formData.objetivos} onChange={handleChange} required />
+              <input
+                type="text"
+                className="form-control"
+                name="objetivos"
+                value={formData.objetivos}
+                onChange={handleChange}
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Descripción del Negocio</label>
-              <textarea className="form-control" name="descripcion" value={formData.descripcion} onChange={handleChange} required></textarea>
+              <textarea
+                className="form-control"
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleChange}
+              ></textarea>
             </div>
             <div className="mb-3">
-              <label className="form-label">Logo del Restaurante</label>
-              <input type="file" className="form-control" name="logo" onChange={handleChange} />
+              <label className="form-label">Logo (Imagen)</label>
+              <input
+                type="file"
+                className="form-control"
+                name="logo"
+                accept="image/*"
+                onChange={handleChange} // Capturar el archivo
+              />
             </div>
             <div className="d-flex justify-content-end">
               <Link to="/restaurantes" className="btn btn-secondary me-2">

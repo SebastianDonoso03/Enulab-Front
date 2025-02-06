@@ -1,37 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Restaurantes.css";
 import "../../images/logo.png";
 import { Modal, Button } from "react-bootstrap";
+import "../../styles/Restaurantes.css";
 
 const Restaurantes = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedRestaurante, setSelectedRestaurante] = useState(null);
-  const [restaurantes, setRestaurantes] = useState([
-    {
-      id: 1,
-      nombre: "Restaurante 1",
-      tipoComida: "Comida rápida",
-    },
-    {
-      id: 2,
-      nombre: "Restaurante 2",
-      tipoComida: "Comida italiana",
-    },
-    {
-      id: 3,
-      nombre: "Restaurante 3",
-      tipoComida: "Comida mexicana",
-    },
-    {
-      id: 4,
-      nombre: "Restaurante 4",
-      tipoComida: "Comida japonesa",
-    },
-  ]);
+  const [formData, setFormData] = useState({
+    name: "",
+    ubicacion: "",
+    objetivos: "",
+    descripcion: "",
+    logo: null, // Para el archivo del logo
+  });
+
+  useEffect(() => {
+    fetchRestaurantes();
+  }, []);
+
+  const fetchRestaurantes = async () => {
+    try {
+        console.log("Obteniendo restaurantes para el user_id:", localStorage.getItem('user_id'));
+        const data = await getRestaurantsByUser(localStorage.getItem('user_id'));
+        setRestaurantes(data);
+    } catch (error) {
+        console.error(error.message);
+    }
+};
+
 
   const handleUpdateClick = (restaurante) => {
     setSelectedRestaurante(restaurante);
+    setFormData({
+      name: restaurante.name,
+      ubicacion: restaurante.ubicacion,
+      objetivos: restaurante.objetivos,
+      descripcion: restaurante.descripcion,
+      logo: null, // Limpiamos el logo para permitir una nueva carga
+    });
     setShowModal(true);
   };
 
@@ -40,13 +48,45 @@ const Restaurantes = () => {
     setSelectedRestaurante(null);
   };
 
-  const handleDeleteClick = (id) => {
-    if (
-      window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")
-    ) {
-      const updatedRestaurantes = restaurantes.filter((rest) => rest.id !== id);
-      setRestaurantes(updatedRestaurantes); 
-      console.log("Restaurante eliminado:", id);
+  const handleDeleteClick = async (id) => {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")) {
+      try {
+        await fetch(`/api/restaurante/${id}`, { method: "DELETE" });
+        fetchRestaurantes(); // Refrescar la lista
+      } catch (error) {
+        console.error("Error al eliminar el restaurante:", error);
+      }
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, type, files, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === "file" ? files[0] : value,
+    }));
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("ubicacion", formData.ubicacion);
+      formDataToSend.append("objetivos", formData.objetivos);
+      formDataToSend.append("descripcion", formData.descripcion);
+      if (formData.logo) {
+        formDataToSend.append("logo", formData.logo);
+      }
+      
+      await fetch(`/restaurante/${selectedRestaurante.user_id}`, {
+        method: "PUT",
+        body: formDataToSend,
+      });
+
+      fetchRestaurantes();
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error al actualizar el restaurante:", error);
     }
   };
 
@@ -61,33 +101,33 @@ const Restaurantes = () => {
       </div>
 
       <div className="restaurantes-grid">
-        {restaurantes.map((rest) => (
-          <div key={rest.id} className="restaurante-card">
-            <div className="restaurante-info">
-              <img
-                src={require("../../images/logo.png")}
-                alt="Logo"
-                className="restaurante-logo"
-              />
-              <h3>{rest.nombre}</h3>
-              <p>{rest.tipoComida}</p>
-              <div className="d-flex gap-2">
+      {restaurantes.map((rest) => (
+    <div key={rest.id} className="restaurante-card">
+        <div className="restaurante-info">
+        <img
+                  src={`http://localhost:4200/img/usuario/${rest.logo}`}  
+                  alt="Logo"
+                  className="restaurante-logo"
+                />
+            <h3>{rest.name}</h3>
+            <p>{rest.ubicacion}</p>
+            <div className="d-flex gap-2">
                 <button
-                  className="btn btn-sm"
+                  className="btn btn-sm btn-info"
                   onClick={() => handleUpdateClick(rest)}
                 >
-                  <i className="bi bi-arrow-repeat"></i> Actualizar
+                    <i className="bi bi-arrow-repeat"></i> Actualizar
                 </button>
                 <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteClick(rest.id)}
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDeleteClick(rest.id)}
                 >
-                  <i className="bi bi-trash"></i> Eliminar
+                    <i className="bi bi-trash"></i> Eliminar
                 </button>
-              </div>
             </div>
-          </div>
-        ))}
+        </div>
+    </div>
+))}
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -116,12 +156,33 @@ const Restaurantes = () => {
               <input type="text" className="form-control" />
             </div>
             <div className="mb-3">
-              <label className="form-label">Descripción del Negocio</label>
-              <textarea className="form-control"></textarea>
+              <label className="form-label">Objetivos</label>
+              <input
+                type="text"
+                className="form-control"
+                name="objetivos"
+                value={formData.objetivos}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="mb-3">
-              <label className="form-label">Logo del Restaurante</label>
-              <input type="file" className="form-control" />
+              <label className="form-label">Descripción del Negocio</label>
+              <textarea
+                className="form-control"
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleInputChange}
+              ></textarea>
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Logo (URL)</label>
+              <input
+                type="text"
+                className="form-control"
+                name="logo"
+                value={formData.logo}
+                onChange={handleInputChange}
+              />
             </div>
           </form>
         </Modal.Body>
