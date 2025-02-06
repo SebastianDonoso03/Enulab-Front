@@ -56,3 +56,31 @@ export const getRestaurantsByUser = async () => {
         console.error("Error deleting restaurant:", error);
     }
 }
+
+//eliminar
+
+export const deleteRestaurant = async (restaurantId) => {
+    const user_id = localStorage.getItem('user_id'); // Obtener el user_id del localStorage
+    if (!user_id) {
+        throw new Error('No se ha encontrado el user_id. El usuario debe estar autenticado.');
+    }
+
+    try {
+        const response = await api.delete(`/api/restaurante/${restaurantId}`, {
+            data: { user_id }, // Pasar el user_id en la solicitud para validación en el servidor
+        });
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error("Error en la respuesta del servidor:", error.response.data);
+            throw new Error(error.response.data.error || "Error en el servidor");
+        } else if (error.request) {
+            console.error("Error en la solicitud:", error.request);
+            throw new Error("Error en la solicitud. Por favor, inténtalo más tarde.");
+        } else {
+            console.error("Error desconocido:", error.message);
+            throw new Error("Ha ocurrido un error desconocido");
+        }
+    }
+};
+

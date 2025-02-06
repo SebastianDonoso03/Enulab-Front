@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import "../../styles/Restaurantes.css";
 import "../../images/logo.png";
 import { Modal, Button } from "react-bootstrap";
-import { getRestaurantsByUser } from '../../services/restaurantServices'; // Ajusta la ruta según tu estructura
-
+import { getRestaurantsByUser, deleteRestaurant} from '../../services/restaurantServices'; // Ajusta la ruta según tu estructura
 
 const Restaurantes = () => {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -32,7 +31,6 @@ const Restaurantes = () => {
     }
 };
 
-
   const handleUpdateClick = (restaurante) => {
     setSelectedRestaurante(restaurante);
     setFormData({
@@ -53,8 +51,8 @@ const Restaurantes = () => {
   const handleDeleteClick = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")) {
       try {
-        await fetch(`/api/restaurante/${id}`, { method: "DELETE" });
-        fetchRestaurantes(); // Refrescar la lista
+        await deleteRestaurant(id);  // Llamamos al servicio para eliminar el restaurante
+        fetchRestaurantes(); // Refrescar la lista de restaurantes después de eliminar
       } catch (error) {
         console.error("Error al eliminar el restaurante:", error);
       }
@@ -103,33 +101,33 @@ const Restaurantes = () => {
       </div>
 
       <div className="restaurantes-grid">
-      {restaurantes.map((rest) => (
-    <div key={rest.id} className="restaurante-card">
-        <div className="restaurante-info">
-        <img
-                  src={`http://localhost:4200/img/usuario/${rest.logo}`}  
-                  alt="Logo"
-                  className="restaurante-logo"
-                />
-            <h3>{rest.name}</h3>
-            <p>{rest.ubicacion}</p>
-            <div className="d-flex gap-2">
+        {restaurantes.map((rest) => (
+          <div key={rest.id} className="restaurante-card">
+            <div className="restaurante-info">
+              <img
+                src={`http://localhost:4200/img/usuario/${rest.logo}`}  
+                alt="Logo"
+                className="restaurante-logo"
+              />
+              <h3>{rest.name}</h3>
+              <p>{rest.ubicacion}</p>
+              <div className="d-flex gap-2">
                 <button
-                    className="btn btn-sm"
-                    onClick={() => handleUpdateClick(rest)}
+                  className="btn btn-sm"
+                  onClick={() => handleUpdateClick(rest)}
                 >
-                    <i className="bi bi-arrow-repeat"></i> Actualizar
+                  <i className="bi bi-arrow-repeat"></i> Actualizar
                 </button>
                 <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteClick(rest.id)}
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDeleteClick(rest.id)}  // Usamos deleteRestaurant aquí
                 >
-                    <i className="bi bi-trash"></i> Eliminar
+                  <i className="bi bi-trash"></i> Eliminar
                 </button>
+              </div>
             </div>
-        </div>
-    </div>
-))}
+          </div>
+        ))}
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
