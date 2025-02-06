@@ -57,6 +57,18 @@ export const getRestaurantsByUser = async () => {
     }
 }
 
+//Actualizar
+
+export const updateRestaurant = async (id, formData) => {
+    try {
+        const response = await api.put(`/api/restaurante/${id}`, formData); // Usamos la instancia de axios
+        return response.data; // Retornamos los datos de la respuesta
+    } catch (error) {
+        console.error("Error en updateRestaurant:", error);
+        throw error;
+    }
+};
+
 //eliminar
 
 export const deleteRestaurant = async (restaurantId) => {
