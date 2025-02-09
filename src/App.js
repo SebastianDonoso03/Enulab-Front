@@ -37,9 +37,9 @@ function App() {
         <Route
           path="/Inicio"
           element={
-            <LayoutPrincipal>
-              <Dashboard />
-            </LayoutPrincipal>
+        
+              <Restaurantes />
+           
           }
         />
         <Route

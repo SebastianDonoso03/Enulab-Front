@@ -25,9 +25,14 @@ const Restaurantes = () => {
     try {
       console.log("Obteniendo restaurantes para el user_id:", localStorage.getItem('user_id'));
       const data = await getRestaurantsByUser(localStorage.getItem('user_id'));
-      setRestaurantes(data);
+      if (Array.isArray(data)) {
+        setRestaurantes(data);
+      } else {
+        setRestaurantes([]); // Aseguramos que sea un array vacío si no es válido
+      }
     } catch (error) {
-      console.error(error.message);
+      console.error("Error al obtener restaurantes:", error.message);
+      setRestaurantes([]);  // Asegúrate de resetear el estado en caso de error
     }
   };
 
@@ -99,33 +104,40 @@ const Restaurantes = () => {
       </div>
 
       <div className="restaurantes-grid">
-        {restaurantes.map((rest) => (
-          <div key={rest.id} className="restaurante-card">
-            <div className="restaurante-info">
-              <img
-                src={`http://localhost:4200/img/usuario/${rest.logo}`}  
-                alt="Logo"
-                className="restaurante-logo"
-              />
-              <h3>{rest.name}</h3>
-              <p>{rest.ubicacion}</p>
-              <div className="d-flex gap-2">
-                <button
-                  className="btn btn-sm"
-                  onClick={() => handleUpdateClick(rest)}
-                >
-                  <i className="bi bi-arrow-repeat"></i> Actualizar
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteClick(rest.id)}  // Usamos deleteRestaurant aquí
-                >
-                  <i className="bi bi-trash"></i> Eliminar
-                </button>
+        {restaurantes.length === 0 ? (
+          <p>No tienes restaurantes creados. ¡Agrega uno!</p>  // Mensaje si no hay restaurantes
+        ) : (
+          restaurantes.map((rest) => (
+            <div key={rest.id} className="restaurante-card">
+              <div className="restaurante-info">
+                <img
+                  src={`http://localhost:4200/img/usuario/${rest.logo}`}  
+                  alt="Logo"
+                  className="restaurante-logo"
+                />
+                <h3>{rest.name}</h3>
+                <p>{rest.ubicacion}</p>
+                <div className="d-flex gap-2">
+                  <button
+                    className="btn btn-sm"
+                    onClick={() => handleUpdateClick(rest)}
+                  >
+                    <i className="bi bi-arrow-repeat"></i> Actualizar
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDeleteClick(rest.id)}
+                  >
+                    <i className="bi bi-trash"></i> Eliminar
+                  </button>
+                  <Link to="/empleados" className="btn btn-info btn-sm">
+                  <i className="bi bi-people"></i> Gestión
+                </Link>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
