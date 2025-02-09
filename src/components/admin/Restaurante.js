@@ -8,12 +8,6 @@ import { getRestaurantsByUser, deleteRestaurant, updateRestaurant } from '../../
 
 const Restaurantes = () => {
   const navigate = useNavigate();
-
-  // Maneja el click en "Gestionar Empleados"
-  const handleGestionClick = (restId) => {
-    navigate('/empleados/nuevo', { state: { restaurantId: restId } });
-  };
-
   const [restaurantes, setRestaurantes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedRestaurante, setSelectedRestaurante] = useState(null);
@@ -45,6 +39,13 @@ const Restaurantes = () => {
       console.error("Error al obtener restaurantes:", error.message);
       setRestaurantes([]);  // Asegúrate de resetear el estado en caso de error
     }
+  };
+
+  const handleGestionClick = (restaurante) => {
+    // Guardamos el restaurantId en localStorage
+    localStorage.setItem("selectedRestaurantId", restaurante.id);
+    // Redirigimos a la página de empleados
+    navigate("/empleados");
   };
 
   const handleUpdateClick = (restaurante) => {
@@ -116,7 +117,7 @@ const Restaurantes = () => {
 
       <div className="restaurantes-grid">
         {restaurantes.length === 0 ? (
-          <p>No tienes restaurantes creados. ¡Agrega uno!</p>  // Mensaje si no hay restaurantes
+          <p>No tienes restaurantes creados. ¡Agrega uno!</p> 
         ) : (
           restaurantes.map((rest) => (
             <div key={rest.id} className="restaurante-card">
@@ -143,7 +144,7 @@ const Restaurantes = () => {
                   </button>
                   <button
                     className="btn btn-info btn-sm"
-                    onClick={() => handleGestionClick(rest.id)}
+                    onClick={() => handleGestionClick(rest)} // Guardamos el restaurantId
                   >
                     <i className="bi bi-people"></i> Gestión
                   </button>
