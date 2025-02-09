@@ -11,21 +11,15 @@ const Sidebar = () => {
       <div className="p-3">
         <ul className="nav flex-column">
           <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/Inicio">
-              <i className="bi bi-house-door me-2"></i>
-              Inicio
+            <Link className="nav-link text-white" to="/restaurantes">
+              <i className="bi bi-plus-circle me-2"></i>
+              Restaurantes
             </Link>
           </li>
           <li className="nav-item mb-2">
             <Link className="nav-link text-white" to="/empleados">
               <i className="bi bi-people me-2"></i>
               Empleados
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/restaurantes">
-              <i className="bi bi-plus-circle me-2"></i>
-              Restaurantes
             </Link>
           </li>
           <li className="nav-item mb-2">
@@ -38,6 +32,12 @@ const Sidebar = () => {
             <Link className="nav-link text-white" to="/Inventario">
               <i className="bi bi-people me-2"></i>
               Inventario
+            </Link>
+          </li>
+          <li className="nav-item mb-2">
+            <Link className="nav-link text-white" to="/Menu">
+              <i className="bi bi-people me-2"></i>
+              plato
             </Link>
           </li>
         </ul>

@@ -5,7 +5,7 @@ import "../../styles/Auth.css";
 const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    window.location.href = "/inicio";
+    window.location.href = "/Restaurantes";
   };
 
   return (

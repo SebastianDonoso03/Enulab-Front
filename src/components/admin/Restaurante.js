@@ -84,6 +84,9 @@ const Restaurantes = () => {
                 >
                   <i className="bi bi-trash"></i> Eliminar
                 </button>
+                <Link to="/empleados" className="btn btn-info btn-sm">
+                  <i className="bi bi-people"></i> Gestión
+                </Link>
               </div>
             </div>
           </div>
@@ -137,5 +140,4 @@ const Restaurantes = () => {
     </div>
   );
 };
-
 export default Restaurantes;
