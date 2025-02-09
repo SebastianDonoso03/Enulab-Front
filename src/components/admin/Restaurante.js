@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../../styles/Restaurantes.css";
 import "../../images/logo.png";
 import { Modal, Button } from "react-bootstrap";
-import { getRestaurantsByUser, deleteRestaurant, updateRestaurant } from '../../services/restaurantServices'; // Importa el nuevo servicio
+import { getRestaurantsByUser, deleteRestaurant} from '../../services/restaurantServices'; // Ajusta la ruta según tu estructura
 
 const Restaurantes = () => {
   const [restaurantes, setRestaurantes] = useState([]);
@@ -23,13 +23,13 @@ const Restaurantes = () => {
 
   const fetchRestaurantes = async () => {
     try {
-      console.log("Obteniendo restaurantes para el user_id:", localStorage.getItem('user_id'));
-      const data = await getRestaurantsByUser(localStorage.getItem('user_id'));
-      setRestaurantes(data);
+        console.log("Obteniendo restaurantes para el user_id:", localStorage.getItem('user_id'));
+        const data = await getRestaurantsByUser(localStorage.getItem('user_id'));
+        setRestaurantes(data);
     } catch (error) {
-      console.error(error.message);
+        console.error(error.message);
     }
-  };
+};
 
   const handleUpdateClick = (restaurante) => {
     setSelectedRestaurante(restaurante);
@@ -77,12 +77,14 @@ const Restaurantes = () => {
       if (formData.logo) {
         formDataToSend.append("logo", formData.logo);
       }
+      
+      await fetch(`/restaurante/${selectedRestaurante.user_id}`, {
+        method: "PUT",
+        body: formDataToSend,
+      });
 
-      // Usamos el servicio updateRestaurant
-      await updateRestaurant(selectedRestaurante.id, formDataToSend);
-
-      fetchRestaurantes(); // Refrescar la lista de restaurantes después de la actualización
-      handleCloseModal(); // Cerrar el modal
+      fetchRestaurantes();
+      handleCloseModal();
     } catch (error) {
       console.error("Error al actualizar el restaurante:", error);
     }
