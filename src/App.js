@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Empleado from "./components/admin/Empleado";
 import Inventario from "./components/admin/Inventario";
 import Proveedores from "./components/admin/Proveedores";
-import Dashboard from "./components/admin/DashboardAdmin";
 import Restaurantes from "./components/admin/Restaurante";
 import CrearEmpleado from "./components/admin/CrearEmpleado";
 import CrearProveedor from "./components/admin/CrearProveedor";

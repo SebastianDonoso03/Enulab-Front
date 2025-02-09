@@ -3,9 +3,17 @@ import { Link } from "react-router-dom";
 import "../../styles/Restaurantes.css";
 import "../../images/logo.png";
 import { Modal, Button } from "react-bootstrap";
-import { getRestaurantsByUser, deleteRestaurant, updateRestaurant } from '../../services/restaurantServices'; // Importa el nuevo servicio
+import { useNavigate } from 'react-router-dom';
+import { getRestaurantsByUser, deleteRestaurant, updateRestaurant } from '../../services/restaurantServices'; // Importa el servicio adecuado
 
 const Restaurantes = () => {
+  const navigate = useNavigate();
+
+  // Maneja el click en "Gestionar Empleados"
+  const handleGestionClick = (restId) => {
+    navigate('/empleados/nuevo', { state: { restaurantId: restId } });
+  };
+
   const [restaurantes, setRestaurantes] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedRestaurante, setSelectedRestaurante] = useState(null);
@@ -23,12 +31,15 @@ const Restaurantes = () => {
 
   const fetchRestaurantes = async () => {
     try {
-      console.log("Obteniendo restaurantes para el user_id:", localStorage.getItem('user_id'));
-      const data = await getRestaurantsByUser(localStorage.getItem('user_id'));
-      if (Array.isArray(data)) {
-        setRestaurantes(data);
-      } else {
-        setRestaurantes([]); // Aseguramos que sea un array vacío si no es válido
+      const userId = localStorage.getItem('user_id');
+      if (userId) {
+        console.log("Obteniendo restaurantes para el user_id:", userId);
+        const data = await getRestaurantsByUser(userId);
+        if (Array.isArray(data)) {
+          setRestaurantes(data);
+        } else {
+          setRestaurantes([]); // Si no es un array, asegúrate que esté vacío
+        }
       }
     } catch (error) {
       console.error("Error al obtener restaurantes:", error.message);
@@ -83,7 +94,7 @@ const Restaurantes = () => {
         formDataToSend.append("logo", formData.logo);
       }
 
-      // Usamos el servicio updateRestaurant
+      // Usamos el servicio updateRestaurant para actualizar el restaurante
       await updateRestaurant(selectedRestaurante.id, formDataToSend);
 
       fetchRestaurantes(); // Refrescar la lista de restaurantes después de la actualización
@@ -130,9 +141,12 @@ const Restaurantes = () => {
                   >
                     <i className="bi bi-trash"></i> Eliminar
                   </button>
-                  <Link to="/empleados" className="btn btn-info btn-sm">
-                  <i className="bi bi-people"></i> Gestión
-                </Link>
+                  <button
+                    className="btn btn-info btn-sm"
+                    onClick={() => handleGestionClick(rest.id)}
+                  >
+                    <i className="bi bi-people"></i> Gestión
+                  </button>
                 </div>
               </div>
             </div>
