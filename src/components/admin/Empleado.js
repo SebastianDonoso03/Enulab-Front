@@ -1,45 +1,67 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Modal, Button } from "react-bootstrap"; // Importa Modal y Button de react-bootstrap
+import React, { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom'; // Asegúrate de importar `useParams`
+import { Modal, Button } from 'react-bootstrap'; 
+import { getEmployeesByRestaurant, updateEmployee, deleteEmployee } from '../../services/employeeServices'; 
 
 const Empleado = () => {
-  const [showModal, setShowModal] = useState(false); // Estado para controlar la visibilidad del modal
-  const [selectedEmpleado, setSelectedEmpleado] = useState(null); // Estado para almacenar el empleado seleccionado
+   // Recuperamos el `restaurantId` desde el localStorage
+   const restaurantId = localStorage.getItem('selectedRestaurantId'); 
+ 
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedEmployee, setSelectedEmployee] = useState(null); 
+  const [employees, setEmployees] = useState([]);
 
-  const employees = [
-    {
-      id: 1,
-      name: "José G. Vera",
-      cedula: "715652348",
-      edad: 24,
-      genero: "Masculino",
-      sueldo: "$460",
-      horario: "11:00 AM - 09:00 PM",
-    },
-    {
-      id: 2,
-      name: "María López",
-      cedula: "715652349",
-      edad: 30,
-      genero: "Femenino",
-      sueldo: "$500",
-      horario: "09:00 AM - 05:00 PM",
-    },
-  ];
+  // Función para cargar los empleados al inicio
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const employeesData = await getEmployeesByRestaurant(restaurantId);
+        setEmployees(employeesData);
+      } catch (error) {
+        console.error("Error al cargar los empleados:", error);
+      }
+    };
+    fetchEmployees();
+  }, [restaurantId]); // Este efecto se dispara cada vez que cambia el `restaurantId`
 
+  // Función para manejar la actualización del empleado
   const handleUpdateClick = (empleado) => {
-    setSelectedEmpleado(empleado);
+    setSelectedEmployee(empleado);
     setShowModal(true);
   };
 
+  // Función para cerrar el modal
   const handleCloseModal = () => {
     setShowModal(false);
-    setSelectedEmpleado(null);
+    setSelectedEmployee(null);
   };
 
-  const handleDeleteClick = (id) => {
+  // Función para guardar los cambios después de actualizar
+  const handleSaveChanges = async () => {
+    if (selectedEmployee) {
+      try {
+        await updateEmployee(restaurantId, selectedEmployee.id, selectedEmployee); 
+        setShowModal(false);
+        // Actualizar la lista de empleados después de la actualización
+        const updatedEmployees = await getEmployeesByRestaurant(restaurantId);
+        setEmployees(updatedEmployees);
+      } catch (error) {
+        console.error("Error al guardar los cambios:", error);
+      }
+    }
+  };
+
+  // Función para eliminar un empleado
+  const handleDeleteClick = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este empleado?")) {
-      console.log("Empleado eliminado:", id);
+      try {
+        await deleteEmployee(restaurantId, id); 
+        // Eliminar el empleado de la lista después de la eliminación
+        const updatedEmployees = employees.filter((emp) => emp.id !== id);
+        setEmployees(updatedEmployees);
+      } catch (error) {
+        console.error("Error al eliminar el empleado:", error);
+      }
     }
   };
 
@@ -47,7 +69,7 @@ const Empleado = () => {
     <div className="container">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Empleados</h2>
-        <Link to="/empleados/nuevo" className="btn btn-primary">
+        <Link to={`/empleados/nuevo`} className="btn btn-primary">
           Agregar empleado +
         </Link>
       </div>
@@ -101,38 +123,54 @@ const Empleado = () => {
         </Modal.Header>
         <Modal.Body>
           <form>
+            {/* Formulario de actualización */}
             <div className="mb-3">
               <label className="form-label">Nombre del empleado</label>
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedEmpleado?.name || ""}
+                value={selectedEmployee?.name || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, name: e.target.value })
+                }
               />
             </div>
             <div className="mb-3">
-              <label className="form-label">Número de cédula</label>
+              <label className="form-label">Cédula</label>
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedEmpleado?.cedula || ""}
+                value={selectedEmployee?.cedula || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, cedula: e.target.value })
+                }
               />
             </div>
+
             <div className="mb-3">
               <label className="form-label">Edad</label>
               <input
-                type="number"
+                type="text"
                 className="form-control"
-                defaultValue={selectedEmpleado?.edad || ""}
+                value={selectedEmployee?.edad || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee,edad: e.target.value })
+                }
               />
             </div>
+
             <div className="mb-3">
-              <label className="form-label">Género</label>
+              <label className="form-label">Genero</label>
               <select
                 className="form-control"
-                defaultValue={selectedEmpleado?.genero || ""}
+                value={selectedEmployee?.genero || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, genero: e.target.value })
+                }
               >
-                <option value="Masculino">Masculino</option>
-                <option value="Femenino">Femenino</option>
+                 <option value="">------</option>
+                <option value="femenino">Femenino</option>
+                <option value="masculino">Masculino</option>
               </select>
             </div>
             <div className="mb-3">
@@ -140,24 +178,35 @@ const Empleado = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedEmpleado?.sueldo || ""}
+                value={selectedEmployee?.sueldo || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, sueldo: e.target.value })
+                }
               />
             </div>
             <div className="mb-3">
-              <label className="form-label">Horario</label>
-              <input
-                type="text"
+              <label className="form-label">Jornada</label>
+              <select
                 className="form-control"
-                defaultValue={selectedEmpleado?.horario || ""}
-              />
+                value={selectedEmployee?.horario || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, horario: e.target.value })
+                }
+              >
+                <option value="">------</option>
+                <option value="Matutino">Matutino</option>
+                <option value="Vespertino">Vespertino</option>
+                <option value="Nocturno">Nocturno</option>
+              </select>
             </div>
+            {/* Otros campos */}
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
+          <Button variant="primary" onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
@@ -165,6 +214,5 @@ const Empleado = () => {
     </div>
   );
 };
-
 
 export default Empleado;
