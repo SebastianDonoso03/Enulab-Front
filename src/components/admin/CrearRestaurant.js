@@ -101,9 +101,9 @@ const CrearRestaurante = () => {
               <Link to="/restaurantes" className="btn btn-secondary me-2">
                 Cancelar
               </Link>
-              <button type="submit" className="btn btn-primary">
+              <Link to="/restaurantes" className="btn btn-primary">
                 Guardar
-              </button>
+              </Link>
             </div>
           </form>
         </div>
@@ -111,5 +111,4 @@ const CrearRestaurante = () => {
     </div>
   );
 };
-
 export default CrearRestaurante;

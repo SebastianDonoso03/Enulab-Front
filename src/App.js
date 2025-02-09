@@ -16,6 +16,8 @@ import CrearInventario from "./components/admin/CrearInventario";
 import CrearRestaurante from "./components/admin/CrearRestaurant";
 import Login from "./components/Login/Login";
 import Register from "./components/Login/Registro";
+import CrearPlato from "./components/admin/CrearPlato";
+import Menu from "./components/admin/Menu";
 
 const LayoutPrincipal = ({ children }) => (
   <>
@@ -27,6 +29,13 @@ const LayoutPrincipal = ({ children }) => (
   </>
 );
 
+const LayoutRestaurantes = ({ children }) => (
+  <>
+    <Navbar />
+    <div className="content p-4">{children}</div>
+  </>
+);
+
 function App() {
   return (
     <Router>
@@ -34,6 +43,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
+
         <Route
           path="/Inicio"
           element={
@@ -61,17 +71,9 @@ function App() {
         <Route
           path="/crear-restaurantes"
           element={
-            <LayoutPrincipal>
+            <LayoutRestaurantes>
               <CrearRestaurante />
-            </LayoutPrincipal>
-          }
-        />
-        <Route
-          path="/restaurantes"
-          element={
-            <LayoutPrincipal>
-              <Restaurantes />
-            </LayoutPrincipal>
+            </LayoutRestaurantes>
           }
         />
         <Route
@@ -104,6 +106,30 @@ function App() {
             <LayoutPrincipal>
               <CrearProveedor />
             </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Crearplato"
+          element={
+            <LayoutPrincipal>
+              <CrearPlato />
+            </LayoutPrincipal>
+          }
+        />
+         <Route
+          path="/Menu"
+          element={
+            <LayoutPrincipal>
+              <Menu />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/restaurantes"
+          element={
+            <LayoutRestaurantes>
+              <Restaurantes />
+            </LayoutRestaurantes>
           }
         />
       </Routes>
