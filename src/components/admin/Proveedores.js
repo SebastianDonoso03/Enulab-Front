@@ -95,20 +95,20 @@ const Proveedores = () => {
             <th>Dirección</th>
             <th>Ciudad</th>
             <th>Provincia</th>
-            <th>Producto</th>
+           
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {proveedores.map((prov) => (
             <tr key={prov.id}>
-              <td>{prov.nameSupplier}</td>
-              <td>{prov.numContact}</td>
+              <td>{prov.namesupplier}</td>
+              <td>{prov.numcontact}</td>
               <td>{prov.email}</td>
               <td>{prov.direction}</td>
               <td>{prov.city}</td>
               <td>{prov.country}</td>
-              <td>{prov.product}</td>
+
               <td>
                 <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(prov)}>
                   <i className="bi bi-pencil"></i> Actualizar
@@ -138,7 +138,7 @@ const Proveedores = () => {
                 type="text"
                 className="form-control"
                 name="nameSupplier"
-                value={selectedSupplier?.nameSupplier || ""}
+                value={selectedSupplier?.namesupplier || ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -148,7 +148,7 @@ const Proveedores = () => {
                 type="text"
                 className="form-control"
                 name="numContact"
-                value={selectedSupplier?.numContact || ""}
+                value={selectedSupplier?.numcontact || ""}
                 onChange={handleInputChange}
               />
             </div>

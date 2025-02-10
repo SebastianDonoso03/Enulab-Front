@@ -29,7 +29,7 @@ export const getSupplierByRestaurant = async (restaurantId) => {
 // Obtener un proveedor específico por ID
 export const getSupplierById = async (restaurantId, idSupplier) => {
   try {
-    const response = await axios.get(`${API_URL}/${restaurantId}/suppliers/${idSupplier}`); // Cambiado a "suppliers"
+    const response = await axios.get(`${API_URL}/${restaurantId}/suppliers/${idSupplier}`); 
     return response.data;
   } catch (error) {
     console.error('Error al obtener el proveedor:', error.response?.data || error.message);
@@ -41,7 +41,7 @@ export const getSupplierById = async (restaurantId, idSupplier) => {
 export const updateSupplier = async (restaurantId, idSupplier, supplierData) => {
   try {
     const response = await axios.put(
-      `${API_URL}/${restaurantId}/suppliers/${idSupplier}`, // Cambiado a "suppliers"
+      `${API_URL}/${restaurantId}/suppliers/${idSupplier}`, 
       supplierData
     );
     return response.data;
