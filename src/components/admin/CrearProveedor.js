@@ -24,8 +24,8 @@ const CrearProveedor = () => {
   }, [navigate]);
 
   const [formData, setFormData] = useState({
-    nameSupploer: "",
-    numContact: "",
+    namesupploer: "",
+    numcontact: "",
     email: "",
     direction: "",
     city: "",
@@ -59,10 +59,10 @@ const CrearProveedor = () => {
       <h2 className="employee-header">Creación de proveedor</h2>
       <form className="employee-form" onSubmit={handleSubmit}>
         <label>Nombre del proveedor</label>
-        <input type="text" name="nameSupplier" onChange={handleChange} required />
+        <input type="text" name="namesupplier" onChange={handleChange} required />
 
         <label>Número de contacto</label>
-        <input type="text" name="numContact" onChange={handleChange} required />
+        <input type="text" name="numcontact" onChange={handleChange} required />
 
         <label>Email</label>
         <input type="text" name="email" onChange={handleChange} required />
