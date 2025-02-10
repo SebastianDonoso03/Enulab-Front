@@ -137,7 +137,7 @@ const Proveedores = () => {
               <input
                 type="text"
                 className="form-control"
-                name="nameSupplier"
+                name="namesupplier"
                 value={selectedSupplier?.namesupplier || ""}
                 onChange={handleInputChange}
               />
@@ -147,7 +147,7 @@ const Proveedores = () => {
               <input
                 type="text"
                 className="form-control"
-                name="numContact"
+                name="numcontact"
                 value={selectedSupplier?.numcontact || ""}
                 onChange={handleInputChange}
               />
