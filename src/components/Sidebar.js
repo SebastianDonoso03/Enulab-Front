@@ -59,7 +59,7 @@ const Sidebar = () => {
               <ul className="nav flex-column ms-3">
                 {/* Subapartado Repertorio */}
                 <li className="nav-item mb-2">
-                  <Link className="nav-link text-white" to="/repertorio">
+                  <Link className="nav-link text-white" to="/Repertorio">
                     <i className="bi bi-list-ul me-2"></i>
                     Repertorio
                   </Link>
@@ -67,7 +67,7 @@ const Sidebar = () => {
 
                 {/* Subapartado Platos */}
                 <li className="nav-item mb-2">
-                  <Link className="nav-link text-white" to="/platos">
+                  <Link className="nav-link text-white" to="/Platos">
                     <i className="bi bi-egg me-2"></i>
                     Platos
                   </Link>
@@ -75,7 +75,7 @@ const Sidebar = () => {
 
                 {/* Subapartado Bebidas */}
                 <li className="nav-item mb-2">
-                  <Link className="nav-link text-white" to="/bebidas">
+                  <Link className="nav-link text-white" to="/Bebidas">
                     <i className="bi bi-cup-straw me-2"></i>
                     Bebidas
                   </Link>
@@ -83,7 +83,7 @@ const Sidebar = () => {
 
                 {/* Subapartado Postres */}
                 <li className="nav-item mb-2">
-                  <Link className="nav-link text-white" to="/postres">
+                  <Link className="nav-link text-white" to="/Postres">
                     <i className="bi bi-cake me-2"></i>
                     Postres
                   </Link>

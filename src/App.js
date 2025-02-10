@@ -15,6 +15,13 @@ import CrearInventario from "./components/admin/CrearInventario";
 import CrearRestaurante from "./components/admin/CrearRestaurant";
 import Login from "./components/Login/Login";
 import Register from "./components/Login/Registro";
+import Platos from "./components/admin/Platos";
+import Bebidas from "./components/admin/Bebidas";
+import Postres from "./components/admin/Postre";
+import CrearPostre from "./components/admin/CrearPostre";
+import CrearBebida from "./components/admin/CrearBebida";
+import CrearPlato from "./components/admin/CrearPlato";
+import Repertorio from "./components/admin/Repertorio";
 
 const LayoutPrincipal = ({ children }) => (
   <>
@@ -33,14 +40,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
-        <Route
-          path="/Inicio"
-          element={
-        
-              <Restaurantes />
-           
-          }
-        />
+        <Route path="/Inicio" element={<Restaurantes />} />
         <Route
           path="/empleados"
           element={
@@ -102,6 +102,62 @@ function App() {
           element={
             <LayoutPrincipal>
               <CrearProveedor />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Platos"
+          element={
+            <LayoutPrincipal>
+              <Platos />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Bebidas"
+          element={
+            <LayoutPrincipal>
+              <Bebidas />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Postres"
+          element={
+            <LayoutPrincipal>
+              <Postres />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Crear-Postre"
+          element={
+            <LayoutPrincipal>
+              <CrearPostre />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Crear-Bebida"
+          element={
+            <LayoutPrincipal>
+              <CrearBebida />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Crear-Plato"
+          element={
+            <LayoutPrincipal>
+              <CrearPlato />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Repertorio"
+          element={
+            <LayoutPrincipal>
+              <Repertorio />
             </LayoutPrincipal>
           }
         />
