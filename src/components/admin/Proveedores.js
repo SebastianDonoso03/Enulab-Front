@@ -86,41 +86,67 @@ const Proveedores = () => {
         </Link>
       </div>
 
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Contacto</th>
-            <th>Email</th>
-            <th>Dirección</th>
-            <th>Ciudad</th>
-            <th>Provincia</th>
-           
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {proveedores.map((prov) => (
-            <tr key={prov.id}>
-              <td>{prov.namesupplier}</td>
-              <td>{prov.numcontact}</td>
-              <td>{prov.email}</td>
-              <td>{prov.direction}</td>
-              <td>{prov.city}</td>
-              <td>{prov.country}</td>
+      {/* Mostrar mensaje si no hay proveedores */}
+      {proveedores.length === 0 ? (
+        <div className="alert alert-info" role="alert">
+          No hay proveedores registrados. ¡Agrega uno nuevo!
+        </div>
+      ) : (
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Contacto</th>
+              <th>Email</th>
+              <th>Dirección</th>
+              <th>Ciudad</th>
+              <th>Provincia</th>
+		   
+              <th>Acciones</th>
+			   
+				
+			   
+									  
+							  
+										  
+										
+								   
+									   
+								  
+									 
 
-              <td>
-                <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(prov)}>
-                  <i className="bi bi-pencil"></i> Actualizar
-                </button>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(prov.id)}>
-                  <i className="bi bi-trash"></i> Eliminar
-                </button>
-              </td>
+				  
+																										
+															 
+						 
+																									 
+														  
+						 
+				   
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {proveedores.map((prov) => (
+              <tr key={prov.id}>
+                <td>{prov.namesupplier}</td>
+                <td>{prov.numcontact}</td>
+                <td>{prov.email}</td>
+                <td>{prov.direction}</td>
+                <td>{prov.city}</td>
+                <td>{prov.country}</td>
+                <td>
+                  <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(prov)}>
+                    <i className="bi bi-pencil"></i> Actualizar
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(prov.id)}>
+                    <i className="bi bi-trash"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {/* Modal para actualizar proveedor */}
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -192,7 +218,7 @@ const Proveedores = () => {
                 onChange={handleInputChange}
               />
             </div>
-        
+		
           </form>
         </Modal.Body>
         <Modal.Footer>
