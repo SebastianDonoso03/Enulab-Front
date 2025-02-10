@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
-
+import {getInventoryByRestaurant,updateInventory,deleteInventory} from "../../services/inventory.Services"
 const Inventario = () => {
+
+   // Recuperamos el `restaurantId` desde el localStorage
+   const restaurantId = localStorage.getItem("selectedRestaurantId");
+
   const [showModal, setShowModal] = useState(false); 
   const [selectedProducto, setSelectedProducto] = useState(null); 
-  const [productos, setProductos] = useState([
-    {
-      id: 1,
-      nombre: "Carne de res",
-      estado: true,
-      cantidad: "50 kg",
-      categoria: "Carnes",
-      descripcion: "Carne de res fresca",
-    },
-    {
-      id: 2,
-      nombre: "Lechuga",
-      estado: false,
-      cantidad: "30 unidades",
-      categoria: "Vegetales",
-      descripcion: "Lechuga romana orgánica",
-    },
-  ]);
+  const [productos, setProductos] = useState([]);
 
+    // Función para cargar los inventario al inicio
+    useEffect(() => {
+      const fetchInventory = async () => {
+        try {
+          const inventoryData = await getInventoryByRestaurant(restaurantId);
+          setProductos(inventoryData);
+        } catch (error) {
+          console.error("Error al cargar los inventario:", error);
+        }
+      };
+      fetchInventory();
+    }, [restaurantId]); // Este efecto se dispara cada vez que cambia el `restaurantId`
+  
   const handleUpdateClick = (producto) => {
     setSelectedProducto(producto);
     setShowModal(true);
@@ -34,13 +34,33 @@ const Inventario = () => {
     setSelectedProducto(null);
   };
 
-  const handleDeleteClick = (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este producto?")) {
-      const updatedProductos = productos.filter((prod) => prod.id !== id);
-      setProductos(updatedProductos); 
-      console.log("Producto eliminado:", id);
-    }
-  };
+    // Función para guardar los cambios después de actualizar
+    const handleSaveChanges = async () => {
+      if (selectedProducto) {
+        try {
+          await updateInventory(restaurantId, selectedProducto.id, selectedProducto); 
+          setShowModal(false);
+          // Actualizar la lista de empleados después de la actualización
+          const updatedInventory = await getInventoryByRestaurant(restaurantId);
+          setProductos(updatedInventory);
+        } catch (error) {
+          console.error("Error al guardar los cambios:", error);
+        }
+      }
+    };
+  
+  const handleDeleteClick = async (id) => {
+     if (window.confirm("¿Estás seguro de que deseas eliminar este empleado?")) {
+         try {
+           await deleteInventory(restaurantId, id); 
+           // Eliminar el empleado de la lista después de la eliminación
+           const updatedInventory = productos.filter((emp) => emp.id !== id);
+           setProductos(updatedInventory);
+         } catch (error) {
+           console.error("Error al eliminar el empleado:", error);
+         }
+       }
+     };
 
   return (
     <div className="container">
@@ -55,7 +75,6 @@ const Inventario = () => {
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Estado</th>
             <th>Cantidad</th>
             <th>Categoría</th>
             <th>Descripción</th>
@@ -63,23 +82,22 @@ const Inventario = () => {
           </tr>
         </thead>
         <tbody>
-          {productos.map((prod) => (
-            <tr key={prod.id}>
-              <td>{prod.nombre}</td>
-              <td>{prod.estado ? "Disponible" : "No disponible"}</td>
-              <td>{prod.cantidad}</td>
-              <td>{prod.categoria}</td>
-              <td>{prod.descripcion}</td>
+          {productos.map((emp) => (
+            <tr key={emp.id}>
+              <td>{emp.nombreproductos}</td>
+              <td>{emp.cantidad}</td>
+              <td>{emp.categoria}</td>
+              <td>{emp.descripcion}</td>
               <td>
                 <button
                   className="btn btn-sm me-2"
-                  onClick={() => handleUpdateClick(prod)}
+                  onClick={() => handleUpdateClick(emp)}
                 >
                   <i className="bi bi-pencil"></i> Actualizar
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteClick(prod.id)}
+                  onClick={() => handleDeleteClick(emp.id)}
                 >
                   <i className="bi bi-trash"></i> Eliminar
                 </button>
@@ -103,23 +121,21 @@ const Inventario = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedProducto?.nombre || ""}
+                value={selectedProducto?.nombreproductos || ""}
+                onChange={(e) =>
+                  setSelectedProducto({ ...selectedProducto, nameproductos: e.target.value })
+                }
               />
-            </div>
-            <div className="mb-3 d-flex align-items-center">
-              <input
-                type="checkbox"
-                className="form-check-input me-2"
-                defaultChecked={selectedProducto?.estado || false}
-              />
-              <label className="form-label">Disponible</label>
             </div>
             <div className="mb-3">
               <label className="form-label">Cantidad</label>
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedProducto?.cantidad || ""}
+                value={selectedProducto?.cantidad || ""}
+                onChange={(e) =>
+                  setSelectedProducto({ ...selectedProducto, cantidad: e.target.value })
+                }
               />
             </div>
             <div className="mb-3">
@@ -127,14 +143,20 @@ const Inventario = () => {
               <input
                 type="text"
                 className="form-control"
-                defaultValue={selectedProducto?.categoria || ""}
+                value={selectedProducto?.categoria || ""}
+                onChange={(e) =>
+                  setSelectedProducto({ ...selectedProducto, categoria: e.target.value })
+                }
               />
             </div>
             <div className="mb-3">
               <label className="form-label">Descripción</label>
               <textarea
                 className="form-control"
-                defaultValue={selectedProducto?.descripcion || ""}
+                value={selectedProducto?.descripcion || ""}
+                onChange={(e) =>
+                  setSelectedProducto({ ...selectedProducto, descripcion: e.target.value })
+                }
               ></textarea>
             </div>
           </form>
@@ -143,7 +165,7 @@ const Inventario = () => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
+          <Button variant="primary" onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
