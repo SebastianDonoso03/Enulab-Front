@@ -1,29 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { createSupplier } from "../../services/supplierServices"
 
 
 const CrearProveedor = () => {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    producto:"",
-    contacto: "",
-    email: "",
-    direccion: "",
-    ciudad: "",
-    provincia: "",
-    
-  });
 
   const navigate = useNavigate();
+  const [restaurantId, setRestaurantId] = useState(null);
+
+  useEffect(() => {
+    // Recuperar el ID del restaurante desde localStorage
+    const storedRestaurantId = localStorage.getItem("selectedRestaurantId");
+
+    // Mostrar el valor en consola
+    console.log("ID del restaurante en localStorage:", storedRestaurantId);
+
+    if (storedRestaurantId) {
+      setRestaurantId(storedRestaurantId);
+    } else {
+      console.error("No se encontró el restaurantId en localStorage.");
+      navigate("/restaurantes"); // Redirigir si no hay un restaurante seleccionado
+    }
+  }, [navigate]);
+
+  const [formData, setFormData] = useState({
+    nameSupploer: "",
+    numContact: "",
+    email: "",
+    direction: "",
+    city: "",
+    country: "",
+  });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Proveedor agregado:", formData);
-    navigate("/Proveedores"); 
+    if (!restaurantId) {
+      console.error("No se puede crear proveedores sin restaurantId.");
+      return
+    }
+    try {
+      const createdSupplier = await createSupplier(restaurantId, formData);
+      console.log("Empleado creado:", createdSupplier);
+      navigate("/Proveedores");
+    } catch (error) {
+      console.error("Error al crear el empleado:", error);
+    }
+
+
+
   };
 
   return (
@@ -31,26 +59,22 @@ const CrearProveedor = () => {
       <h2 className="employee-header">Creación de proveedor</h2>
       <form className="employee-form" onSubmit={handleSubmit}>
         <label>Nombre del proveedor</label>
-        <input type="text" name="nombre" onChange={handleChange} required />
-
-        <label>Producto</label>
-        <input type="text" name="producto" onChange={handleChange} required />
-
+        <input type="text" name="nameSupplier" onChange={handleChange} required />
 
         <label>Número de contacto</label>
-        <input type="text" name="Número de contacto" onChange={handleChange} required />
+        <input type="text" name="numContact" onChange={handleChange} required />
 
         <label>Email</label>
-        <input type="text" name="Email" onChange={handleChange} required />
+        <input type="text" name="email" onChange={handleChange} required />
 
         <label>Direccion</label>
-        <input type="text" name="Direccion" onChange={handleChange} required />
+        <input type="text" name="direction" onChange={handleChange} required />
 
         <label>Ciudad</label>
-        <input type="number" name="Ciudad" onChange={handleChange} required />
+        <input type="text" name="city" onChange={handleChange} required />
 
         <label>Provincia</label>
-        <input type="text" name="Provincia" onChange={handleChange} required />
+        <input type="text" name="country" onChange={handleChange} required />
 
 
         <div className="form-buttons">

@@ -17,10 +17,14 @@ const Sidebar = () => {
       <div className="p-3">
         <ul className="nav flex-column">
           <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/restaurantes">
+            <button
+              className="nav-link text-white btn btn-link w-100 text-start"
+              onClick={() => (window.location.href = "/restaurantes")}
+              style={{ backgroundColor: "transparent", border: "none" }}
+            >
               <i className="bi bi-plus-circle me-2"></i>
               Restaurantes
-            </Link>
+            </button>
           </li>
           <li className="nav-item mb-2">
             <Link className="nav-link text-white" to="/empleados">

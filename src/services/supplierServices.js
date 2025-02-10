@@ -1,67 +1,63 @@
-// services/supplierService.js
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "http://localhost:3000/restaurante"; // Ajusta la URL según tu configuración
+const API_URL = 'http://localhost:4200/api/restaurante';
+
+export const createSupplier = async (restaurantId, supplierData) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/${restaurantId}/suppliers`, // Cambiado a "suppliers"
+      supplierData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error al crear el proveedor:', error.response?.data || error.message);
+    throw error;
+  }
+};
 
 // Obtener todos los proveedores de un restaurante
-const getAllSuppliers = async (restaurantId) => {
+export const getSupplierByRestaurant = async (restaurantId) => {
   try {
-    const response = await axios.get(`${API_URL}/${restaurantId}/suppliers`);
+    const response = await axios.get(`${API_URL}/${restaurantId}/suppliers`); // Cambiado a "suppliers"
     return response.data;
   } catch (error) {
-    console.error("Error al obtener proveedores:", error);
+    console.error('Error al obtener proveedores:', error.response?.data || error.message);
     throw error;
   }
 };
 
-// Obtener un proveedor por ID
-const getSupplierById = async (restaurantId, supplierId) => {
+// Obtener un proveedor específico por ID
+export const getSupplierById = async (restaurantId, idSupplier) => {
   try {
-    const response = await axios.get(`${API_URL}/${restaurantId}/suppliers/${supplierId}`);
+    const response = await axios.get(`${API_URL}/${restaurantId}/suppliers/${idSupplier}`); // Cambiado a "suppliers"
     return response.data;
   } catch (error) {
-    console.error("Error al obtener proveedor por ID:", error);
+    console.error('Error al obtener el proveedor:', error.response?.data || error.message);
     throw error;
   }
 };
 
-// Crear un nuevo proveedor
-const createSupplier = async (restaurantId, supplierData) => {
+// Actualizar un proveedor
+export const updateSupplier = async (restaurantId, idSupplier, supplierData) => {
   try {
-    const response = await axios.post(`${API_URL}/${restaurantId}/suppliers`, supplierData);
+    const response = await axios.put(
+      `${API_URL}/${restaurantId}/suppliers/${idSupplier}`, // Cambiado a "suppliers"
+      supplierData
+    );
     return response.data;
   } catch (error) {
-    console.error("Error al crear proveedor:", error);
-    throw error;
-  }
-};
-
-// Actualizar un proveedor existente
-const updateSupplier = async (restaurantId, supplierId, supplierData) => {
-  try {
-    const response = await axios.put(`${API_URL}/${restaurantId}/suppliers/${supplierId}`, supplierData);
-    return response.data;
-  } catch (error) {
-    console.error("Error al actualizar proveedor:", error);
+    console.error('Error al actualizar el proveedor:', error.response?.data || error.message);
     throw error;
   }
 };
 
 // Eliminar un proveedor
-const deleteSupplier = async (restaurantId, supplierId) => {
+export const deleteSupplier = async (restaurantId, idSupplier) => {
   try {
-    const response = await axios.delete(`${API_URL}/${restaurantId}/suppliers/${supplierId}`);
+    const response = await axios.delete(`${API_URL}/${restaurantId}/suppliers/${idSupplier}`); // Cambiado a "suppliers"
     return response.data;
   } catch (error) {
-    console.error("Error al eliminar proveedor:", error);
+    console.error('Error al eliminar el proveedor:', error.response?.data || error.message);
     throw error;
   }
-};
-
-export const supplierService = {
-  getAllSuppliers,
-  getSupplierById,
-  createSupplier,
-  updateSupplier,
-  deleteSupplier,
 };
