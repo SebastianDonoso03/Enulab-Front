@@ -5,28 +5,16 @@ import { useNavigate } from "react-router-dom";
 
 const menuItems = [
   {
-    title: "Platos",
+    title: "Menú",
     image: "/images/sopas.jpg",
-    viewPath: "/Platos",
-    addPath: "/Crear-Plato",
-  },
-  {
-    title: "Bebidas",
-    image: "/images/entradas.jpg",
-    viewPath: "/Bebidas",
-    addPath: "/Crear-Bebida",
-  },
-  {
-    title: "Postres",
-    image: "/images/postres.jpg",
-    viewPath: "/Postres",
-    addPath: "/Crear-Postre",
+    viewPath: "/menu",
+    addPath: "/CrearMenu", // Corregido para que apunte correctamente
   },
 ];
 
 const Repertorio = () => {
   const navigate = useNavigate();
-  
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Gestión de menú</h2>
@@ -48,15 +36,9 @@ const Repertorio = () => {
           <div className="menu-actions">
             <button
               className="btn btn-warning mb-2"
-              onClick={() => navigate(item.addPath)}
+              onClick={() => navigate(item.addPath)} // Redirige correctamente a "/CrearMenu"
             >
               Agregar
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => navigate(item.viewPath)}
-            >
-              Ver
             </button>
           </div>
         </div>

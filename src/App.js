@@ -22,6 +22,7 @@ import CrearPostre from "./components/admin/CrearPostre";
 import CrearBebida from "./components/admin/CrearBebida";
 import CrearPlato from "./components/admin/CrearPlato";
 import Repertorio from "./components/admin/Repertorio";
+import CrearMenu from "./components/admin/CrearMenu"
 
 const LayoutPrincipal = ({ children }) => (
   <>
@@ -158,6 +159,14 @@ function App() {
           element={
             <LayoutPrincipal>
               <Repertorio />
+            </LayoutPrincipal>
+          }
+        />
+         <Route
+          path="/CrearMenu"
+          element={
+            <LayoutPrincipal>
+              <CrearMenu />
             </LayoutPrincipal>
           }
         />

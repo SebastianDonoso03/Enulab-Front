@@ -6,7 +6,7 @@ export const createInventory = async (restaurantId, inventoryData) => {
       `http://localhost:4200/api/restaurante/${restaurantId}/inventory`,
       inventoryData
     );
-    return response.data; // Deberías recibir el nuevo empleado como respuesta
+    return response.data; 
   } catch (error) {
     console.error("Error al crear el inventario:", error);
     throw error;
@@ -53,7 +53,7 @@ export const updateInventory = async (restaurantId, inventoryId, inventaryData) 
     }
   };
   
-    
+
   //eliminar
   
   export const deleteInventory = async (restaurantId, inventoryId) => {
