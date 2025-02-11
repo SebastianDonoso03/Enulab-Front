@@ -28,12 +28,42 @@ export const getMenusByRestaurant = async (restaurantId) => {
 };
 
 // Obtener un menú por su ID dentro de un restaurante
-export const getMenuById = async (restaurantId, menuId) => {
+export const getMenuById = async (restaurantId, menusId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/${restaurantId}/menus/${menuId}`);
+    const response = await axios.get(`${BASE_URL}/${restaurantId}/menus/${menusId}`);
     return response.data; 
   } catch (error) {
     console.error("Error al obtener el menú:", error);
     throw error;
   }
 };
+
+export const updateMenu = async (restaurantId, menusId, menusData) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:4200/api/restaurante/${restaurantId}/menus/${menusId}`,
+      menusData
+    );
+    return response.data; // Devuelve el menú actualizado
+  } catch (error) {
+    console.error("Error al actualizar el menú:", error);
+    throw error;
+  }
+};
+
+
+  //eliminar
+  
+  export const deleteMenu = async (restaurantId, menusId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:4200/api/restaurante/${restaurantId}/menus/${menusId}`
+      );
+      return response.data; // Devuelve una confirmación de eliminación
+    } catch (error) {
+      console.error("Error al eliminar el meú:", error);
+      throw error;
+    }
+  };
+  
+  

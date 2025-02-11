@@ -1,48 +1,122 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/Repertorio.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-
-const menuItems = [
-  {
-    title: "Menú",
-    image: "/images/sopas.jpg",
-    viewPath: "/menu",
-    addPath: "/CrearMenu", // Corregido para que apunte correctamente
-  },
-];
+import { Modal, Button, Form } from "react-bootstrap";
+import { getMenusByRestaurant, updateMenu, deleteMenu } from "../../services/menuServices";
 
 const Repertorio = () => {
+  const restaurantId = localStorage.getItem("selectedRestaurantId");
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(null);
+  const [menus, setMenus] = useState([]);
+
+  useEffect(() => {
+    const fetchMenus = async () => {
+      try {
+        const menusData = await getMenusByRestaurant(restaurantId);
+        setMenus(menusData);
+      } catch (error) {
+        console.error("Error al cargar los menús:", error);
+      }
+    };
+    fetchMenus();
+  }, [restaurantId]);
+
+  const handleShowModal = (menu) => {
+    setSelectedMenu(menu);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedMenu(null);
+  };
+
+  const handleSaveChanges = async () => {
+    if (selectedMenu) {
+      try {
+        await updateMenu(restaurantId, selectedMenu.id, selectedMenu);
+        setShowModal(false);
+        const updatedMenus = await getMenusByRestaurant(restaurantId);
+        setMenus(updatedMenus);
+      } catch (error) {
+        console.error("Error al guardar los cambios:", error);
+      }
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este menú?")) {
+      try {
+        await deleteMenu(restaurantId, id);
+        setMenus(menus.filter((menu) => menu.id !== id));
+      } catch (error) {
+        console.error("Error al eliminar el menú", error);
+      }
+    }
+  };
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4">Gestión de menú</h2>
-      {menuItems.map((item, index) => (
-        <div className="menu-item d-flex mb-3" key={index}>
-          <div className="menu-image">
-            <img src={item.image} alt={item.title} />
-            <div className="overlay">
-              <h3>{item.title}</h3>
-            </div>
-          </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>Menús Disponibles</h2>
+        <button className="btn btn-warning" onClick={() => navigate("/CrearMenu")}>
+          Agregar
+        </button>
+      </div>
+      {menus.map((menu) => (
+        <div className="menu-item d-flex mb-3" key={menu.id}>
           <div className="menu-description flex-grow-1">
-            <p>
-              Lorem ipsum dolor sit amet consectetur. A consequat tellus
-              senectus posuere dolor lacus. Nunc ullamcorper netus donec massa
-              nisi vitae ultricies porttitor. Penatibus quisque sed eget diam.
-            </p>
+            <h3>{menu.name}</h3>
+            <p>{menu.description}</p>
           </div>
           <div className="menu-actions">
-            <button
-              className="btn btn-warning mb-2"
-              onClick={() => navigate(item.addPath)} // Redirige correctamente a "/CrearMenu"
-            >
-              Agregar
+            <button className="btn btn-info mb-2" onClick={() => handleShowModal(menu)}>
+              Actualizar
+            </button>
+            <button className="btn btn-danger" onClick={() => handleDelete(menu.id)}>
+              Eliminar
             </button>
           </div>
         </div>
       ))}
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Actualizar Menú</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Nombre del Menú</Form.Label>
+              <Form.Control
+                type="text"
+                value={selectedMenu?.name || ""}
+                onChange={(e) => setSelectedMenu({ ...selectedMenu, name: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Descripción</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={selectedMenu?.description || ""}
+                onChange={(e) => setSelectedMenu({ ...selectedMenu, description: e.target.value })}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleSaveChanges}>
+            Guardar Cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
