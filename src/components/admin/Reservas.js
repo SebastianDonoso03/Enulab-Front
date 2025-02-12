@@ -1,44 +1,184 @@
-import React from "react";
-import { Card, CardContent, Typography, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, Typography, Button, Modal, Box, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
+import { getReservationsByRestaurant, updateReservation, deleteReservation } from "../../services/reservaServices";  // Asegúrate de tener estos servicios
 
 
-const Reserva= () => {
-  const reserva = {
-    nombre: "Juan Pérez",
-    hora: "19:00",
-    fecha: "2025-02-12",
-    telefono: "123-456-7890",
-    reservado: true,
+const Reserva = () => {
+
+  const restaurantId = localStorage.getItem("selectedRestaurantId");
+
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedReserva, setSelectedReserva] = useState(null); // Usar `selectedReserva` para la reserva seleccionada
+  const [reservas, setReservas] = useState([]);
+
+  // Obtener todas las reservas al cargar el componente
+  useEffect(() => {
+    const fetchReservas = async () => {
+      try {
+        const data = await getReservationsByRestaurant(restaurantId);
+        setReservas(data);
+      } catch (error) {
+        console.error("Error al obtener las reservas:", error);
+      }
+    };
+
+    fetchReservas();
+  }, [restaurantId]);
+
+  const handleOpenModal = (reserva) => {
+    setSelectedReserva(reserva); // Actualiza la reserva seleccionada
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedReserva(null);
+  };
+
+  const handleSaveChanges = async (e) => {
+    e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+    if (selectedReserva) {
+      try {
+        await updateReservation(restaurantId, selectedReserva.id, selectedReserva);
+        setOpenModal(false);
+        const updatedReservations = await getReservationsByRestaurant(restaurantId); // Obtener reservas actualizadas
+        setReservas(updatedReservations); // Actualizar estado con las reservas actualizadas
+      } catch (error) {
+        console.error("Error al guardar los cambios:", error);
+      }
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("¿Estás seguro de que deseas eliminar?")) {
+      try {
+        await deleteReservation(restaurantId, id);  // Eliminar por id
+        console.log("Reserva eliminada");
+        setReservas(reservas.filter((reserva) => reserva.id !== id)); // Actualizar la lista de reservas eliminando la seleccionada
+      } catch (error) {
+        console.error("Error al eliminar la reserva:", error);
+      }
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setSelectedReserva(prevState => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value
+    }));
   };
 
   return (
     <div className="Container">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Proveedores</h2>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2>Reservas</h2>
         <Link to="/CrearReservas" className="btn btn-primary">
-          Agregar proveedor +
+          Agregar reserva +
         </Link>
       </div>
 
- <Card sx={{ maxWidth: 300, borderRadius: "15px", boxShadow: 3, padding: 2 }}>
-      <CardContent>
-        <Typography variant="h6">{reserva.nombre}</Typography>
-        <Typography variant="body1">Hora: {reserva.hora}</Typography>
-        <Typography variant="body1">Fecha: {reserva.fecha}</Typography>
-        <Typography variant="body1">Teléfono: {reserva.telefono}</Typography>
-        <Typography variant="body1">Reservado: {reserva.reservado ? "Sí" : "No"}</Typography>
-        <Button variant="contained" color="primary" sx={{ mt: 2, mr: 1 }}>
-          Actualizar
-        </Button>
-        <Button variant="contained" color="error" sx={{ mt: 2 }}>
-          Eliminar
-        </Button>
-      </CardContent>
-    </Card>
+      {/* Mostrar todas las reservas */}
+      {reservas.length === 0 ? (
+        <Typography variant="body1">No hay reservas disponibles</Typography>
+      ) : (
+        reservas.map((reserva) => (
+          <Card key={reserva.id} sx={{ maxWidth: 300, borderRadius: "15px", boxShadow: 3, padding: 2, mb: 2 }}>
+            <CardContent>
+              <Typography variant="h6">{reserva.name}</Typography>
+              <Typography variant="body1">Hora: {reserva.hour}</Typography>
+              <Typography variant="body1">Fecha: {new Date(reserva.date).toISOString().split('T')[0]}</Typography>
+              <Typography variant="body1">Teléfono: {reserva.numcontact}</Typography>
+              <Typography variant="body1">Reservado: {reserva.pay ? "Sí" : "No"}</Typography>
+              <Button variant="contained" color="primary" sx={{ mt: 2, mr: 1 }} onClick={() => handleOpenModal(reserva)}>
+                Actualizar
+              </Button>
+              <Button variant="contained" color="error" sx={{ mt: 2 }} onClick={() => handleDelete(reserva.id)}>
+                Eliminar
+              </Button>
+            </CardContent>
+          </Card>
+        ))
+      )}
 
+      {/* Modal para actualizar reserva */}
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "white",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+            width: 400,
+          }}
+        >
+          <Typography variant="h6" align="center" mb={2}>
+            Actualizar Reserva
+          </Typography>
+          <form onSubmit={handleSaveChanges}>
+            <TextField
+              fullWidth
+              label="Nombre"
+              name="name"
+              value={selectedReserva?.name || ''}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+            <TextField
+              fullWidth
+              label="Hora"
+              name="hour"
+              value={selectedReserva?.hour || ''}
+              onChange={handleChange}
+              margin="normal"
+              required
+              type="time"
+            />
+            <TextField
+              fullWidth
+              label="Fecha"
+              name="date"
+              value={selectedReserva?.date ? new Date(selectedReserva.date).toISOString().split('T')[0] : ''}
+              onChange={handleChange}
+              margin="normal"
+              required
+              type="date"
+            />
+            <TextField
+              fullWidth
+              label="Teléfono"
+              name="numcontact"
+              value={selectedReserva?.numcontact || ''}
+              onChange={handleChange}
+              margin="normal"
+              required
+            />
+            <div>
+              <input
+                type="checkbox"
+                name="pay"
+                checked={selectedReserva?.pay || false}
+                onChange={handleChange}
+              />
+              Reservado
+            </div>
+            <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+              Guardar Cambios
+            </Button>
+            <Button variant="outlined" color="secondary" sx={{ mt: 2, ml: 1 }} onClick={handleCloseModal}>
+              Cancelar
+            </Button>
+          </form>
+        </Box>
+      </Modal>
     </div>
-   
   );
 };
 
