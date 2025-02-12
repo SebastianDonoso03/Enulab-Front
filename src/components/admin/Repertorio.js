@@ -58,6 +58,13 @@ const Repertorio = () => {
     }
   };
 
+  const handleManage = (id) => {
+    // Guardamos el id del menú seleccionado en localStorage
+    localStorage.setItem("selectedMenuId", id);
+    // Redirigimos a la página de gestión de platos
+    navigate(`/Platos`);
+  };
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -76,8 +83,12 @@ const Repertorio = () => {
             <button className="btn btn-info mb-2" onClick={() => handleShowModal(menu)}>
               Actualizar
             </button>
-            <button className="btn btn-danger" onClick={() => handleDelete(menu.id)}>
+            <button className="btn btn-danger mb-2" onClick={() => handleDelete(menu.id)}>
               Eliminar
+            </button>
+            {/* Botón "Gestionar" */}
+            <button className="btn btn-secondary" onClick={() => handleManage(menu.id)}>
+              Gestionar
             </button>
           </div>
         </div>
