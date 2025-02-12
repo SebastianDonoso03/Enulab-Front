@@ -132,7 +132,7 @@ const Platos = () => {
                 onChange={(e) =>
                   setSelectedPlato({
                     ...selectedPlato,
-                    descripction: e.target.value,
+                    description: e.target.value,
                   })
                 }
               />

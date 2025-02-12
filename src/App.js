@@ -23,6 +23,8 @@ import CrearBebida from "./components/admin/CrearBebida";
 import CrearPlato from "./components/admin/CrearPlato";
 import Repertorio from "./components/admin/Repertorio";
 import CrearMenu from "./components/admin/CrearMenu"
+import CrearReservas from "./components/admin/CrearReserva"
+import Reservas from "./components/admin/Reservas"
 
 const LayoutPrincipal = ({ children }) => (
   <>
@@ -167,6 +169,23 @@ function App() {
           element={
             <LayoutPrincipal>
               <CrearMenu />
+            </LayoutPrincipal>
+          }
+        />
+            <Route
+          path="/Reservas"
+          element={
+            <LayoutPrincipal>
+              <Reservas />
+            </LayoutPrincipal>
+          }
+        />
+
+<Route
+          path="/CrearReservas"
+          element={
+            <LayoutPrincipal>
+              <CrearReservas />
             </LayoutPrincipal>
           }
         />
