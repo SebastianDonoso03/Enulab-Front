@@ -62,7 +62,7 @@ const Register = () => {
       <div className="card bg-secondary text-light p-4" style={{ width: "400px" }}>
         <div className="text-center mb-3">
           <img
-            src={require("../../images/logo.png")}
+            src={require("../../images/logo_enulab.png")}
             alt="Logo"
             className="img-fluid" style={{ width: "80px" }}
           />
