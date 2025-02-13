@@ -164,7 +164,7 @@ function App() {
             </LayoutPrincipal>
           }
         />
-         <Route
+        <Route
           path="/CrearMenu"
           element={
             <LayoutPrincipal>
@@ -172,7 +172,7 @@ function App() {
             </LayoutPrincipal>
           }
         />
-            <Route
+        <Route
           path="/Reservas"
           element={
             <LayoutPrincipal>
@@ -180,8 +180,7 @@ function App() {
             </LayoutPrincipal>
           }
         />
-
-<Route
+        <Route
           path="/CrearReservas"
           element={
             <LayoutPrincipal>
