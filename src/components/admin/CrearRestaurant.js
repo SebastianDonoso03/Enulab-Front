@@ -28,7 +28,7 @@ const CrearRestaurante = () => {
     try {
       await createRestaurant(formData); // Ya incluye la verificación del user_id
       console.log("Restaurante creado exitosamente");
-      navigate("/restaurantes"); // Redirigir a la lista de restaurantes
+      navigate("/inicio"); // Redirigir a la lista de restaurantes
     } catch (error) {
       console.error("Error al crear el restaurante:", error.message);
       alert(error.message); // Mostrar el error al usuario

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/Restaurantes.css";
-import "../../images/logo.png";
 import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import { getRestaurantsByUser, deleteRestaurant, updateRestaurant } from '../../services/restaurantServices'; // Importa el servicio adecuado
@@ -27,24 +26,17 @@ const Restaurantes = () => {
     try {
       const userId = localStorage.getItem('user_id');
       if (userId) {
-        console.log("Obteniendo restaurantes para el user_id:", userId);
         const data = await getRestaurantsByUser(userId);
-        if (Array.isArray(data)) {
-          setRestaurantes(data);
-        } else {
-          setRestaurantes([]); // Si no es un array, asegúrate que esté vacío
-        }
+        setRestaurantes(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error("Error al obtener restaurantes:", error.message);
-      setRestaurantes([]);  // Asegúrate de resetear el estado en caso de error
+      setRestaurantes([]);  // Reset on error
     }
   };
 
   const handleGestionClick = (restaurante) => {
-    // Guardamos el restaurantId en localStorage
     localStorage.setItem("selectedRestaurantId", restaurante.id);
-    // Redirigimos a la página de empleados
     navigate("/empleados");
   };
 
@@ -55,7 +47,7 @@ const Restaurantes = () => {
       ubicacion: restaurante.ubicacion,
       objetivos: restaurante.objetivos,
       descripcion: restaurante.descripcion,
-      logo: null, // Limpiamos el logo para permitir una nueva carga
+      logo: null, // Limpiar logo
     });
     setShowModal(true);
   };
@@ -68,8 +60,8 @@ const Restaurantes = () => {
   const handleDeleteClick = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este restaurante?")) {
       try {
-        await deleteRestaurant(id);  // Llamamos al servicio para eliminar el restaurante
-        fetchRestaurantes(); // Refrescar la lista de restaurantes después de eliminar
+        await deleteRestaurant(id);
+        fetchRestaurantes();  // Refresh the list
       } catch (error) {
         console.error("Error al eliminar el restaurante:", error);
       }
@@ -91,15 +83,11 @@ const Restaurantes = () => {
       formDataToSend.append("ubicacion", formData.ubicacion);
       formDataToSend.append("objetivos", formData.objetivos);
       formDataToSend.append("descripcion", formData.descripcion);
-      if (formData.logo) {
-        formDataToSend.append("logo", formData.logo);
-      }
+      if (formData.logo) formDataToSend.append("logo", formData.logo);
 
-      // Usamos el servicio updateRestaurant para actualizar el restaurante
       await updateRestaurant(selectedRestaurante.id, formDataToSend);
-
-      fetchRestaurantes(); // Refrescar la lista de restaurantes después de la actualización
-      handleCloseModal(); // Cerrar el modal
+      fetchRestaurantes();  // Refresh after update
+      handleCloseModal();  // Close the modal
     } catch (error) {
       console.error("Error al actualizar el restaurante:", error);
     }
@@ -107,17 +95,17 @@ const Restaurantes = () => {
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
-      <h2 className="restaurantes-title">Mis restaurantes</h2>
+      <h2 className="restaurantes-title text-center">Mis Restaurantes</h2>
 
-      <div className="d-flex justify-content-end">
-        <Link to="/crear-restaurantes" className="btn btn-primary">
-          Agregar restaurante +
+      <div className="d-flex justify-content-center mb-4">
+        <Link to="/crear-restaurantes" className="btn btn-primary btn-lg">
+          Agregar Restaurante +
         </Link>
       </div>
 
       <div className="restaurantes-grid">
         {restaurantes.length === 0 ? (
-          <p>No tienes restaurantes creados. ¡Agrega uno!</p> 
+          <p className="text-center">No tienes restaurantes creados. ¡Agrega uno!</p>
         ) : (
           restaurantes.map((rest) => (
             <div key={rest.id} className="restaurante-card">
@@ -129,9 +117,9 @@ const Restaurantes = () => {
                 />
                 <h3>{rest.name}</h3>
                 <p>{rest.ubicacion}</p>
-                <div className="d-flex gap-2">
+                <div className="d-flex gap-2 justify-content-center">
                   <button
-                    className="btn btn-sm"
+                    className="btn btn-sm btn-warning"
                     onClick={() => handleUpdateClick(rest)}
                   >
                     <i className="bi bi-arrow-repeat"></i> Actualizar
@@ -144,7 +132,7 @@ const Restaurantes = () => {
                   </button>
                   <button
                     className="btn btn-info btn-sm"
-                    onClick={() => handleGestionClick(rest)} // Guardamos el restaurantId
+                    onClick={() => handleGestionClick(rest)}
                   >
                     <i className="bi bi-people"></i> Gestión
                   </button>
