@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Button, Modal, Box, TextField } from "@mui/material";
+import { Card, CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { getReservationsByRestaurant, updateReservation, deleteReservation } from "../../services/reservaServices";
-
+import "../../styles/Reservas.css"
 const Reserva = () => {
   const restaurantId = localStorage.getItem("selectedRestaurantId");
   const [openModal, setOpenModal] = useState(false);
@@ -65,7 +65,7 @@ const Reserva = () => {
   };
 
   return (
-    <div className="Container">
+    <div className="container">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Reservas</h2>
         <Link to="/CrearReservas" className="btn btn-primary">
@@ -74,65 +74,67 @@ const Reserva = () => {
       </div>
 
       {reservas.length === 0 ? (
-        <Typography variant="body1">No hay reservas disponibles</Typography>
+        <p>No hay reservas disponibles</p>
       ) : (
-        reservas.map((reserva) => (
-          <Card key={reserva.id} sx={{ maxWidth: 300, borderRadius: "15px", boxShadow: 3, padding: 2, mb: 2 }}>
-            <CardContent>
-              <Typography variant="h6">{reserva.name}</Typography>
-              <Typography variant="body1">Código: {reserva.code}</Typography>
-              <Typography variant="body1">Nota: {reserva.note}</Typography>
-              <Typography variant="body1">Hora: {reserva.hour}</Typography>
-              <Typography variant="body1">Fecha: {new Date(reserva.date).toISOString().split('T')[0]}</Typography>
-              <Typography variant="body1">Teléfono: {reserva.numcontact}</Typography>
-              <Typography variant="body1">Reservado: {reserva.pay ? "Sí" : "No"}</Typography>
-              <Button variant="contained" color="primary" sx={{ mt: 2, mr: 1 }} onClick={() => handleOpenModal(reserva)}>
-                Actualizar
-              </Button>
-              <Button variant="contained" color="error" sx={{ mt: 2 }} onClick={() => handleDelete(reserva.id)}>
-                Eliminar
-              </Button>
-            </CardContent>
-          </Card>
-        ))
+        <Row>
+          {reservas.map((reserva) => (
+            <Col key={reserva.id} xs="12" sm="6" md="4" lg="3" className="mb-3">
+              <Card>
+                <CardBody>
+                  <CardTitle tag="h5">{reserva.name}</CardTitle>
+                  <CardText>Código: {reserva.code}</CardText>
+                  <CardText>Nota: {reserva.note}</CardText>
+                  <CardText>Hora: {reserva.hour}</CardText>
+                  <CardText>Fecha: {new Date(reserva.date).toISOString().split('T')[0]}</CardText>
+                  <CardText>Teléfono: {reserva.numcontact}</CardText>
+                  <CardText>Reservado: {reserva.pay ? "Sí" : "No"}</CardText>
+                  <Button color="primary" onClick={() => handleOpenModal(reserva)}>Actualizar</Button>
+                  <Button color="danger" onClick={() => handleDelete(reserva.id)}>Eliminar</Button>
+                </CardBody>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       )}
 
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "white",
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-            width: 400,
-          }}
-        >
-          <Typography variant="h6" align="center" mb={2}>
-            Actualizar Reserva
-          </Typography>
-          <form onSubmit={handleSaveChanges}>
-            <TextField fullWidth label="Nombre" name="name" value={selectedReserva?.name || ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Código" name="code" type="number" value={selectedReserva?.code || ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Nota" name="note" value={selectedReserva?.note || ''} onChange={handleChange} margin="normal" multiline rows={3} />
-            <TextField fullWidth label="Hora" name="hour" type="time" value={selectedReserva?.hour || ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Fecha" name="date" type="date" value={selectedReserva?.date ? new Date(selectedReserva.date).toISOString().split('T')[0] : ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Teléfono" name="numcontact" value={selectedReserva?.numcontact || ''} onChange={handleChange} margin="normal" required />
-            <div>
-              <input type="checkbox" name="pay" checked={selectedReserva?.pay || false} onChange={handleChange} />
-              Reservado
-            </div>
-            <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-              Guardar Cambios
-            </Button>
-            <Button variant="outlined" color="secondary" sx={{ mt: 2, ml: 1 }} onClick={handleCloseModal}>
-              Cancelar
-            </Button>
-          </form>
-        </Box>
+      <Modal isOpen={openModal} toggle={handleCloseModal}>
+        <ModalHeader toggle={handleCloseModal}>Actualizar Reserva</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleSaveChanges}>
+            <FormGroup>
+              <Label for="name">Nombre</Label>
+              <Input type="text" name="name" id="name" value={selectedReserva?.name || ''} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+              <Label for="code">Código</Label>
+              <Input type="number" name="code" id="code" value={selectedReserva?.code || ''} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+              <Label for="note">Nota</Label>
+              <Input type="textarea" name="note" id="note" value={selectedReserva?.note || ''} onChange={handleChange} />
+            </FormGroup>
+            <FormGroup>
+              <Label for="hour">Hora</Label>
+              <Input type="time" name="hour" id="hour" value={selectedReserva?.hour || ''} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+              <Label for="date">Fecha</Label>
+              <Input type="date" name="date" id="date" value={selectedReserva?.date ? new Date(selectedReserva.date).toISOString().split('T')[0] : ''} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup>
+              <Label for="numcontact">Teléfono</Label>
+              <Input type="text" name="numcontact" id="numcontact" value={selectedReserva?.numcontact || ''} onChange={handleChange} required />
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input type="checkbox" name="pay" checked={selectedReserva?.pay || false} onChange={handleChange} />{' '}
+                Reservado
+              </Label>
+            </FormGroup>
+            <Button type="submit" color="primary" className="mt-3">Guardar Cambios</Button>
+            <Button color="secondary" onClick={handleCloseModal} className="mt-3 ml-2">Cancelar</Button>
+          </Form>
+        </ModalBody>
       </Modal>
     </div>
   );
