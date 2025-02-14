@@ -1,12 +1,12 @@
 /* Estilos generales */
 body {
-    background-color: #121212; /* Fondo oscuro */
+    background-color: #333333; /* Fondo oscuro */
     color: #f0d100; /* Color dorado */
   }
-  /*todos los label*/
-  label{
-    color: aliceblue;
-  }
+ /*todos los label*/
+ label{
+  color: aliceblue;
+}
 
   /* Contenedor principal */
   .container {
@@ -28,19 +28,20 @@ body {
     background-color: #1c1c1c; /* Fondo oscuro de la tarjeta */
     border-radius: 15px;
     border: 2px solid #f0d100; /* Borde dorado */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    box-shadow: 0 4px 12px rgb(83, 82, 81); /* Sombra suave */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   /* Al pasar el mouse sobre la tarjeta */
   .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7); /* Sombra más intensa */
+    box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7); /* Sombra más intensa */
   }
   
   /* Cuerpo de la tarjeta */
   .card-body {
-    padding: 20px;
+    padding: 5px;
+    width: auto;
     color: #f0d100; /* Color dorado */
   }
   
