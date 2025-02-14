@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createRestaurant } from "../../services/restaurantServices"; // Importar el servicio
-import "../../styles/Restaurantes.css"; 
+
 
 const CrearRestaurante = () => {
   const navigate = useNavigate();
@@ -38,12 +38,10 @@ const CrearRestaurante = () => {
   return (
     <div className="container mt-4">
       <div className="card shadow-sm">
-        <div className="card-header bg-primary text-white">
-          <h4 className="mb-0">
-            <i className="bi bi-plus-circle me-2"></i>
-            Crear Restaurante
-          </h4>
-        </div>
+        <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
+        <h2 className="text-center mb-4" style={{ color: "gold" }}>Crear Restaurante</h2>
+
+       
         <div className="card-body">
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="mb-3">
@@ -108,6 +106,7 @@ const CrearRestaurante = () => {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 };

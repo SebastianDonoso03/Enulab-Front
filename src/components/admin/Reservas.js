@@ -89,7 +89,7 @@ const Reserva = () => {
                   <CardText>Teléfono: {reserva.numcontact}</CardText>
                   <CardText>Reservado: {reserva.pay ? "Sí" : "No"}</CardText>
                   <Button color="primary" onClick={() => handleOpenModal(reserva)}>Actualizar</Button>
-                  <Button color="danger" onClick={() => handleDelete(reserva.id)}>Eliminar</Button>
+                  <Button color="danger" onClick={() => handleDelete(reserva.id)}>  <i className="bi bi-trash"></i>Eliminar</Button>
                 </CardBody>
               </Card>
             </Col>
@@ -98,7 +98,7 @@ const Reserva = () => {
       )}
 
       <Modal isOpen={openModal} toggle={handleCloseModal}>
-        <ModalHeader toggle={handleCloseModal}>Actualizar Reserva</ModalHeader>
+        <ModalHeader toggle={handleCloseModal}> <i className="bi bi-pencil-square me-2"></i>Actualizar Reserva</ModalHeader>
         <ModalBody>
           <Form onSubmit={handleSaveChanges}>
             <FormGroup>
@@ -131,8 +131,9 @@ const Reserva = () => {
                 Reservado
               </Label>
             </FormGroup>
-            <Button type="submit" color="primary" className="mt-3">Guardar Cambios</Button>
             <Button color="secondary" onClick={handleCloseModal} className="mt-3 ml-2">Cancelar</Button>
+            <Button type="submit" color="primary" className="mt-3">Guardar Cambios</Button>
+          
           </Form>
         </ModalBody>
       </Modal>

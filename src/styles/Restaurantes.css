@@ -50,6 +50,7 @@ button.btn-warning {
   background-color: #f39c12;
 }
 
+
 button.btn-info {
   background-color: #1e90ff;
 }
@@ -61,7 +62,7 @@ button.btn-danger {
 /* Modal Styling */
 .modal-content {
   background-color: #333;
-  color: white;
+  color: rgb(136, 4, 4);
 }
 
 .modal-header {
