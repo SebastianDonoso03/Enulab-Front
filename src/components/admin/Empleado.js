@@ -59,7 +59,7 @@ const Empleado = () => {
   return (
     <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="text-warning">Empleados</h2>
+        <h2 className="text-gold">Empleados</h2>
         <Link to="/empleados/nuevo" className="btn btn-primary btn-lg">
           Agregar empleado +
         </Link>
@@ -137,10 +137,10 @@ const Empleado = () => {
           </form>
         </Modal.Body>
         <Modal.Footer >
-          <Button style={{ backgroundColor: '#f0d100' }} onClick={handleCloseModal} className="mt-3 ml-2">
+          <Button  onClick={handleCloseModal} >
             Cancelar
           </Button>
-          <Button style={{ backgroundColor: '#f0d100' }} onClick={handleSaveChanges} className="ms-2">
+          <Button onClick={handleSaveChanges} >
             Guardar Cambios
           </Button>
         </Modal.Footer>

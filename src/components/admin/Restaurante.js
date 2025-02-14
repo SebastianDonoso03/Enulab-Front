@@ -203,10 +203,10 @@ const Restaurantes = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button  onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
+          <Button onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
