@@ -113,7 +113,7 @@ const Inventario = () => {
 
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Actualizar Producto</Modal.Title>
+          <Modal.Title>     <i className="bi bi-pencil-square me-2"></i>Actualizar Producto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>

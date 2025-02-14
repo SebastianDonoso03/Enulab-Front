@@ -52,7 +52,7 @@ const Proveedores = () => {
       try {
         await updateSupplier(restaurantId, selectedSupplier.id, selectedSupplier);
         setShowModal(false);
-        
+
         // Actualizar la lista de proveedores después de la edición
         const updatedSuppliers = await getSupplierByRestaurant(restaurantId);
         setProveedores(updatedSuppliers);
@@ -78,10 +78,10 @@ const Proveedores = () => {
   };
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Proveedores</h2>
-        <Link to="/Proveedores/nuevo" className="btn btn-primary">
+    <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="text-gold">Proveedores</h2>
+        <Link to="/Proveedores/nuevo" className="btn btn-primary btn-lg">
           Agregar proveedor +
         </Link>
       </div>
@@ -92,71 +92,58 @@ const Proveedores = () => {
           No hay proveedores registrados. ¡Agrega uno nuevo!
         </div>
       ) : (
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Contacto</th>
-              <th>Email</th>
-              <th>Dirección</th>
-              <th>Ciudad</th>
-              <th>Provincia</th>
-		   
-              <th>Acciones</th>
-			   
-				
-			   
-									  
-							  
-										  
-										
-								   
-									   
-								  
-									 
-
-				  
-																										
-															 
-						 
-																									 
-														  
-						 
-				   
-            </tr>
-          </thead>
-          <tbody>
-            {proveedores.map((prov) => (
-              <tr key={prov.id}>
-                <td>{prov.namesupplier}</td>
-                <td>{prov.numcontact}</td>
-                <td>{prov.email}</td>
-                <td>{prov.direction}</td>
-                <td>{prov.city}</td>
-                <td>{prov.country}</td>
-                <td>
-                  <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(prov)}>
-                    <i className="bi bi-pencil"></i> Actualizar
-                  </button>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(prov.id)}>
-                    <i className="bi bi-trash"></i> Eliminar
-                  </button>
-                </td>
+        <div className="table-responsive">
+          <table className="table table-dark table-hover text-center">
+            <thead>
+              <tr className="text-warning">
+                <th>Nombre</th>
+                <th>Contacto</th>
+                <th>Email</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Provincia</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {proveedores.map((prov) => (
+                <tr key={prov.id}>
+                  <td>{prov.namesupplier}</td>
+                  <td>{prov.numcontact}</td>
+                  <td>{prov.email}</td>
+                  <td>{prov.direction}</td>
+                  <td>{prov.city}</td>
+                  <td>{prov.country}</td>
+                  <td className="d-flex justify-content-start">
+                    <button
+                      className="btn btn-warning btn-sm me-2"
+                      onClick={() => handleUpdateClick(prov)}
+                    >
+                      <i className="bi bi-pencil"></i> Actualizar
+                    </button>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => handleDeleteClick(prov.id)}
+                    >
+                      <i className="bi bi-trash"></i> Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {/* Modal para actualizar proveedor */}
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton className=" text-light">
           <Modal.Title>
             <i className="bi bi-pencil-square me-2"></i>
             Actualizar Proveedor
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className=" text-light">
           <form>
             <div className="mb-3">
               <label className="form-label">Nombre del Proveedor</label>
@@ -218,14 +205,13 @@ const Proveedores = () => {
                 onChange={handleInputChange}
               />
             </div>
-		
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+        <Modal.Footer >
+          <Button onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
+          <Button onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
