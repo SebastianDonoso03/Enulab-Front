@@ -63,15 +63,10 @@ body {
   button {
     border-radius: 5px;
     margin-top: 10px;
-    margin-left: 50px;
-  }
-  
-  .mt-3 {
-    padding: 5px;
-    margin-left: 250px;
    
   }
   
+  */
   /* Botones de acción (Actualizar y Eliminar) */
   button.btn-primary {
     background-color: #f0d100; /* Dorado */

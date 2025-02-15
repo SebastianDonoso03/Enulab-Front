@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/Repertorio.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import { getMenusByRestaurant, updateMenu, deleteMenu } from "../../services/menuServices";
 
 const Repertorio = () => {
@@ -59,65 +59,82 @@ const Repertorio = () => {
   };
 
   const handleManage = (id) => {
-    // Guardamos el id del menú seleccionado en localStorage
     localStorage.setItem("selectedMenuId", id);
-    // Redirigimos a la página de gestión de platos
     navigate(`/Platos`);
   };
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Menús Disponibles</h2>
-        <button className="btn btn-warning" onClick={() => navigate("/CrearMenu")}>
-          Agregar
+    <div className="restaurantes-container min-vh-100 w-100">
+      <h2 className="restaurantes-title text-center">Menús Disponibles</h2>
+
+      <div className="d-flex justify-content-center mb-4">
+        <button className="btn btn-primary btn-lg" onClick={() => navigate("/CrearMenu")}>
+          Agregar Menú +
         </button>
       </div>
-      {menus.map((menu) => (
-        <div className="menu-item d-flex mb-3" key={menu.id}>
-          <div className="menu-description flex-grow-1">
-            <h3>{menu.name}</h3>
-            <p>{menu.description}</p>
-          </div>
-          <div className="menu-actions">
-            <button className="btn btn-info mb-2" onClick={() => handleShowModal(menu)}>
-              Actualizar
-            </button>
-            <button className="btn btn-danger mb-2" onClick={() => handleDelete(menu.id)}>
-              Eliminar
-            </button>
-            {/* Botón "Gestionar" */}
-            <button className="btn btn-secondary" onClick={() => handleManage(menu.id)}>
-              Gestionar
-            </button>
-          </div>
-        </div>
-      ))}
+
+      <div className="restaurantes-grid">
+        {menus.length === 0 ? (
+          <p className="text-center">No tienes menús creados. ¡Agrega uno!</p>
+        ) : (
+          menus.map((menu) => (
+            <div key={menu.id} className="restaurante-card">
+              <div className="restaurante-info">
+                <h3>{menu.name}</h3>
+                <p>{menu.description}</p>
+                <div className="d-flex gap-2 justify-content-center">
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={() => handleShowModal(menu)}
+                  >
+                    <i className="bi bi-arrow-repeat"></i> Actualizar
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(menu.id)}
+                  >
+                    <i className="bi bi-trash"></i> Eliminar
+                  </button>
+                  <button
+                    className="btn btn-info btn-sm"
+                    onClick={() => handleManage(menu.id)}
+                  >
+                    <i className="bi bi-people"></i> Gestionar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Actualizar Menú</Modal.Title>
+          <Modal.Title>
+            <i className="bi bi-pencil-square me-2"></i>
+            Actualizar Menú
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Nombre del Menú</Form.Label>
-              <Form.Control
+          <form>
+            <div className="mb-3">
+              <label className="form-label">Nombre del Menú</label>
+              <input
                 type="text"
+                className="form-control"
                 value={selectedMenu?.name || ""}
                 onChange={(e) => setSelectedMenu({ ...selectedMenu, name: e.target.value })}
               />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Descripción</label>
+              <textarea
+                className="form-control"
                 value={selectedMenu?.description || ""}
                 onChange={(e) => setSelectedMenu({ ...selectedMenu, description: e.target.value })}
-              />
-            </Form.Group>
-          </Form>
+              ></textarea>
+            </div>
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
