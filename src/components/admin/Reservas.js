@@ -71,7 +71,7 @@ const Reserva = () => {
       <h2 className="restaurantes-title text-center">Reservas</h2>
 
       <div className="d-flex justify-content-center mb-4">
-        <Link to="/CrearReservas" className="btn btn-primary btn-lg">
+        <Link to="/CrearReservas" className="btn btn-warning text-dark">
           Agregar Reserva +
         </Link>
       </div>

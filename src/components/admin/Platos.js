@@ -62,7 +62,7 @@ const Platos = () => {
     <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-gold">Platos</h2>
-        <Link to="/Crear-Plato" className="btn btn-primary btn-lg">
+        <Link to="/Crear-Plato"  className="btn btn-warning text-dark">
           <i className="bi bi-plus-circle me-2"></i>
           Crear Plato +
         </Link>

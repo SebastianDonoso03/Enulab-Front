@@ -98,7 +98,7 @@ const Restaurantes = () => {
       <h2 className="restaurantes-title text-center">Mis Restaurantes</h2>
 
       <div className="d-flex justify-content-center mb-4">
-        <Link to="/crear-restaurantes" className="btn btn-primary btn-lg">
+        <Link to="/crear-restaurantes"  className="btn btn-warning text-dark">
           Agregar Restaurante +
         </Link>
       </div>

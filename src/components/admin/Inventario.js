@@ -68,7 +68,7 @@ const Inventario = () => {
     <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-gold">Inventario</h2>
-        <Link to="/Inventario/nuevo" className="btn btn-primary btn-lg">
+        <Link to="/Inventario/nuevo" className="btn btn-warning text-dark">
           Agregar producto +
         </Link>
       </div>
