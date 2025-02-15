@@ -95,10 +95,10 @@ const CrearRestaurante = () => {
                 onChange={handleChange} // Capturar el archivo
               />
             </div>
-            <div className="d-flex justify-content-end">
-              <Link to="/restaurantes"  className="btn btn-warning text-dark">
+            <div className="d-flex justify-content-between">
+              <button  onClick={() => navigate("/restaurantes")}  className="btn btn-warning text-dark">
                 Cancelar
-              </Link>
+              </button>
               <button type="submit"  className="btn btn-warning text-dark">
                 Guardar Restaurante
               </button>
