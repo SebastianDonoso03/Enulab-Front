@@ -201,10 +201,18 @@ const Reserva = () => {
               </label>
             </div>
             <ModalFooter>
-              <Button  className="btn btn-warning text-dark" onClick={handleCloseModal}>
+              <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
+                    backgroundColor: "#f39c12",
+                    borderColor: "#f39c12",
+                    color: "#000", // Color del texto
+                  }}>
                 Cancelar
               </Button>
-              <Button  className="btn btn-warning text-dark" type="submit">
+              <Button  className="btn btn-warning text-dark" type="submit" style={{
+                    backgroundColor: "#f39c12",
+                    borderColor: "#f39c12",
+                    color: "#000", // Color del texto
+                  }}>
                 Guardar Cambios
               </Button>
             </ModalFooter>

@@ -175,10 +175,18 @@ const Inventario = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal}>
+          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
+                backgroundColor: "#f39c12",
+                borderColor: "#f39c12",
+                color: "#000", // Color del texto
+              }}>
             Cancelar
           </Button>
-          <Button  className="btn btn-warning text-dark" onClick={handleSaveChanges}>
+          <Button  className="btn btn-warning text-dark" onClick={handleSaveChanges} style={{
+                backgroundColor: "#f39c12",
+                borderColor: "#f39c12",
+                color: "#000", // Color del texto
+              }}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
