@@ -57,8 +57,8 @@ const CrearMenu = () => {
             <input type="text" className="form-control" name="description" value={formData.description} onChange={handleChange} required />
           </div>
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={() => navigate("/Repertorio")}>Atrás</button>
-            <button type="submit" className="btn btn-warning text-dark">Guardar Menú</button>
+            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate("/Repertorio")}>Atrás</button>
+            <button type="submit"  className="btn btn-warning text-dark">Guardar Menú</button>
           </div>
         </form>
       </div>

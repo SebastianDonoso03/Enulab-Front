@@ -40,12 +40,12 @@ const CrearPostre = () => {
         <div className="form-buttons">
           <button
             type="button"
-            className="btn btn-secondary"
+             className="btn btn-warning text-dark"
             onClick={() => navigate("/Postres")}
           >
             Atrás
           </button>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit"  className="btn btn-warning text-dark">
             Continuar
           </button>
         </div>

@@ -81,8 +81,8 @@ const CrearInventario = () => {
             <textarea className="form-control" name="descripcion" value={formData.descripcion} onChange={handleChange} required></textarea>
           </div>
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={() => navigate("/Inventario")}>Atrás</button>
-            <button type="submit" className="btn btn-warning text-dark">Guardar Producto</button>
+            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate("/Inventario")}>Atrás</button>
+            <button type="submit"  className="btn btn-warning text-dark">Guardar Producto</button>
           </div>
         </form>
       </div>

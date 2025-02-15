@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/Repertorio.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
@@ -137,10 +137,10 @@ const Repertorio = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
+          <Button   className="btn btn-warning text-dark" onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>

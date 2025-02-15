@@ -122,10 +122,10 @@ const Postres = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleCloseModal}>
+          <Button  className="btn btn-warning text-dark"onClick={handleCloseModal}>
             Guardar Cambios
           </Button>
         </Modal.Footer>

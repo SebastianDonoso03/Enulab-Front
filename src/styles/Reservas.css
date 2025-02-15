@@ -25,24 +25,17 @@ body {
   
   /* Estilos de las tarjetas */
   .card {
-    background-color: #1c1c1c; /* Fondo oscuro de la tarjeta */
-    border-radius: 15px;
-    border: 2px solid #f0d100; /* Borde dorado */
-    box-shadow: 0 4px 12px rgb(83, 82, 81); /* Sombra suave */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #333333; /* Fondo oscuro de la tarjeta */
+    border:  solid #333333; /* Borde dorado */
+   
   }
-  
-  /* Al pasar el mouse sobre la tarjeta */
-  .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 20px rgba(255, 255, 0, 0.7); /* Sombra más intensa */
-  }
+
   
   /* Cuerpo de la tarjeta */
   .card-body {
     padding: 5px;
     width: auto;
-    color: #f0d100; /* Color dorado */
+    color: #d3d1c4; /* Color dorado */
   }
   
   /* Título dentro de la tarjeta */
@@ -59,97 +52,4 @@ body {
     margin-bottom: 10px;
   }
   
-  /* Botones dentro de la tarjeta */
-  button {
-    border-radius: 5px;
-    margin-top: 10px;
-   
-  }
-  
-  */
-  /* Botones de acción (Actualizar y Eliminar) */
-  button.btn-primary {
-    background-color: #f0d100; /* Dorado */
-    border: 1px solid #f0d100;
-    color: #121212; /* Fondo oscuro */
-    transition: background-color 0.3s;
-  }
-  
-  button.btn-danger {
-    background-color: #e63946; /* Rojo oscuro */
-    border: 1px solid #e63946;
-    color: white;
-    transition: background-color 0.3s;
-  }
-  
-  button.btn-primary:hover {
-    background-color: #ffd700; /* Efecto hover dorado */
-  }
-  
-  button.btn-danger:hover {
-    background-color: #d00000; /* Efecto hover rojo */
-  }
-  
-  /* Estilos de la grilla (row y col) */
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  
-  .col {
-    padding: 10px;
-  }
-  
-  .col-4 {
-    flex: 0 0 23%; /* Hacer las tarjetas más anchas */
-  }
-  
-  /* Modal */
-  .modal-content {
-    background-color: #1c1c1c; /* Fondo oscuro en el modal */
-    color: #f0d100; /* Texto dorado */
-    border-radius: 10px;
-    padding: 20px;
-  }
-  
-  /* Títulos del modal */
- 
-  .modal-header, .modal-footer {
-    border-color: #f0d100; /* Borde dorado en el modal */
-  }
-  
-  .modal-header {
-    background-color: #282828;
-  }
-  
-  .modal-footer {
-    background-color: #282828;
-  }
-  
-  /* Botones del modal */
-  button[type="submit"], .btn-secondary {
-    background-color: #f0d100;
-    color: #121212;
-    border-radius: 5px;
-    border: 1px solid #f0d100;
-    transition: background-color 0.3s ease;
-  }
-  
-  button[type="submit"]:hover, .btn-secondary:hover {
-    background-color: #ffd700;
-  }
-  
-  /* Input y textareas */
-  input, textarea {
-    background-color: #2c2c2c; /* Fondo oscuro en campos */
-    border: 1px solid #f0d100;
-    color: #f0d100; /* Texto dorado */
-    border-radius: 5px;
-  }
-  
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #ffd700; /* Borde dorado al enfocarse */
-  }
   

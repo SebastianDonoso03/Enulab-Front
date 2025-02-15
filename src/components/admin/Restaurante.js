@@ -144,7 +144,7 @@ const Restaurantes = () => {
       </div>
 
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+        <Modal.Header  onHide={handleCloseModal}>
           <Modal.Title>
             <i className="bi bi-pencil-square me-2"></i>
             Actualizar Restaurante
@@ -203,10 +203,10 @@ const Restaurantes = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button  onClick={handleCloseModal}>
+          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal}>
             Cancelar
           </Button>
-          <Button onClick={handleSaveChanges}>
+          <Button  className="btn btn-warning text-dark" onClick={handleSaveChanges}>
             Guardar Cambios
           </Button>
         </Modal.Footer>

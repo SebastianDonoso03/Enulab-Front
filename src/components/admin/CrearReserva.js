@@ -82,8 +82,8 @@ const CrearReservas = () => {
             <label className="form-check-label">Pagado</label>
           </div>
           <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary" onClick={() => navigate(-1)}>Atrás</button>
-            <button type="submit" className="btn btn-warning text-dark">Guardar Reserva</button>
+            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate(-1)}>Atrás</button>
+            <button type="submit"   className="btn btn-warning text-dark">Guardar Reserva</button>
           </div>
         </form>
       </div>

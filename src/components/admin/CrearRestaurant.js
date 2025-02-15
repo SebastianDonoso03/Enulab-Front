@@ -96,10 +96,10 @@ const CrearRestaurante = () => {
               />
             </div>
             <div className="d-flex justify-content-end">
-              <Link to="/restaurantes" className="btn btn-secondary me-2">
+              <Link to="/restaurantes"  className="btn btn-warning text-dark">
                 Cancelar
               </Link>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit"  className="btn btn-warning text-dark">
                 Guardar
               </button>
             </div>

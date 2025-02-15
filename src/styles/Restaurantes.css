@@ -1,3 +1,30 @@
+
+/* Estilos generales */
+body {
+  background-color: #333333; /* Fondo oscuro */
+  color: #f0d100; /* Color dorado */
+}
+/*todos los label*/
+label{
+color: aliceblue;
+}
+
+/* Contenedor principal */
+.container {
+  margin-top: 50px;
+}
+.btn{
+  background-color: #d99c29;
+}
+
+/* Títulos */
+h2 {
+  color: #f0d100; /* Dorado */
+  font-weight: bold;
+  text-align: center;
+}
+
+
 /* General styles */
 .restaurantes-container {
   background-color: #333333;

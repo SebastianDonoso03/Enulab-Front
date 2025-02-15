@@ -137,10 +137,10 @@ const Empleado = () => {
           </form>
         </Modal.Body>
         <Modal.Footer >
-          <Button  onClick={handleCloseModal} >
+          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} >
             Cancelar
           </Button>
-          <Button onClick={handleSaveChanges} >
+          <Button   className="btn btn-warning text-dark" onClick={handleSaveChanges} >
             Guardar Cambios
           </Button>
         </Modal.Footer>
