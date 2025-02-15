@@ -78,7 +78,7 @@ const CrearProveedor = () => {
           </div>
           <div className="d-flex justify-content-between">
             <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate("/Proveedores")}>Atrás</button>
-            <button type="submit"    className="btn btn-warning text-dark">Continuar</button>
+            <button type="submit"    className="btn btn-warning text-dark">Guardar Proveedor</button>
           </div>
         </form>
       </div>

@@ -100,7 +100,7 @@ const CrearRestaurante = () => {
                 Cancelar
               </Link>
               <button type="submit"  className="btn btn-warning text-dark">
-                Guardar
+                Guardar Restaurante
               </button>
             </div>
           </form>
