@@ -145,20 +145,25 @@ const Inventario = () => {
                 }
               />
             </div>
+          
             <div className="mb-3">
-              <label className="form-label">Categoría</label>
-              <input
-                type="text"
-                className="form-control"
-                value={selectedProducto?.categoria || ""}
-                onChange={(e) =>
+            <label className="form-label fw-bold text-light">Categoría</label>
+            <select className="form-select " name="categoria" value={selectedProducto?.categoria || ""}   onChange={(e) =>
                   setSelectedProducto({
                     ...selectedProducto,
                     categoria: e.target.value,
                   })
-                }
-              />
-            </div>
+                }required>
+              <option value="">Seleccione una categoría</option>
+              <option value="Lácteos y derivados">Grupo 1: Lácteos y derivados</option>
+              <option value="Carne, huevos y pescado">Grupo 2: Carne, huevos y pescado</option>
+              <option value="Tubérculos, legumbres y frutos secos">Grupo 3: Tubérculos, legumbres y frutos secos</option>
+              <option value="Verduras y hortalizas">Grupo 4: Verduras y hortalizas</option>
+              <option value="Frutas">Grupo 5: Frutas</option>
+              <option value="Pan, pasta, cereales y azúcar">Grupo 6: Pan, pasta, cereales y azúcar</option>
+              <option value="Grasas, aceites y mantequillas">Grupo 7: Grasas, aceites y mantequillas</option>
+            </select>
+          </div>
             <div className="mb-3">
               <label className="form-label">Descripción</label>
               <textarea
