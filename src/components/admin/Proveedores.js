@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { deleteSupplier, updateSupplier, getSupplierByRestaurant } from "../../services/supplierServices";
+const ciudadesEcuador = [
+  "Quito", "Guayaquil", "Cuenca", "Santo Domingo", "Machala", "Manta", "Portoviejo", "Ambato", "Loja", "Ibarra"
+];
 
+const provinciasEcuador = [
+  "Azuay", "Bolívar", "Cañar", "Carchi", "Chimborazo", "Cotopaxi", "El Oro", "Esmeraldas", "Galápagos", "Guayas",
+  "Imbabura", "Loja", "Los Ríos", "Manabí", "Morona Santiago", "Napo", "Orellana", "Pastaza", "Pichincha", "Santa Elena",
+  "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe"
+];
 const Proveedores = () => {
   // Recuperamos el `restaurantId` desde el localStorage
   const restaurantId = localStorage.getItem("selectedRestaurantId");
@@ -81,7 +89,7 @@ const Proveedores = () => {
     <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-gold">Proveedores</h2>
-        <Link to="/Proveedores/nuevo"  className="btn btn-warning text-dark">
+        <Link to="/Proveedores/nuevo" className="btn btn-warning text-dark">
           Agregar proveedor +
         </Link>
       </div>
@@ -187,39 +195,37 @@ const Proveedores = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Ciudad</label>
-              <input
-                type="text"
-                className="form-control"
-                name="city"
-                value={selectedSupplier?.city || ""}
-                onChange={handleInputChange}
-              />
+              <select className="form-control" name="city" value={selectedSupplier?.city || ""} onChange={handleInputChange}>
+                <option value="">Seleccione una ciudad</option>
+                {ciudadesEcuador.map((ciudad) => (
+                  <option key={ciudad} value={ciudad}>{ciudad}</option>
+                ))}
+              </select>
             </div>
             <div className="mb-3">
               <label className="form-label">Provincia</label>
-              <input
-                type="text"
-                className="form-control"
-                name="country"
-                value={selectedSupplier?.country || ""}
-                onChange={handleInputChange}
-              />
+              <select className="form-control" name="country" value={selectedSupplier?.country || ""} onChange={handleInputChange}>
+                <option value="">Seleccione una provincia</option>
+                {provinciasEcuador.map((provincia) => (
+                  <option key={provincia} value={provincia}>{provincia}</option>
+                ))}
+              </select>
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer >
-          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
-                backgroundColor: "#f39c12",
-                borderColor: "#f39c12",
-                color: "#000", // Color del texto
-              }}>
+          <Button className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
+            backgroundColor: "#f39c12",
+            borderColor: "#f39c12",
+            color: "#000", // Color del texto
+          }}>
             Cancelar
           </Button>
-          <Button  className="btn btn-warning text-dark" onClick={handleSaveChanges} style={{
-                backgroundColor: "#f39c12",
-                borderColor: "#f39c12",
-                color: "#000", // Color del texto
-              }}>
+          <Button className="btn btn-warning text-dark" onClick={handleSaveChanges} style={{
+            backgroundColor: "#f39c12",
+            borderColor: "#f39c12",
+            color: "#000", // Color del texto
+          }}>
             Guardar Cambios
           </Button>
         </Modal.Footer>
