@@ -178,7 +178,7 @@ const Reserva = () => {
             <div className="mb-3">
               <label htmlFor="numcontact">Teléfono</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 name="numcontact"
                 id="numcontact"

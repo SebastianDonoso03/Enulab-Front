@@ -67,7 +67,7 @@ const CrearReservas = () => {
           </div>
           <div className="mb-3">
             <label className="form-label">Número de Teléfono</label>
-            <input type="text" className="form-control" name="numcontact" value={formData.numcontact} onChange={handleChange} required />
+            <input type="number" className="form-control" name="numcontact" value={formData.numcontact} onChange={handleChange} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Código de Reserva</label>

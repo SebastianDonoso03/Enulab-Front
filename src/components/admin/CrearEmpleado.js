@@ -67,7 +67,7 @@ const CrearEmpleado = () => {
           {/* Cédula */}
           <div className="mb-3">
             <label className="form-label ">Número de cédula</label>
-            <input type="text" className="form-control" name="cedula" value={formData.cedula} onChange={handleChange} required />
+            <input type="number" className="form-control" name="cedula" value={formData.cedula} onChange={handleChange} required />
           </div>
 
           {/* Edad */}
@@ -95,7 +95,7 @@ const CrearEmpleado = () => {
           {/* Teléfono */}
           <div className="mb-3">
             <label className="form-label fw-bold">Número de teléfono</label>
-            <input type="text" className="form-control" name="telefono" value={formData.telefono} onChange={handleChange} required />
+            <input type="number" className="form-control" name="telefono" value={formData.telefono} onChange={handleChange} required />
           </div>
 
           {/* Jornada Laboral */}

@@ -112,11 +112,11 @@ const Empleado = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Cédula</label>
-              <input type="text" className="form-control " value={selectedEmployee?.cedula || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, cedula: e.target.value })} />
+              <input type="number" className="form-control " value={selectedEmployee?.cedula || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, cedula: e.target.value })} />
             </div>
             <div className="mb-3">
               <label className="form-label">Edad</label>
-              <input type="text" className="form-control " value={selectedEmployee?.edad || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, edad: e.target.value })} />
+              <input type="number" className="form-control " value={selectedEmployee?.edad || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, edad: e.target.value })} />
             </div>
             <div className="mb-3">
               <label className="form-label">Género</label>
@@ -128,11 +128,17 @@ const Empleado = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Sueldo</label>
-              <input type="text" className="form-control " value={selectedEmployee?.sueldo || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, sueldo: e.target.value })} />
+              <input type="number" className="form-control " value={selectedEmployee?.sueldo || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, sueldo: e.target.value })} />
             </div>
             <div className="mb-3">
               <label className="form-label">Horario</label>
-              <input type="text" className="form-control " value={selectedEmployee?.horario || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, horario: e.target.value })} />
+            
+              <select  className="form-control " value={selectedEmployee?.horario || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, horario: e.target.value })}>
+              <option value="">Verifica la Jornada</option>
+                <option value="Matutino">Matutino</option>
+                <option value="Vespertino">Vespertino</option>  
+                <option value="NOcturno">Nocturno</option>
+              </select>
             </div>
           </form>
         </Modal.Body>
