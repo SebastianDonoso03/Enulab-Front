@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 
 const Postres = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPostre, setSelectedPostre] = useState(null);
+
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
 
   const postres = [
     {
@@ -32,19 +36,6 @@ const Postres = () => {
       precio: 2.5,
     },
   ];
-  const handleUpdateClick = (postre) => {
-    setSelectedPostre(postre);
-    setShowModal(true);
-  };
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedPostre(null);
-  };
-  const handleDeleteClick = (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este postre?")) {
-      console.log("Postre eliminado:", id);
-    }
-  };
 
   return (
     <div className="container">
@@ -59,7 +50,6 @@ const Postres = () => {
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Precio</th>
-            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -68,65 +58,32 @@ const Postres = () => {
               <td>{postre.nombre}</td>
               <td>{postre.descripcion}</td>
               <td>{postre.precio}</td>
-              <td>
-                <button
-                  className="btn btn-sm me-2"
-                  onClick={() => handleUpdateClick(postre)}
-                >
-                  <i className="bi bi-pencil"></i> Actualizar
-                </button>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleDeleteClick(postre.id)}
-                >
-                  <i className="bi bi-trash"></i> Eliminar
-                </button>
-              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <i className="bi bi-pencil-square me-2"></i>
-            Actualizar Postre
+            <i className="bi bi-info-circle me-2"></i> Información
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="mb-3">
-              <label className="form-label">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={selectedPostre ? selectedPostre.nombre : ""}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Descripción</label>
-              <input
-                type="text"
-                className="form-control"
-                defaultValue={selectedPostre ? selectedPostre.descripcion : ""}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Nombre</label>
-              <input
-                type="number"
-                className="form-control"
-                defaultValue={selectedPostre ? selectedPostre.precio : ""}
-              />
-            </div>
-          </form>
+        <Modal.Body className="text-center">
+          <i className="bi bi-exclamation-circle display-3 text-warning"></i>
+          <p  className="mt-3" style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.2rem" }}>
+  <h3 className="mt-3">
+    Estamos trabajando en mejorar y ampliar nuestras opciones de servicio para ofrecerte una experiencia aún mejor. 
+    Muy pronto estarán disponibles estas y otras novedades.
+  </h3>
+  <h4 style={{ textDecoration: "underline" }}>
+    ¡Agradecemos tu paciencia y confianza mientras seguimos innovando para ti!
+  </h4>
+</p>
+
         </Modal.Body>
         <Modal.Footer>
-          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal}>
-            Cancelar
-          </Button>
-          <Button  className="btn btn-warning text-dark"onClick={handleCloseModal}>
-            Guardar Cambios
+          <Button className="btn btn-warning text-dark" onClick={() => setShowModal(false)}>
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
