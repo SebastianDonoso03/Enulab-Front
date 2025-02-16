@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useNavigate } from "react-router-dom";
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla la apertura del menú "Menús"
   const [isCartasOpen, setIsCartasOpen] = useState(false); // Controla la apertura de "Cartas"
+  const navigate = useNavigate(); // Hook para la navegación
 
+  const handleLogout = () => {
+    localStorage.removeItem("user_id"); // Eliminar el ID del usuario
+    navigate("/login"); // Redirigir a la página de inicio de sesión
+  };
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     if (!isMenuOpen) setIsCartasOpen(false); // Si se cierra "Menús", también se cierra "Cartas"
@@ -128,7 +135,7 @@ const Layout = () => {
             {/* Botón de Cerrar Sesión */}
             <Nav>
               <Nav.Link className="text-warning">
-                <Button variant="outline-warning" onClick={() => alert("Cerrando sesión...")}>
+                <Button variant="outline-warning" onClick={handleLogout}>
                   <i className="bi bi-box-arrow-right me-2"></i>
                   Cerrar Sesión
                 </Button>

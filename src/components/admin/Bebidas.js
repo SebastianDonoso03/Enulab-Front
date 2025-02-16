@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 
 const Bebidas = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedBebida, setSelectedBebida] = useState(null);
+ 
 
   useEffect(() => {
     setShowModal(true);

@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 
 const Postres = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedPostre, setSelectedPostre] = useState(null);
+ 
 
   useEffect(() => {
     setShowModal(true);
