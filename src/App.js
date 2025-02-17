@@ -13,6 +13,7 @@ import CrearEmpleado from "./components/admin/CrearEmpleado";
 import CrearProveedor from "./components/admin/CrearProveedor";
 import CrearInventario from "./components/admin/CrearInventario";
 import CrearRestaurante from "./components/admin/CrearRestaurant";
+import Comentario from './components/admin/Comentario'
 import Login from "./components/Login/Login";
 import Register from "./components/Login/Registro";
 import Platos from "./components/admin/Platos";
@@ -185,6 +186,14 @@ function App() {
           element={
             <LayoutPrincipal>
               <CrearReservas />
+            </LayoutPrincipal>
+          }
+        />
+        <Route
+          path="/Comentarios"
+          element={
+            <LayoutPrincipal>
+              <Comentario />
             </LayoutPrincipal>
           }
         />

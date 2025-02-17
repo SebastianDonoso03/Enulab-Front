@@ -54,6 +54,12 @@ const Sidebar = () => {
               Inventario
             </Link>
           </li>
+          <li className="nav-item mb-2">
+            <Link className="nav-link text-white" to="/Comentarios">
+              <i className="bi bi-people me-2"></i>
+              Comentario
+            </Link>
+          </li>
 
           {/* Menú con subapartados */}
           <li className="nav-item mb-2">
