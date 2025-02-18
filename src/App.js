@@ -1,7 +1,5 @@
 import "./App.css";
 import React from "react";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Importa tus componentes
@@ -23,19 +21,10 @@ import CrearPostre from "./components/admin/CrearPostre";
 import CrearBebida from "./components/admin/CrearBebida";
 import CrearPlato from "./components/admin/CrearPlato";
 import Repertorio from "./components/admin/Repertorio";
-import CrearMenu from "./components/admin/CrearMenu"
-import CrearReservas from "./components/admin/CrearReserva"
-import Reservas from "./components/admin/Reservas"
-
-const LayoutPrincipal = ({ children }) => (
-  <>
-    <Navbar />
-    <div className="d-flex">
-      <Sidebar />
-      <div className="content p-4">{children}</div>
-    </div>
-  </>
-);
+import CrearMenu from "./components/admin/CrearMenu";
+import CrearReservas from "./components/admin/CrearReserva";
+import Reservas from "./components/admin/Reservas";
+import LayoutPrincipal from "./LayoutPrincipal"; // Importa el nuevo LayoutPrincipal
 
 function App() {
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, TextField, Button, FormControlLabel, Checkbox } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { createReservation } from "../../services/reservaServices";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CrearReservas = () => {
   const navigate = useNavigate();
@@ -49,29 +49,44 @@ const CrearReservas = () => {
   };
 
   return (
-    <div className="reservas-container">
-      <Card sx={{ maxWidth: 400, borderRadius: "15px", boxShadow: 3, padding: 2 }}>
-        <CardContent>
-          <h2 className="reservas-header" style={{ textAlign: "center" }}>Crear Reserva</h2>
-          <form className="reservas-form" onSubmit={handleSubmit}>
-            <TextField fullWidth label="Nombre" name="name" value={formData.name} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Fecha" type="date" name="date" value={formData.date} onChange={handleChange} margin="normal" InputLabelProps={{ shrink: true }} required />
-            <TextField fullWidth label="Hora" type="time" name="hour" value={formData.hour} onChange={handleChange} margin="normal" InputLabelProps={{ shrink: true }} required />
-            <TextField fullWidth label="Número de Teléfono" name="numcontact" value={formData.numcontact} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Código de Reserva" type="number" name="code" value={formData.code} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Nota" name="note" value={formData.note} onChange={handleChange} margin="normal" multiline rows={3} />
-            <FormControlLabel control={<Checkbox name="pay" checked={formData.pay} onChange={(e) => setFormData({ ...formData, pay: e.target.checked })} />} label="Pagado" />
-            <div className="form-buttons" style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
-              <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>
-                Atrás
-              </Button>
-              <Button type="submit" variant="contained" color="primary">
-                Guardar Reserva
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100" style={{  color: "gold" }}>
+      <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
+        <h2 className="text-center mb-4" style={{ color: "gold" }}>Crear Reserva</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Nombre</label>
+            <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Fecha</label>
+            <input type="date" className="form-control" name="date" value={formData.date} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Hora</label>
+            <input type="time" className="form-control" name="hour" value={formData.hour} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Número de Teléfono</label>
+            <input type="number" className="form-control" name="numcontact" value={formData.numcontact} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Código de Reserva</label>
+            <input type="number" className="form-control" name="code" value={formData.code} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Nota</label>
+            <textarea className="form-control" name="note" value={formData.note} onChange={handleChange} rows="3"></textarea>
+          </div>
+          <div className="mb-3 form-check">
+            <input type="checkbox" className="form-check-input" name="pay" checked={formData.pay} onChange={(e) => setFormData({ ...formData, pay: e.target.checked })} />
+            <label className="form-check-label">Pagado</label>
+          </div>
+          <div className="d-flex justify-content-between">
+            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate(-1)}>Atrás</button>
+            <button type="submit"   className="btn btn-warning text-dark">Guardar Reserva</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

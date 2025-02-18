@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createPlato } from "../../services/dishService";  // Importa el servicio
-import "../../styles/Menu.css";
+import { createPlato } from "../../services/dishService";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CrearPlato = () => {
   const [formData, setFormData] = useState({
-    name: "", // Cambié "nombre" a "name"
-    description: "", // Cambié "descripcion" a "description"
+    name: "",
+    description: "",
     price: "",
   });
 
   const navigate = useNavigate();
-  const menuId = localStorage.getItem("selectedMenuId"); // Recuperamos el ID del menú desde localStorage
+  const menuId = localStorage.getItem("selectedMenuId");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,13 +19,12 @@ const CrearPlato = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (menuId) {
       try {
-        // Crear plato usando el servicio
         await createPlato(menuId, formData);
         console.log("Plato agregado:", formData);
-        navigate("/Platos"); // Redirigir a la página de platos
+        navigate("/Platos");
       } catch (error) {
         console.error("Error al agregar el plato:", error);
       }
@@ -35,49 +34,28 @@ const CrearPlato = () => {
   };
 
   return (
-    <div className="global-container">
-      <h2 className="global-header">Creación de Plato</h2>
-      <form className="global-form" onSubmit={handleSubmit}>
-        <label>Nombre</label>
-        <input
-          type="text"
-          name="name" // Cambié el name de "nombre" a "name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-
-        <label>Descripción</label>
-        <input
-          type="text"
-          name="description" // Cambié el name de "descripcion" a "description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        />
-
-        <label>Precio</label>
-        <input
-          type="number"
-          name="price" // Cambié el name de "precio" a "price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-        
-        <div className="form-buttons">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => navigate("/Platos")}
-          >
-            Atrás
-          </button>
-          <button type="submit" className="btn btn-primary">
-            Continuar
-          </button>
-        </div>
-      </form>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100" style={{ color: "gold" }}>
+      <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
+        <h2 className="text-center mb-4" style={{ color: "gold" }}>Creación de Plato</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Nombre</label>
+            <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Descripción</label>
+            <input type="text" className="form-control" name="description" value={formData.description} onChange={handleChange} required />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Precio</label>
+            <input type="number" className="form-control" name="price" value={formData.price} onChange={handleChange} required />
+          </div>
+          <div className="d-flex justify-content-between">
+            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate("/Platos")}>Atrás</button>
+            <button type="submit"  className="btn btn-warning text-dark">Guardar Plato</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

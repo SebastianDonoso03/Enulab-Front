@@ -1,64 +1,119 @@
+
+/* Estilos generales */
+body {
+  background-color: #333333; /* Fondo oscuro */
+  color: #f0d100; /* Color dorado */
+}
+/*todos los label*/
+label{
+color: aliceblue;
+}
+
+/* Contenedor principal */
+.container {
+  margin-top: 50px;
+}
+.btn{
+  background-color: #d99c29;
+}
+
+/* Títulos */
+h2 {
+  color: #f0d100; /* Dorado */
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* General styles */
 .restaurantes-container {
-    padding: 20px;
-    min-height: 100vh;
-  }
-  
-  .restaurantes-title {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
+  background-color: #333333;
+  color: white;
+  padding: 20px;
+}
+
+.restaurantes-title {
+  font-size: 2rem;
+  color: #f39c12;
+  margin-bottom: 20px;
+}
+
+.restaurantes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 columnas por fila */
+  gap: 20px;
+  grid-auto-rows: minmax(200px, auto);  /* Ajuste automático de filas */
+}
+
+.restaurante-card {
+  background-color: #444;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.restaurante-logo {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.restaurante-info h3 {
+  font-size: 1.5rem;
+  color: #f39c12;
+}
+
+.restaurante-info p {
+  color: #ddd;
+}
+
+button {
+  border-radius: 5px;
+}
+
+button.btn-warning {
+  background-color: #f39c12;
+}
+
+
+button.btn-info {
+  background-color: #1e90ff;
+}
+
+button.btn-danger {
+  background-color: #e74c3c;
+}
+
+/* Modal Styling */
+.modal-content {
+  background-color: #333;
+  color: rgb(136, 4, 4);
+}
+
+.modal-header {
+  border-bottom: 1px solid #555;
+}
+
+.modal-footer {
+  border-top: 1px solid #555;
+}
+
+/* Make buttons responsive */
+@media (max-width: 576px) {
   .restaurantes-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
+    grid-template-columns: 1fr;  /* 1 columna por fila en pantallas pequeñas */
   }
-  
+
   .restaurante-card {
-    position: relative;
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    width: 200px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 20px;
   }
-  
-  .restaurante-logo {
-    width: 50px;
-    margin-bottom: 10px;
+}
+
+/* En pantallas medianas (tabletas y más grandes), 3 columnas */
+@media (max-width: 1024px) {
+  .restaurantes-grid {
+    grid-template-columns: repeat(2, 1fr);  /* 2 columnas en pantallas medianas */
   }
-  
-  .restaurante-info h3 {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .restaurante-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .edit-btn, .view-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .close-btn {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
+}

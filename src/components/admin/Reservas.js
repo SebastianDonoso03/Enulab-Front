@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Button, Modal, Box, TextField } from "@mui/material";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
 import { getReservationsByRestaurant, updateReservation, deleteReservation } from "../../services/reservaServices";
+
+import "../../styles/Reservas.css";
 
 const Reserva = () => {
   const restaurantId = localStorage.getItem("selectedRestaurantId");
@@ -65,74 +67,157 @@ const Reserva = () => {
   };
 
   return (
-    <div className="Container">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Reservas</h2>
-        <Link to="/CrearReservas" className="btn btn-primary">
-          Agregar reserva +
+    <div className="restaurantes-container min-vh-100 w-100">
+      <h2 className="restaurantes-title text-center">Reservas</h2>
+
+      <div className="d-flex justify-content-center mb-4">
+        <Link to="/CrearReservas" className="btn btn-warning text-dark">
+          Agregar Reserva +
         </Link>
       </div>
 
-      {reservas.length === 0 ? (
-        <Typography variant="body1">No hay reservas disponibles</Typography>
-      ) : (
-        reservas.map((reserva) => (
-          <Card key={reserva.id} sx={{ maxWidth: 300, borderRadius: "15px", boxShadow: 3, padding: 2, mb: 2 }}>
-            <CardContent>
-              <Typography variant="h6">{reserva.name}</Typography>
-              <Typography variant="body1">Código: {reserva.code}</Typography>
-              <Typography variant="body1">Nota: {reserva.note}</Typography>
-              <Typography variant="body1">Hora: {reserva.hour}</Typography>
-              <Typography variant="body1">Fecha: {new Date(reserva.date).toISOString().split('T')[0]}</Typography>
-              <Typography variant="body1">Teléfono: {reserva.numcontact}</Typography>
-              <Typography variant="body1">Reservado: {reserva.pay ? "Sí" : "No"}</Typography>
-              <Button variant="contained" color="primary" sx={{ mt: 2, mr: 1 }} onClick={() => handleOpenModal(reserva)}>
-                Actualizar
-              </Button>
-              <Button variant="contained" color="error" sx={{ mt: 2 }} onClick={() => handleDelete(reserva.id)}>
-                Eliminar
-              </Button>
-            </CardContent>
-          </Card>
-        ))
-      )}
-
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "white",
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-            width: 400,
-          }}
-        >
-          <Typography variant="h6" align="center" mb={2}>
-            Actualizar Reserva
-          </Typography>
-          <form onSubmit={handleSaveChanges}>
-            <TextField fullWidth label="Nombre" name="name" value={selectedReserva?.name || ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Código" name="code" type="number" value={selectedReserva?.code || ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Nota" name="note" value={selectedReserva?.note || ''} onChange={handleChange} margin="normal" multiline rows={3} />
-            <TextField fullWidth label="Hora" name="hour" type="time" value={selectedReserva?.hour || ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Fecha" name="date" type="date" value={selectedReserva?.date ? new Date(selectedReserva.date).toISOString().split('T')[0] : ''} onChange={handleChange} margin="normal" required />
-            <TextField fullWidth label="Teléfono" name="numcontact" value={selectedReserva?.numcontact || ''} onChange={handleChange} margin="normal" required />
-            <div>
-              <input type="checkbox" name="pay" checked={selectedReserva?.pay || false} onChange={handleChange} />
-              Reservado
+      <div className="restaurantes-grid">
+        {reservas.length === 0 ? (
+          <p className="text-center">No hay reservas disponibles</p>
+        ) : (
+          reservas.map((reserva) => (
+            <div key={reserva.id} className="restaurante-card">
+              <div className="restaurante-info">
+                <h3>{reserva.name}</h3>
+                <p>Código: {reserva.code}</p>
+                <p>Nota: {reserva.note}</p>
+                <p>Hora: {reserva.hour}</p>
+                <p>Fecha: {new Date(reserva.date).toISOString().split('T')[0]}</p>
+                <p>Teléfono: {reserva.numcontact}</p>
+                <p>Reservado: {reserva.pay ? "Sí" : "No"}</p>
+                <div className="d-flex gap-2 justify-content-center">
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={() => handleOpenModal(reserva)}
+                  >
+                    <i className="bi bi-arrow-repeat"></i> Actualizar
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(reserva.id)}
+                  >
+                    <i className="bi bi-trash"></i> Eliminar
+                  </button>
+                </div>
+              </div>
             </div>
-            <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-              Guardar Cambios
-            </Button>
-            <Button variant="outlined" color="secondary" sx={{ mt: 2, ml: 1 }} onClick={handleCloseModal}>
-              Cancelar
-            </Button>
+          ))
+        )}
+      </div>
+
+      <Modal isOpen={openModal} toggle={handleCloseModal}>
+        <ModalHeader toggle={handleCloseModal}>
+          <i className="bi bi-pencil-square me-2"></i>
+          Actualizar Reserva
+        </ModalHeader>
+        <ModalBody>
+          <form onSubmit={handleSaveChanges}>
+            <div className="mb-3">
+              <label htmlFor="name">Nombre</label>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                id="name"
+                value={selectedReserva?.name || ''}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="code">Código</label>
+              <input
+                type="number"
+                className="form-control"
+                name="code"
+                id="code"
+                value={selectedReserva?.code || ''}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="note">Nota</label>
+              <textarea
+                className="form-control"
+                name="note"
+                id="note"
+                value={selectedReserva?.note || ''}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="hour">Hora</label>
+              <input
+                type="time"
+                className="form-control"
+                name="hour"
+                id="hour"
+                value={selectedReserva?.hour || ''}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="date">Fecha</label>
+              <input
+                type="date"
+                className="form-control"
+                name="date"
+                id="date"
+                value={selectedReserva?.date ? new Date(selectedReserva.date).toISOString().split('T')[0] : ''}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="numcontact">Teléfono</label>
+              <input
+                type="number"
+                className="form-control"
+                name="numcontact"
+                id="numcontact"
+                value={selectedReserva?.numcontact || ''}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3 form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                name="pay"
+                id="pay"
+                checked={selectedReserva?.pay || false}
+                onChange={handleChange}
+              />
+              <label className="form-check-label" htmlFor="pay">
+                Reservado
+              </label>
+            </div>
+            <ModalFooter>
+              <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
+                    backgroundColor: "#f39c12",
+                    borderColor: "#f39c12",
+                    color: "#000", // Color del texto
+                  }}>
+                Cancelar
+              </Button>
+              <Button  className="btn btn-warning text-dark" type="submit" style={{
+                    backgroundColor: "#f39c12",
+                    borderColor: "#f39c12",
+                    color: "#000", // Color del texto
+                  }}>
+                Guardar Cambios
+              </Button>
+            </ModalFooter>
           </form>
-        </Box>
+        </ModalBody>
       </Modal>
     </div>
   );

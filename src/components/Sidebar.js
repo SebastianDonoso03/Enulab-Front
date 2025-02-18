@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla la apertura del menú "Menús"
   const [isCartasOpen, setIsCartasOpen] = useState(false); // Controla la apertura de "Cartas"
+  const navigate = useNavigate(); // Hook para la navegación
 
+  const handleLogout = () => {
+    localStorage.removeItem("user_id"); // Eliminar el ID del usuario
+    navigate("/login"); // Redirigir a la página de inicio de sesión
+  };
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     if (!isMenuOpen) setIsCartasOpen(false); // Si se cierra "Menús", también se cierra "Cartas"
@@ -17,107 +25,132 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar text-white" style={{ width: "250px", minHeight: "100vh" }}>
-      <div className="p-3">
-        <ul className="nav flex-column">
-          <li className="nav-item mb-2">
-            <button
-              className="nav-link text-white btn btn-link w-100 text-start"
-              onClick={() => (window.location.href = "/inicio")}
-              style={{ backgroundColor: "transparent", border: "none" }}
-            >
-              <i className="bi bi-plus-circle me-2"></i>
-              Restaurantes
-            </button>
-          </li>
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/Reservas">
-              <i className="bi bi-calendar-check me-2"></i>
-              Reservas
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/empleados">
-              <i className="bi bi-people me-2"></i>
-              Empleados
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/Proveedores">
-              <i className="bi bi-people me-2"></i>
-              Proveedores
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/Inventario">
-              <i className="bi bi-people me-2"></i>
-              Inventario
-            </Link>
-          </li>
-          <li className="nav-item mb-2">
-            <Link className="nav-link text-white" to="/Comentarios">
-              <i className="bi bi-people me-2"></i>
-              Comentario
-            </Link>
-          </li>
+    <>
+      {/* Navbar */}
+      <Navbar bg="dark" variant="dark" expand="lg" className="p-3 fixed-top">
+        <Container fluid>
+          {/* Logo */}
+          <Navbar.Brand href="/inicio" className="text-warning">
+            <img
+              src={require("../images/logo_enulab.png")}
+              alt="Logo"
+              width="70"
+              height="60"
+              className="d-inline-block align-top me-2"
+            />
+           
+          </Navbar.Brand>
 
-          {/* Menú con subapartados */}
-          <li className="nav-item mb-2">
-            <button
-              className="nav-link text-white btn btn-link w-100 text-start"
-              onClick={toggleMenu}
-              style={{ backgroundColor: "transparent", border: "none" }}
-            >
-              <i className="bi bi-list me-2"></i>
-              Menús
-            </button>
-            {isMenuOpen && (
-              <ul className="nav flex-column ms-3">
-                {/* Subapartado Cartas */}
-                <li className="nav-item mb-2">
-                  <div className="d-flex align-items-center">
-                    <Link className="nav-link text-white flex-grow-1" to="/Repertorio">
-                      <i className="bi bi-list-ul me-2"></i>
-                      Cartas
-                    </Link>
-                    <button
-                      className="btn btn-link text-white"
-                      onClick={toggleCartas}
-                      style={{ backgroundColor: "transparent", border: "none" }}
-                    >
-                      <i className={`bi ${isCartasOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
-                    </button>
-                  </div>
-                  {isCartasOpen && (
-                    <ul className="nav flex-column ms-3">
-                      <li className="nav-item mb-2">
-                        <Link className="nav-link text-white" to="/Platos">
-                          <i className="bi bi-egg me-2"></i>
-                          Platos
-                        </Link>
-                      </li>
-                      <li className="nav-item mb-2">
-                        <Link className="nav-link text-white" to="/Bebidas">
-                          <i className="bi bi-cup-straw me-2"></i>
-                          Bebidas
-                        </Link>
-                      </li>
-                      <li className="nav-item mb-2">
-                        <Link className="nav-link text-white" to="/Postres">
-                          <i className="bi bi-cake me-2"></i>
-                          Postres
-                        </Link>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-              </ul>
-            )}
-          </li>
-        </ul>
+          {/* Botón para colapsar el menú en móviles */}
+          <Navbar.Toggle aria-controls="navbar-nav" className="border-0">
+            <i className="bi bi-list text-warning"></i>
+          </Navbar.Toggle>
+
+          {/* Menú colapsable */}
+          <Navbar.Collapse id="navbar-nav">
+            <Nav className="me-auto">
+              {/* Restaurantes */}
+              <Nav.Link href="/inicio" className="text-warning me-3">
+                <i className="bi bi-plus-circle me-2"></i>
+                Restaurantes
+              </Nav.Link>
+
+              {/* Reservas */}
+              <Nav.Link as={Link} to="/Reservas" className="text-warning me-3">
+                <i className="bi bi-calendar-check me-2"></i>
+                Reservas
+              </Nav.Link>
+
+              {/* Empleados */}
+              <Nav.Link as={Link} to="/empleados" className="text-warning me-3">
+                <i className="bi bi-people me-2"></i>
+                Empleados
+              </Nav.Link>
+
+              {/* Proveedores */}
+              <Nav.Link as={Link} to="/Proveedores" className="text-warning me-3">
+                <i className="bi bi-people me-2"></i>
+                Proveedores
+              </Nav.Link>
+
+              {/* Inventario */}
+              <Nav.Link as={Link} to="/Inventario" className="text-warning me-3">
+                <i className="bi bi-people me-2"></i>
+                Inventario
+              </Nav.Link>
+
+              {/* Menús */}
+              <Nav.Item className="me-3">
+                <Nav.Link
+                  className="text-warning"
+                  onClick={toggleMenu}
+                  style={{ cursor: "pointer" }}
+                >
+                  <i className="bi bi-list me-2"></i>
+                  Menús
+                </Nav.Link>
+                {isMenuOpen && (
+                  <Nav className="flex-column ms-4">
+                    {/* Cartas */}
+                    <Nav.Item>
+                      <div className="d-flex align-items-center">
+                        <Nav.Link
+                          as={Link}
+                          to="/Repertorio"
+                          className="text-warning flex-grow-1"
+                        >
+                          <i className="bi bi-list-ul me-2"></i>
+                          Cartas
+                        </Nav.Link>
+                        <Button
+                          variant="link"
+                          className="text-warning p-0"
+                          onClick={toggleCartas}
+                        >
+                          <i className={`bi ${isCartasOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
+                        </Button>
+                      </div>
+                      {isCartasOpen && (
+                        <Nav className="flex-column ms-4">
+                          <Nav.Link as={Link} to="/Platos" className="text-warning">
+                            <i className="bi bi-egg me-2"></i>
+                            Platos
+                          </Nav.Link>
+                          <Nav.Link as={Link} to="/Bebidas" className="text-warning">
+                            <i className="bi bi-cup-straw me-2"></i>
+                            Bebidas
+                          </Nav.Link>
+                          <Nav.Link as={Link} to="/Postres" className="text-warning">
+                            <i className="bi bi-cake me-2"></i>
+                            Postres
+                          </Nav.Link>
+                        </Nav>
+                      )}
+                    </Nav.Item>
+                  </Nav>
+                )}
+              </Nav.Item>
+            </Nav>
+
+            {/* Botón de Cerrar Sesión */}
+            <Nav>
+              <Nav.Link className="text-warning">
+                <Button variant="outline-warning" onClick={handleLogout}>
+                  <i className="bi bi-box-arrow-right me-2"></i>
+                  Cerrar Sesión
+                </Button>
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      {/* Contenido Principal */}
+      <div style={{ marginTop: "80px", padding: "20px" }}>
+        <Outlet /> {/* Aquí se renderizan los componentes hijos */}
       </div>
-    </div>
+    </>
   );
 };
 
-export default Sidebar;
+export default Layout;

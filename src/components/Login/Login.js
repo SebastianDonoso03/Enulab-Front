@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginService from "../../services/loginServices"; // Importar el servicio de login
 import "../../styles/Auth.css";
 
@@ -44,13 +44,14 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="auth-container d-flex justify-content-center align-items-center vh-100 bg-dark text-light">
+      <div className="auth-card bg-secondary text-light p-5 rounded shadow-lg" style={{ width: "400px" }}>
         <div className="text-center mb-4">
           <img
-            src={require("../../images/logo.png")}
+            src={require("../../images/logo_enulab.png")}
             alt="Logo"
-            className="auth-logo"
+            className="auth-logo img-fluid"
+            style={{ width: "80px" }}
           />
         </div>
 
@@ -61,9 +62,7 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Correo Electrónico
-            </label>
+            <label htmlFor="correoElectronico" className="form-label">Correo Electrónico</label>
             <input
               type="email"
               className="form-control"
@@ -74,9 +73,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Contraseña
-            </label>
+            <label htmlFor="password" className="form-label">Contraseña</label>
             <input
               type="password"
               className="form-control"
@@ -86,16 +83,12 @@ const Login = () => {
               placeholder="Ingresa tu contraseña"
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100 mb-3">
-            Iniciar Sesión
-          </button>
+          <button type="submit" className="btn btn-warning w-100 mb-3">Iniciar Sesión</button>
         </form>
 
         <div className="text-center">
           <span>¿No tienes una cuenta? </span>
-          <Link to="/registro" className="text-primary">
-            Regístrate
-          </Link>
+          <Link to="/registro" className="text-warning fw-bold">Regístrate</Link>
         </div>
       </div>
     </div>

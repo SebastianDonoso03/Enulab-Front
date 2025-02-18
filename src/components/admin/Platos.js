@@ -37,7 +37,7 @@ const Platos = () => {
   const handleDeleteClick = async (id) => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este plato?")) {
       try {
-        await deletePlato(menuId,id); // Use the deletePlato service
+        await deletePlato(menuId, id); // Use the deletePlato service
         setPlatos(platos.filter((plato) => plato.id !== id)); // Update the state after deletion
       } catch (error) {
         console.error("Error al eliminar el plato:", error);
@@ -59,55 +59,60 @@ const Platos = () => {
   };
 
   return (
-    <div className="container">
-      <h1 className="text-center">Platos</h1>
-      <Link to="/Crear-Plato" className="btn btn-primary mb-3">
-        <i className="bi bi-plus-circle me-2"></i>
-        Crear Plato +
-      </Link>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {platos.map((plato) => (
-            <tr key={plato.id}>
-              <td>{plato.name}</td>
-              <td>{plato.description}</td>
-              <td>{plato.price}</td>
-              <td>
-                <button
-                  className="btn btn-sm me-2"
-                  onClick={() => handleUpdateClick(plato)}
-                >
-                  <i className="bi bi-pencil"></i> Actualizar
-                </button>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => handleDeleteClick(plato.id)}
-                >
-                  <i className="bi bi-trash"></i> Eliminar
-                </button>
-              </td>
+    <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="text-gold">Platos</h2>
+        <Link to="/Crear-Plato"  className="btn btn-warning text-dark">
+          <i className="bi bi-plus-circle me-2"></i>
+          Crear Plato +
+        </Link>
+      </div>
+
+      <div className="table-responsive">
+        <table className="table table-dark table-hover text-center">
+          <thead>
+            <tr className="text-warning">
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Precio</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {platos.map((plato) => (
+              <tr key={plato.id}>
+                <td>{plato.name}</td>
+                <td>{plato.description}</td>
+                <td>{plato.price}</td>
+                <td className="d-flex justify-content-start">
+                  <button
+                    className="btn btn-warning btn-sm me-2"
+                    onClick={() => handleUpdateClick(plato)}
+                  >
+                    <i className="bi bi-pencil"></i> Actualizar
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDeleteClick(plato.id)}
+                  >
+                    <i className="bi bi-trash"></i> Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Modal for updating dish */}
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+      <Modal show={showModal} onHide={handleCloseModal} centered>
+        <Modal.Header closeButton className=" text-light">
           <Modal.Title>
             <i className="bi bi-pencil-square me-2"></i>
             Actualizar Plato
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="text-light">
           <form>
             <div className="mb-3">
               <label className="form-label">Nombre</label>
@@ -153,11 +158,19 @@ const Platos = () => {
             </div>
           </form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+        <Modal.Footer >
+          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
+                backgroundColor: "#f39c12",
+                borderColor: "#f39c12",
+                color: "#000", // Color del texto
+              }}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={handleSaveChanges}>
+          <Button  className="btn btn-warning text-dark"  onClick={handleSaveChanges} style={{
+                backgroundColor: "#f39c12",
+                borderColor: "#f39c12",
+                color: "#000", // Color del texto
+              }}>
             Guardar Cambios
           </Button>
         </Modal.Footer>

@@ -1,7 +1,7 @@
 import React, { useState} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createRestaurant } from "../../services/restaurantServices"; // Importar el servicio
-import "../../styles/Restaurantes.css"; 
+
 
 const CrearRestaurante = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const CrearRestaurante = () => {
     try {
       await createRestaurant(formData); // Ya incluye la verificación del user_id
       console.log("Restaurante creado exitosamente");
-      navigate("/restaurantes"); // Redirigir a la lista de restaurantes
+      navigate("/inicio"); // Redirigir a la lista de restaurantes
     } catch (error) {
       console.error("Error al crear el restaurante:", error.message);
       alert(error.message); // Mostrar el error al usuario
@@ -38,12 +38,10 @@ const CrearRestaurante = () => {
   return (
     <div className="container mt-4">
       <div className="card shadow-sm">
-        <div className="card-header bg-primary text-white">
-          <h4 className="mb-0">
-            <i className="bi bi-plus-circle me-2"></i>
-            Crear Restaurante
-          </h4>
-        </div>
+        <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
+        <h2 className="text-center mb-4" style={{ color: "gold" }}>Crear Restaurante</h2>
+
+       
         <div className="card-body">
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="mb-3">
@@ -97,17 +95,18 @@ const CrearRestaurante = () => {
                 onChange={handleChange} // Capturar el archivo
               />
             </div>
-            <div className="d-flex justify-content-end">
-              <Link to="/restaurantes" className="btn btn-secondary me-2">
+            <div className="d-flex justify-content-between">
+              <button  onClick={() => navigate("/restaurantes")}  className="btn btn-warning text-dark">
                 Cancelar
-              </Link>
-              <button type="submit" className="btn btn-primary">
-                Guardar
+              </button>
+              <button type="submit"  className="btn btn-warning text-dark">
+                Guardar Restaurante
               </button>
             </div>
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 };
