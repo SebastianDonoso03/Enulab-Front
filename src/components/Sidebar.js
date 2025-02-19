@@ -78,6 +78,10 @@ const Layout = () => {
                 <i className="bi bi-people me-2"></i>
                 Inventario
               </Nav.Link>
+              <Nav.Link as={Link} to="/Comentarios" className="text-warning me-3">
+                <i className="bi bi-people me-2"></i>
+                Comentarios
+              </Nav.Link>
 
               {/* Menús */}
               <Nav.Item className="me-3">

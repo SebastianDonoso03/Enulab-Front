@@ -1,26 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Link } from "react-router-dom";
 import { getReservationsByRestaurant, updateReservation, deleteReservation } from "../../services/reservaServices";
-
+import Swal from "sweetalert2";
+import QrCodeViewer from "./Qr";
 import "../../styles/Reservas.css";
 
 const Reserva = () => {
   const restaurantId = localStorage.getItem("selectedRestaurantId");
   const [openModal, setOpenModal] = useState(false);
+  const [openQrModal, setOpenQrModal] = useState(false); // Estado para el modal del QR
   const [selectedReserva, setSelectedReserva] = useState(null);
   const [reservas, setReservas] = useState([]);
+  const reservasRef = useRef([]);
 
   useEffect(() => {
     const fetchReservas = async () => {
       try {
         const data = await getReservationsByRestaurant(restaurantId);
+        if (reservasRef.current.length > 0 && data.length > reservasRef.current.length) {
+          Swal.fire({
+            title: "Nueva Reserva!",
+            text: "Se ha agregado una nueva reserva.",
+            icon: "info",
+            confirmButtonColor: "#f39c12",
+          });
+        }
+        reservasRef.current = data;
         setReservas(data);
       } catch (error) {
         console.error("Error al obtener las reservas:", error);
       }
     };
     fetchReservas();
+    const interval = setInterval(fetchReservas, 5000);
+    return () => clearInterval(interval);
   }, [restaurantId]);
 
   const handleOpenModal = (reserva) => {
@@ -76,6 +90,38 @@ const Reserva = () => {
         </Link>
       </div>
 
+      {/* Botón o ícono para abrir el modal del QR */}
+      <div className="d-flex justify-content-center mb-4">
+        <Button
+          className="btn btn-info"
+          onClick={() => setOpenQrModal(true)}
+          style={{
+            fontSize: '24px',
+            padding: '10px 20px',
+            backgroundColor: "#17a2b8",
+            borderColor: "#17a2b8",
+          }}
+        >
+          <i className="bi bi-qr-code-scan"></i> Ver QR
+        </Button>
+      </div>
+
+      {/* Modal para mostrar el QR */}
+      <Modal isOpen={openQrModal} toggle={() => setOpenQrModal(false)}>
+        <ModalHeader toggle={() => setOpenQrModal(false)}>
+          <i className="bi bi-qr-code me-2"></i>
+          Escanea el Código QR
+        </ModalHeader>
+        <ModalBody>
+          <QrCodeViewer /> {/* Aquí se mostrará el QR */}
+        </ModalBody>
+        <ModalFooter>
+          <Button className="btn btn-secondary" onClick={() => setOpenQrModal(false)}>
+            Cerrar
+          </Button>
+        </ModalFooter>
+      </Modal>
+
       <div className="restaurantes-grid">
         {reservas.length === 0 ? (
           <p className="text-center">No hay reservas disponibles</p>
@@ -89,7 +135,7 @@ const Reserva = () => {
                 <p>Hora: {reserva.hour}</p>
                 <p>Fecha: {new Date(reserva.date).toISOString().split('T')[0]}</p>
                 <p>Teléfono: {reserva.numcontact}</p>
-                <p>Reservado: {reserva.pay ? "Sí" : "No"}</p>
+                <p>Reservado: {reserva.confirmed ? "Sí" : "No"}</p>
                 <div className="d-flex gap-2 justify-content-center">
                   <button
                     className="btn btn-sm btn-warning"
@@ -98,10 +144,10 @@ const Reserva = () => {
                     <i className="bi bi-arrow-repeat"></i> Actualizar
                   </button>
                   <button
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-info"
                     onClick={() => handleDelete(reserva.id)}
                   >
-                    <i className="bi bi-trash"></i> Eliminar
+                    <i className="btn btn-info"></i> Visualizar
                   </button>
                 </div>
               </div>
@@ -110,115 +156,128 @@ const Reserva = () => {
         )}
       </div>
 
-      <Modal isOpen={openModal} toggle={handleCloseModal}>
-        <ModalHeader toggle={handleCloseModal}>
-          <i className="bi bi-pencil-square me-2"></i>
-          Actualizar Reserva
-        </ModalHeader>
-        <ModalBody>
-          <form onSubmit={handleSaveChanges}>
-            <div className="mb-3">
-              <label htmlFor="name">Nombre</label>
-              <input
-                type="text"
-                className="form-control"
-                name="name"
-                id="name"
-                value={selectedReserva?.name || ''}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="code">Código</label>
-              <input
-                type="number"
-                className="form-control"
-                name="code"
-                id="code"
-                value={selectedReserva?.code || ''}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="note">Nota</label>
-              <textarea
-                className="form-control"
-                name="note"
-                id="note"
-                value={selectedReserva?.note || ''}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="hour">Hora</label>
-              <input
-                type="time"
-                className="form-control"
-                name="hour"
-                id="hour"
-                value={selectedReserva?.hour || ''}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="date">Fecha</label>
-              <input
-                type="date"
-                className="form-control"
-                name="date"
-                id="date"
-                value={selectedReserva?.date ? new Date(selectedReserva.date).toISOString().split('T')[0] : ''}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="numcontact">Teléfono</label>
-              <input
-                type="number"
-                className="form-control"
-                name="numcontact"
-                id="numcontact"
-                value={selectedReserva?.numcontact || ''}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="mb-3 form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                name="pay"
-                id="pay"
-                checked={selectedReserva?.pay || false}
-                onChange={handleChange}
-              />
-              <label className="form-check-label" htmlFor="pay">
-                Reservado
-              </label>
-            </div>
-            <ModalFooter>
-              <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
-                    backgroundColor: "#f39c12",
-                    borderColor: "#f39c12",
-                    color: "#000", // Color del texto
-                  }}>
-                Cancelar
-              </Button>
-              <Button  className="btn btn-warning text-dark" type="submit" style={{
-                    backgroundColor: "#f39c12",
-                    borderColor: "#f39c12",
-                    color: "#000", // Color del texto
-                  }}>
-                Guardar Cambios
-              </Button>
-            </ModalFooter>
-          </form>
-        </ModalBody>
-      </Modal>
+      <Modal isOpen={openModal} toggle={handleCloseModal} centered>
+  <ModalHeader toggle={handleCloseModal} className="text-light">
+    <i className="bi bi-pencil-square me-2"></i>
+    Actualizar Reserva
+  </ModalHeader>
+  <ModalBody className="text-light">
+    <form>
+      <div className="mb-3">
+        <label className="form-label">Nombre Completo</label>
+        <input
+          type="text"
+          className="form-control"
+          name="name"
+          value={selectedReserva?.name || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">N° de transacción</label>
+        <input
+          type="text"
+          className="form-control"
+          name="code"
+          value={selectedReserva?.code || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Banco</label>
+        <select
+          className="form-control"
+          name="bank"
+          value={selectedReserva?.bank || ""}
+          onChange={handleChange}
+        >
+          <option value="">Selecciona un banco</option>
+          <option value="Pichincha">Banco Pichincha</option>
+          <option value="Pacifico">Banco del Pacífico</option>
+        </select>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Fecha</label>
+        <input
+          type="date"
+          className="form-control"
+          name="date"
+          value={selectedReserva?.date || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Hora</label>
+        <input
+          type="time"
+          className="form-control"
+          name="hour"
+          value={selectedReserva?.hour || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Teléfono</label>
+        <input
+          type="text"
+          className="form-control"
+          name="numcontact"
+          value={selectedReserva?.numcontact || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Número de personas</label>
+        <input
+          type="number"
+          className="form-control"
+          name="guests"
+          min="1"
+          value={selectedReserva?.guests || ""}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Notas</label>
+        <textarea
+          className="form-control"
+          name="note"
+          rows="2"
+          value={selectedReserva?.note || ""}
+          onChange={handleChange}
+        ></textarea>
+      </div>
+      {/* Checkbox para confirmar la reserva */}
+      <div className="mb-3 form-check">
+        <input
+          type="checkbox"
+          className="form-check-input"
+          name="confirmed"
+          checked={selectedReserva?.confirmed || false}
+          onChange={(e) => handleChange({ target: { name: "confirmed", value: e.target.checked } })}
+        />
+        <label className="form-check-label">Reserva Confirmada</label>
+      </div>
+    </form>
+  </ModalBody>
+  <ModalFooter>
+    <Button className="btn btn-secondary" onClick={handleCloseModal}>
+      Cancelar
+    </Button>
+    <Button
+      className="btn btn-warning text-dark"
+      onClick={handleSaveChanges}
+      style={{
+        backgroundColor: "#f39c12",
+        borderColor: "#f39c12",
+        color: "#000",
+      }}
+    >
+      Guardar Cambios
+    </Button>
+  </ModalFooter>
+</Modal>
+
     </div>
   );
 };
