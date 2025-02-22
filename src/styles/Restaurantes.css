@@ -1,119 +1,147 @@
-
 /* Estilos generales */
 body {
-  background-color: #333333; /* Fondo oscuro */
-  color: #f0d100; /* Color dorado */
+  background-color: #1c1c1e; /* Fondo oscuro más elegante */
+  color: #ffffff; /* Texto en blanco para mayor contraste */
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
 }
-/*todos los label*/
-label{
-color: aliceblue;
+
+/* Etiquetas */
+label {
+  color: #ffffff;
+  font-weight: 500;
 }
 
 /* Contenedor principal */
 .container {
   margin-top: 50px;
 }
-.btn{
-  background-color: #d99c29;
+
+.text-centerAny{
+  justify-content: center;
+  padding: 20px;
+  color: #000;
+  text-align: center;
+  font-size: 30px;
+}
+/* Botones */
+.btn {
+  background-color: #f39c12;
+  color: #000;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
 }
 
 /* Títulos */
 h2 {
-  color: #f0d100; /* Dorado */
+  color: #f39c12;
   font-weight: bold;
   text-align: center;
+  font-size: 2rem;
 }
 
-
-/* General styles */
+/* Estilos para la sección de restaurantes */
 .restaurantes-container {
-  background-color: #333333;
+  background-color: #d8d5d5;
   color: white;
   padding: 20px;
 }
 
 .restaurantes-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: #f39c12;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
+
+.restaurantes-titleytext-center{
+  color: #000;
+}
 .restaurantes-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 3 columnas por fila */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Mejor ajuste responsivo */
   gap: 20px;
-  grid-auto-rows: minmax(200px, auto);  /* Ajuste automático de filas */
+  justify-content: center;
+  padding: 20px;
+  color: #000;
+
 }
 
 .restaurante-card {
-  background-color: #444;
-  padding: 15px;
-  border-radius: 10px;
+  background-color: #292b2c;
+  padding: 20px;
+  border-radius: 15px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurante-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .restaurante-logo {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
   margin-bottom: 15px;
+  border: 3px solid #f39c12;
 }
 
 .restaurante-info h3 {
   font-size: 1.5rem;
   color: #f39c12;
+  margin-bottom: 10px;
 }
 
 .restaurante-info p {
   color: #ddd;
+  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
-button {
+/* Botones en las tarjetas */
+.restaurante-card .btn {
+  font-size: 0.9rem;
+  padding: 8px 12px;
   border-radius: 5px;
 }
 
-button.btn-warning {
-  background-color: #f39c12;
-}
-
-
-button.btn-info {
-  background-color: #1e90ff;
-}
-
-button.btn-danger {
-  background-color: #e74c3c;
-}
-
-/* Modal Styling */
+/* Estilos del Modal */
 .modal-content {
-  background-color: #333;
-  color: rgb(136, 4, 4);
+  background-color: #292b2c;
+  color: white;
+  border-radius: 10px;
 }
 
 .modal-header {
-  border-bottom: 1px solid #555;
+  border-bottom: 1px solid #444;
 }
 
 .modal-footer {
-  border-top: 1px solid #555;
+  border-top: 1px solid #444;
 }
 
-/* Make buttons responsive */
+/* Responsividad */
 @media (max-width: 576px) {
   .restaurantes-grid {
-    grid-template-columns: 1fr;  /* 1 columna por fila en pantallas pequeñas */
-  }
-
-  .restaurante-card {
-    margin-bottom: 20px;
+    grid-template-columns: 1fr;
   }
 }
 
-/* En pantallas medianas (tabletas y más grandes), 3 columnas */
 @media (max-width: 1024px) {
   .restaurantes-grid {
-    grid-template-columns: repeat(2, 1fr);  /* 2 columnas en pantallas medianas */
+    grid-template-columns: repeat(2, 1fr);
   }
 }

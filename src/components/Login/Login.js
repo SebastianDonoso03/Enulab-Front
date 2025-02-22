@@ -1,97 +1,84 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import loginService from "../../services/loginServices"; // Importar el servicio de login
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import loginService from "../../services/loginServices";
 import "../../styles/Auth.css";
+
+const images = [
+  require("../../images/image1.jpg"),
+  require("../../images/image2.jpg"),
+  require("../../images/image3.jpg"),
+];
+
+const pageVariants = {
+  initial: { opacity: 0, x: 0 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  exit: { opacity: 0, x: 0, transition: { duration: 0.3 } },
+};
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    correoElectronico: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ correoElectronico: "", password: "" });
   const [error, setError] = useState(null);
+  const [currentImage, setCurrentImage] = useState(0);
 
-  // Manejar los cambios en los campos de entrada
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  // Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     if (!formData.correoElectronico || !formData.password) {
       setError("Todos los campos son requeridos.");
       return;
     }
-  
     try {
-      const response = await loginService.login(formData.correoElectronico, formData.password);
-      console.log("Respuesta del servidor:", response);
-  
-      // Redirigir a la página de inicio o dashboard
+      await loginService.login(formData.correoElectronico, formData.password);
       navigate("/inicio");
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      setError(error.message); // Mostrar el mensaje de error
+      setError("Credenciales incorrectas");
     }
   };
 
   return (
-    <div className="auth-container d-flex justify-content-center align-items-center vh-100 bg-dark text-light">
-      <div className="auth-card bg-secondary text-light p-5 rounded shadow-lg" style={{ width: "400px" }}>
-        <div className="text-center mb-4">
-          <img
-            src={require("../../images/logo_enulab.png")}
-            alt="Logo"
-            className="auth-logo img-fluid"
-            style={{ width: "80px" }}
-          />
+    <motion.div 
+      className="auth-container"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
+      <div className="auth-background" style={{ backgroundImage: `url(${images[currentImage]})` }}></div>
+      <div className="auth-content">
+        <div className="auth-left">
+          <h1 className="auth-title">Enulab</h1>
+          <p className="auth-slogan">"El arte de crear es el arte de descubrir"</p>
         </div>
-
-        <h2 className="text-center mb-4">Iniciar Sesión</h2>
-
-        {/* Mostrar error si existe */}
-        {error && <div className="alert alert-danger">{error}</div>}
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="correoElectronico" className="form-label">Correo Electrónico</label>
-            <input
-              type="email"
-              className="form-control"
-              id="correoElectronico"
-              value={formData.correoElectronico}
-              onChange={handleChange}
-              placeholder="Ingresa tu correo"
-            />
+        <div className="auth-right">
+          <div className="auth-card">
+            <h2 className="text-center">Inicio de Sesión</h2>
+            {error && <div className="text-center text-red-500">{error}</div>}
+            <form onSubmit={handleSubmit}>
+              <input type="email" id="correoElectronico" className="auth-input" value={formData.correoElectronico} onChange={handleChange} placeholder="Correo Electrónico" />
+              <input type="password" id="password" className="auth-input" value={formData.password} onChange={handleChange} placeholder="Contraseña" />
+              <button type="submit" className="auth-button">Iniciar Sesión</button>
+            </form>
+            <div className="text-center mt-4">
+              <Link to="/registro" className="auth-link">¿No tienes una cuenta? Regístrate</Link>
+            </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Ingresa tu contraseña"
-            />
-          </div>
-          <button type="submit" className="btn btn-warning w-100 mb-3">Iniciar Sesión</button>
-        </form>
-
-        <div className="text-center">
-          <span>¿No tienes una cuenta? </span>
-          <Link to="/registro" className="text-warning fw-bold">Regístrate</Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,57 +1,162 @@
 /* Contenedor principal */
 .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f8f9fa;
-  }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Fondo con carrusel de imágenes */
+.auth-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 1s ease-in-out;
+  filter: brightness(0.6);
+}
+
+/* Contenedor de contenido */
+.auth-content {
+  position: relative;
+  display: flex;
+  width: 80%;
+  max-width: 1200px;
+  height: 70%;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Sección izquierda (Título y slogan) */
+.auth-left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: white;
+}
+
+.auth-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
   
-  /* Tarjeta de autenticación */
-  .auth-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-  }
+}
+
+.auth-slogan {
+  font-size: 1.2rem;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Sección derecha (Formulario) */
+.auth-right {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(202, 202, 202, 0.555);
+  padding: 2rem;
+}
+
+/* Tarjeta de autenticación */
+.auth-card {
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
   
-  /* Logo */
-  .auth-logo {
-    width: 100px;
-    height: auto;
-    margin-bottom: 1rem;
+}
+
+/* Inputs */
+.auth-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f4f4f4;
+}
+
+/* Botón */
+.auth-button {
+  background-color: #f1af33;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.auth-button:hover {
+  background-color: #b68c33;
+}
+
+/* Enlace */
+.auth-link {
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+}
+.text-center{
+  color: rgb(255, 255, 255);
+}
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* 📱 Estilos Responsivos */
+@media (max-width: 768px) {
+  .auth-content {
+      flex-direction: column;
+      width: 90%;
+      height: auto;
   }
-  
-  /* Título */
-  .auth-card h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 1.5rem;
+
+  .auth-left {
+      width: 100%;
+      padding: 1.5rem;
   }
-  
-  /* Botón */
-  .btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    padding: 0.75rem;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+
+  .auth-right {
+      width: 100%;
+      padding: 1.5rem;
   }
-  
-  .btn-primary:hover {
-    background-color: #0b5ed7;
+
+  .auth-title {
+      font-size: 2rem;
   }
-  
-  /* Enlaces */
-  .text-primary {
-    color: #0d6efd;
-    text-decoration: none;
-    font-weight: bold;
+
+  .auth-slogan {
+      font-size: 1rem;
   }
-  
-  .text-primary:hover {
-    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .auth-title {
+      font-size: 1.8rem;
   }
+
+  .auth-slogan {
+      font-size: 0.9rem;
+  }
+
+  .auth-input {
+      padding: 8px;
+  }
+
+  .auth-button {
+      padding: 8px;
+  }
+}

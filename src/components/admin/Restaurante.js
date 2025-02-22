@@ -95,9 +95,9 @@ const Restaurantes = () => {
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
-      <h2 className="restaurantes-title text-center">Mis Restaurantes</h2>
+      <h2 className="restaurantes-titleytext-center">Mis Restaurantes</h2>
 
-      <div className="d-flex justify-content-center mb-4">
+      <div className="d-flex justify-content-start mt-5 mb-4 ms-4">
         <Link to="/crear-restaurantes"  className="btn btn-warning text-dark">
           Agregar Restaurante +
         </Link>
@@ -105,7 +105,7 @@ const Restaurantes = () => {
 
       <div className="restaurantes-grid">
         {restaurantes.length === 0 ? (
-          <p className="text-center">No tienes restaurantes creados. ¡Agrega uno!</p>
+          <p className="text-centerAny">No tienes restaurantes creados. ¡Agrega uno!</p>
         ) : (
           restaurantes.map((rest) => (
             <div key={rest.id} className="restaurante-card">

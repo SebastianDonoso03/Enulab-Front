@@ -1,82 +1,99 @@
-.restaurante-container {
+/* Estilos específicos para la página de Crear Restaurante */
 
-  padding: 40px;
-  max-width: 80%;
-  margin: auto;
-  border-radius: 8px;
-}
-
-.titulo {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.form-restaurante {
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-.form-left, .form-right {
-  width: 48%;
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-input, select, textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-}
-
-textarea {
-  height: 60px;
-}
-
-.logo-placeholder {
-  width: 100%;
-  height: 80px;
-  background: #f0f0f0;
+/* Contenedor principal de la página */
+.crear-restaurante-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  color: #888;
+  height: 100vh;
+  background-color: #d8d5d5;
+}
+
+/* Contenido de la tarjeta de autenticación */
+.crear-restaurante-content {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #292b2c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Estilo para la tarjeta del formulario */
+.crear-restaurante-card {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Título del formulario */
+.crear-restaurante-card h2 {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+/* Estilo común para los inputs y textarea */
+.crear-restaurante-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
-.horario {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.form-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.btn {
-  padding: 10px 15px;
+/* Estilo para el botón de enviar */
+.crear-restaurante-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #f39c12;
+  color: #000000;
   border: none;
-  cursor: pointer;
   border-radius: 5px;
-  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.back {
-  background: #ccc;
+/* Efecto de hover en el botón de enviar */
+.crear-restaurante-button:hover {
+  background-color: #45a049;
 }
 
-.continue {
-  background: #007bff;
-  color: white;
+/* Estilo para el enlace de cancelar */
+.crear-restaurante-link {
+  background-color: transparent;
+  border: none;
+  color: #be4f4f;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+/* Espaciado en la parte superior de los botones */
+.mt-4 {
+  margin-top: 16px;
+}
+
+/* Responsive para dispositivos pequeños */
+@media (max-width: 600px) {
+  .crear-restaurante-container {
+    padding: 20px;
+  }
+
+  .crear-restaurante-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .crear-restaurante-card {
+    padding: 15px;
+  }
+
+  .crear-restaurante-button {
+    padding: 10px;
+    font-size: 14px;
+  }
 }

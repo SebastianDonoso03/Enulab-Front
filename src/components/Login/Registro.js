@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import authService from "../../services/registerServices";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/Styles.css"
+import "../../styles/Auth.css";
+
+const images = [
+  require("../../images/image1.jpg"),
+  require("../../images/image2.jpg"),
+  require("../../images/image3.jpg"),
+];
+
+
+const pageVariants = {
+  initial: { opacity: 0, x: 0 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  exit: { opacity: 0, x: 0, transition: { duration: 0.3 } },
+};
 
 const Register = () => {
   const navigate = useNavigate();
@@ -14,27 +27,33 @@ const Register = () => {
     contacto: "",
   });
   const [error, setError] = useState(null);
-  const [passwordStrength, setPasswordStrength] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const rucRegex = /^\d{11}$/;
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
 
     if (id === "password") {
-      if (/^[a-zA-Z]+$/.test(value) || /^[0-9]+$/.test(value)) {
-        setPasswordStrength("bg-danger text-white fw-bold p-1 rounded");
-        setPasswordMessage("Contraseña insegura");
+      if (value.length < 8) {
+        setPasswordMessage("La contraseña debe tener al menos 8 caracteres.");
+      } else if (/^[a-zA-Z]+$/.test(value) || /^[0-9]+$/.test(value)) {
+        setPasswordMessage("Contraseña muy débil (debe incluir letras y números). ");
       } else if (/^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]+$/.test(value)) {
-        setPasswordStrength("bg-warning text-dark fw-bold p-1 rounded");
-        setPasswordMessage("Contraseña medianamente segura");
-      } else if (/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).+$/.test(value)) {
-        setPasswordStrength("bg-success text-white fw-bold p-1 rounded");
-        setPasswordMessage("Contraseña segura");
+        setPasswordMessage("Contraseña medianamente segura (agrega símbolos). ");
       } else {
-        setPasswordStrength("");
-        setPasswordMessage("");
+        setPasswordMessage("Contraseña segura.");
       }
     }
   };
@@ -49,6 +68,14 @@ const Register = () => {
       setError("Todos los campos son requeridos.");
       return;
     }
+    if (!emailRegex.test(formData.correoElectronico)) {
+      setError("El correo electrónico no es válido.");
+      return;
+    }
+    if (!rucRegex.test(formData.ruc)) {
+      setError("El RUC debe tener 11 dígitos numéricos.");
+      return;
+    }
     try {
       await authService.register(formData);
       navigate("/login");
@@ -58,76 +85,43 @@ const Register = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-70 bg-dark text-light">
-      <div className="card bg-secondary text-light p-4" style={{ width: "400px" }}>
-        <div className="text-center mb-3">
-          <img
-            src={require("../../images/logo_enulab.png")}
-            alt="Logo"
-            className="img-fluid" style={{ width: "80px" }}
-          />
+    <motion.div 
+      className="auth-container"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
+      <div className="auth-background" style={{ backgroundImage: `url(${images[currentImage]})` }}></div>
+      <div className="auth-content">
+        <div className="auth-left">
+          <h1 className="auth-title">Enulab</h1>
+          <p className="auth-slogan">"El arte de crear es el arte de descubrir"</p>
         </div>
-        <h2 className="text-center">Registro</h2>
-        {error && <div className="alert alert-danger text-center">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          {[
-            { id: "nombreCompleto", label: "Nombre Completo", type: "text" },
-            { id: "correoElectronico", label: "Correo Electrónico", type: "email" },
-            { id: "ruc", label: "RUC", type: "text" },
-            { id: "contacto", label: "Contacto", type: "text" },
-            { id: "password", label: "Contraseña", type: "password" },
-          ].map(({ id, label, type }) => (
-            <div key={id} className="mb-3">
-              <label htmlFor={id} className="form-label">{label}</label>
-              <input
-                type={type}
-                id={id}
-                value={formData[id]}
-                onChange={handleChange}
-                className="form-control"
-                placeholder={`Ingresa tu ${label.toLowerCase()}`}
-              />
-              {id === "password" && <small className={`form-text ${passwordStrength}`}>{passwordMessage}</small>}
-            </div>
-          ))}
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="terms"
-              checked={termsAccepted}
-              onChange={() => setTermsAccepted(!termsAccepted)}
-            />
-            <label className="form-check-label" htmlFor="terms">
-              Acepto los <span className="text-warning fw-bold" style={{ cursor: "pointer" }} data-bs-toggle="modal" data-bs-target="#termsModal">términos y condiciones</span>
-            </label>
-          </div>
-          <button type="submit" className="btn btn-warning w-100">Registrarse</button>
-        </form>
-        <div className="text-center mt-3">
-          <span>¿Ya tienes una cuenta? </span>
-          <Link to="/login" className="text-warning fw-bold">Inicia Sesión</Link>
-        </div>
-      </div>
-
-      <div className="modal fade" id="termsModal" tabIndex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="termsModalLabel">Términos y Condiciones</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              Aquí van los términos y condiciones...
-              
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <div className="auth-right">
+          <div className="auth-card">
+            <h2 className="text-center">Registro</h2>
+            {error && <div className="text-center text-red-500" aria-live="polite">{error}</div>}
+            <form onSubmit={handleSubmit}>
+              {["nombreCompleto", "correoElectronico", "ruc", "contacto", "password"].map((id) => (
+                <input key={id} type={id === "password" ? "password" : "text"} id={id} className="auth-input" value={formData[id]} onChange={handleChange} placeholder={id} />
+              ))}
+              {passwordMessage && <p className="text-sm text-yellow-500">{passwordMessage}</p>}
+              <label className="auth-checkbox">
+                <input type="checkbox" checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)} />
+                Acepto los <Link to="/terms" className="auth-link">términos y condiciones</Link>.
+              </label>
+              <div className="mt-4">
+                <button type="submit" className="auth-button">Registrarse</button>
+              </div>
+            </form>
+            <div className="text-center mt-4">
+              <Link to="/login" className="auth-link">¿Ya tienes una cuenta? Inicia sesión</Link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

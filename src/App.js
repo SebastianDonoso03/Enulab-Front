@@ -1,7 +1,9 @@
 import "./App.css";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+
 // Importa tus componentes
 import Empleado from "./components/admin/Empleado";
 import Inventario from "./components/admin/Inventario";
@@ -11,7 +13,7 @@ import CrearEmpleado from "./components/admin/CrearEmpleado";
 import CrearProveedor from "./components/admin/CrearProveedor";
 import CrearInventario from "./components/admin/CrearInventario";
 import CrearRestaurante from "./components/admin/CrearRestaurant";
-import Comentario from './components/admin/Comentario'
+import Comentario from "./components/admin/Comentario";
 import Login from "./components/Login/Login";
 import Register from "./components/Login/Registro";
 import Platos from "./components/admin/Platos";
@@ -24,169 +26,103 @@ import Repertorio from "./components/admin/Repertorio";
 import CrearMenu from "./components/admin/CrearMenu";
 import CrearReservas from "./components/admin/CrearReserva";
 import Reservas from "./components/admin/Reservas";
-import LayoutPrincipal from "./LayoutPrincipal"; // Importa el nuevo LayoutPrincipal
+import LayoutPrincipal from "./LayoutPrincipal"; 
 
-function App() {
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
   return (
-    <Router>
-      <Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
         <Route path="/Inicio" element={<Restaurantes />} />
         <Route
           path="/empleados"
-          element={
-            <LayoutPrincipal>
-              <Empleado />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Empleado /></LayoutPrincipal>}
         />
         <Route
           path="/empleados/nuevo"
-          element={
-            <LayoutPrincipal>
-              <CrearEmpleado />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearEmpleado /></LayoutPrincipal>}
         />
         <Route
           path="/crear-restaurantes"
-          element={
-            <LayoutPrincipal>
-              <CrearRestaurante />
-            </LayoutPrincipal>
-          }
+          element={<CrearRestaurante />}
         />
         <Route
           path="/restaurantes"
-          element={
-            <LayoutPrincipal>
-              <Restaurantes />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Restaurantes /></LayoutPrincipal>}
         />
         <Route
           path="/Inventario"
-          element={
-            <LayoutPrincipal>
-              <Inventario />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Inventario /></LayoutPrincipal>}
         />
         <Route
           path="/Inventario/nuevo"
-          element={
-            <LayoutPrincipal>
-              <CrearInventario />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearInventario /></LayoutPrincipal>}
         />
         <Route
           path="/Proveedores"
-          element={
-            <LayoutPrincipal>
-              <Proveedores />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Proveedores /></LayoutPrincipal>}
         />
         <Route
           path="/Proveedores/nuevo"
-          element={
-            <LayoutPrincipal>
-              <CrearProveedor />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearProveedor /></LayoutPrincipal>}
         />
         <Route
           path="/Platos"
-          element={
-            <LayoutPrincipal>
-              <Platos />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Platos /></LayoutPrincipal>}
         />
         <Route
           path="/Bebidas"
-          element={
-            <LayoutPrincipal>
-              <Bebidas />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Bebidas /></LayoutPrincipal>}
         />
         <Route
           path="/Postres"
-          element={
-            <LayoutPrincipal>
-              <Postres />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Postres /></LayoutPrincipal>}
         />
         <Route
           path="/Crear-Postre"
-          element={
-            <LayoutPrincipal>
-              <CrearPostre />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearPostre /></LayoutPrincipal>}
         />
         <Route
           path="/Crear-Bebida"
-          element={
-            <LayoutPrincipal>
-              <CrearBebida />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearBebida /></LayoutPrincipal>}
         />
         <Route
           path="/Crear-Plato"
-          element={
-            <LayoutPrincipal>
-              <CrearPlato />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearPlato /></LayoutPrincipal>}
         />
         <Route
           path="/Repertorio"
-          element={
-            <LayoutPrincipal>
-              <Repertorio />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Repertorio /></LayoutPrincipal>}
         />
         <Route
           path="/CrearMenu"
-          element={
-            <LayoutPrincipal>
-              <CrearMenu />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearMenu /></LayoutPrincipal>}
         />
         <Route
           path="/Reservas"
-          element={
-            <LayoutPrincipal>
-              <Reservas />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Reservas /></LayoutPrincipal>}
         />
         <Route
           path="/CrearReservas"
-          element={
-            <LayoutPrincipal>
-              <CrearReservas />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><CrearReservas /></LayoutPrincipal>}
         />
         <Route
           path="/Comentarios"
-          element={
-            <LayoutPrincipal>
-              <Comentario />
-            </LayoutPrincipal>
-          }
+          element={<LayoutPrincipal><Comentario /></LayoutPrincipal>}
         />
       </Routes>
+    </AnimatePresence>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AnimatedRoutes />
     </Router>
   );
 }
