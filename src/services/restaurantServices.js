@@ -61,10 +61,12 @@ export const getRestaurantsByUser = async () => {
 
 export const updateRestaurant = async (id, formData) => {
     try {
-        const response = await api.put(`/api/restaurante/${id}`, formData); // Usamos la instancia de axios
+        const response = await api.put(`/api/restaurante/${id}`, formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        }); // Usamos la instancia de axios
         return response.data; // Retornamos los datos de la respuesta
     } catch (error) {
-        console.error("Error en updateRestaurant:", error);
+        console.error("Error updating restaurant:", error.response?.data || error.message);
         throw error;
     }
 };

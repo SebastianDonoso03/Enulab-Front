@@ -72,26 +72,28 @@ const Restaurantes = () => {
     const { name, type, files, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "file" ? files[0] : value,
+      [name]: type === "file" ? files[0] : value, // Maneja texto y archivos
     }));
   };
 
   const handleSaveChanges = async () => {
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("ubicacion", formData.ubicacion);
-      formDataToSend.append("objetivos", formData.objetivos);
-      formDataToSend.append("descripcion", formData.descripcion);
-      if (formData.logo) formDataToSend.append("logo", formData.logo);
+        const formDataToSend = new FormData();
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("ubicacion", formData.ubicacion);
+        formDataToSend.append("objetivos", formData.objetivos);
+        formDataToSend.append("descripcion", formData.descripcion);
+        if (formData.logo) {
+            formDataToSend.append("logo", formData.logo);
+        }
 
-      await updateRestaurant(selectedRestaurante.id, formDataToSend);
-      fetchRestaurantes();  // Refresh after update
-      handleCloseModal();  // Close the modal
+        await updateRestaurant(selectedRestaurante.id, formDataToSend);
+        await fetchRestaurantes(); // Actualizar la lista
+        handleCloseModal();
     } catch (error) {
-      console.error("Error al actualizar el restaurante:", error);
+        alert("Error al actualizar el restaurante: " + error.response?.data || error.message);
     }
-  };
+};
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
@@ -197,6 +199,7 @@ const Restaurantes = () => {
                 type="file"
                 className="form-control"
                 name="logo"
+                accept="image/*"
                 onChange={handleInputChange}
               />
             </div>

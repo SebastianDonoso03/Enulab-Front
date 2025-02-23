@@ -60,67 +60,104 @@ const Empleado = () => {
     <div className="container mt-4 text-light" style={{ backgroundColor: '#121212', padding: '20px', borderRadius: '10px' }}>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="text-gold">Empleados</h2>
-        <Link to="/empleados/nuevo"  className="btn btn-warning text-dark">
+        <Link to="/empleados/nuevo" className="btn btn-warning text-dark">
           Agregar empleado +
         </Link>
       </div>
-      <div className="table-responsive">
-        <table className="table table-dark table-hover text-center">
-          <thead>
-            <tr className="text-warning">
-              <th>Nombre</th>
-              <th>Cédula</th>
-              <th>Edad</th>
-              <th>Género</th>
-              <th>Sueldo</th>
-              <th>Horario</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees.map((emp) => (
-              <tr key={emp.id}>
-                <td>{emp.name}</td>
-                <td>{emp.cedula}</td>
-                <td>{emp.edad}</td>
-                <td>{emp.genero}</td>
-                <td>{emp.sueldo}</td>
-                <td>{emp.horario}</td>
-                <td className="d-flex justify-content-start">
-                  <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(emp)}>
-                    <i className="bi bi-arrow-repeat"></i> Actualizar
-                  </button>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(emp.id)}>
-                    <i className="bi bi-trash"></i> Eliminar
-                  </button>
-                </td>
+  
+      {/* Aquí se muestra el mensaje si no hay empleados */}
+      {employees.length === 0 ? (
+        <div className="alert alert-info" role="alert">
+          No hay empleados registrados. ¡Agrega uno nuevo!
+        </div>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-dark table-hover text-center">
+            <thead>
+              <tr className="text-warning">
+                <th>Nombre</th>
+                <th>Cédula</th>
+                <th>Edad</th>
+                <th>Género</th>
+                <th>Sueldo</th>
+                <th>Horario</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {employees.map((emp) => (
+                <tr key={emp.id}>
+                  <td>{emp.name}</td>
+                  <td>{emp.cedula}</td>
+                  <td>{emp.edad}</td>
+                  <td>{emp.genero}</td>
+                  <td>{emp.sueldo}</td>
+                  <td>{emp.horario}</td>
+                  <td className="d-flex justify-content-start">
+                    <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(emp)}>
+                      <i className="bi bi-arrow-repeat"></i> Actualizar
+                    </button>
+                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteClick(emp.id)}>
+                      <i className="bi bi-trash"></i> Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+  
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className="text-warning">
-          <Modal.Title>     <i className="bi bi-pencil-square me-2"></i>
-            Actualizar Empleado</Modal.Title>
+          <Modal.Title>
+            <i className="bi bi-pencil-square me-2"></i> Actualizar Empleado
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body className=" text-light">
+        <Modal.Body className="text-light">
           <form>
             <div className="mb-3">
               <label className="form-label">Nombre</label>
-              <input type="text" className="form-control " value={selectedEmployee?.name || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, name: e.target.value })} />
+              <input
+                type="text"
+                className="form-control"
+                value={selectedEmployee?.name || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, name: e.target.value })
+                }
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Cédula</label>
-              <input type="number" className="form-control " value={selectedEmployee?.cedula || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, cedula: e.target.value })} />
+              <input
+                type="number"
+                className="form-control"
+                value={selectedEmployee?.cedula || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, cedula: e.target.value })
+                }
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Edad</label>
-              <input type="number" className="form-control " value={selectedEmployee?.edad || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, edad: e.target.value })} />
+              <input
+                type="number"
+                className="form-control"
+                value={selectedEmployee?.edad || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, edad: e.target.value })
+                }
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Género</label>
-              <select className="form-control " value={selectedEmployee?.genero || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, genero: e.target.value })}>
+              <select
+                className="form-control"
+                value={selectedEmployee?.genero || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, genero: e.target.value })
+                }
+              >
                 <option value="">Verifica el genero del empleado</option>
                 <option value="femenino">Femenino</option>
                 <option value="masculino">Masculino</option>
@@ -128,39 +165,59 @@ const Empleado = () => {
             </div>
             <div className="mb-3">
               <label className="form-label">Sueldo</label>
-              <input type="number" className="form-control " value={selectedEmployee?.sueldo || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, sueldo: e.target.value })} />
+              <input
+                type="number"
+                className="form-control"
+                value={selectedEmployee?.sueldo || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, sueldo: e.target.value })
+                }
+              />
             </div>
             <div className="mb-3">
               <label className="form-label">Horario</label>
-            
-              <select  className="form-control " value={selectedEmployee?.horario || ''} onChange={(e) => setSelectedEmployee({ ...selectedEmployee, horario: e.target.value })}>
-              <option value="">Verifica la Jornada</option>
+              <select
+                className="form-control"
+                value={selectedEmployee?.horario || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({ ...selectedEmployee, horario: e.target.value })
+                }
+              >
+                <option value="">Verifica la Jornada</option>
                 <option value="Matutino">Matutino</option>
-                <option value="Vespertino">Vespertino</option>  
+                <option value="Vespertino">Vespertino</option>
                 <option value="NOcturno">Nocturno</option>
               </select>
             </div>
           </form>
         </Modal.Body>
-        <Modal.Footer >
-          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
-                backgroundColor: "#f39c12",
-                borderColor: "#f39c12",
-                color: "#000", // Color del texto
-              }}>
+        <Modal.Footer>
+          <Button
+            className="btn btn-warning text-dark"
+            onClick={handleCloseModal}
+            style={{
+              backgroundColor: "#f39c12",
+              borderColor: "#f39c12",
+              color: "#000", // Color del texto
+            }}
+          >
             Cancelar
           </Button>
-          <Button   className="btn btn-warning text-dark" onClick={handleSaveChanges} style={{
-                backgroundColor: "#f39c12",
-                borderColor: "#f39c12",
-                color: "#000", // Color del texto
-              }}>
+          <Button
+            className="btn btn-warning text-dark"
+            onClick={handleSaveChanges}
+            style={{
+              backgroundColor: "#f39c12",
+              borderColor: "#f39c12",
+              color: "#000", // Color del texto
+            }}
+          >
             Guardar Cambios
           </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
-};
+};  
 
 export default Empleado;

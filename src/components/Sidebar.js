@@ -11,11 +11,6 @@ const Layout = () => {
   
   const navigate = useNavigate(); // Hook para la navegación
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    if (!isMenuOpen) setIsCartasOpen(false); // Si se cierra "Menús", también se cierra "Cartas"
-    setIsSubMenuOpen(false); // Cierra el submenú de cartas si se cierra el menú
-  };
 
   const toggleCartas = (e) => {
     e.preventDefault(); // Evita que el enlace cambie la página al hacer clic en el ícono
@@ -24,9 +19,6 @@ const Layout = () => {
     navigate("/repertorio"); // Redirige a "Repertorio" cuando se hace clic en "Cartas"
   };
 
-  const toggleSubMenu = () => {
-    setIsSubMenuOpen(!isSubMenuOpen);
-  };
 
   return (
     <div className="layout-container">
