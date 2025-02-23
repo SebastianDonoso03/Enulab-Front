@@ -1,0 +1,101 @@
+/* Estilos específicos para la página de Crear Plato */
+
+/* Contenedor principal de la página */
+.crear-plato-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    background-color: #706f6f;
+    padding-top: 50px; /* Mueve el formulario un poco más arriba */
+  }
+  
+  /* Contenido de la tarjeta */
+  .crear-plato-content {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #292b2c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Estilo para la tarjeta del formulario */
+  .crear-plato-card {
+    padding: 30px;
+    text-align: center;
+  }
+  
+  /* Título del formulario */
+  .crear-plato-card h2 {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 25px;
+  }
+  
+  /* Estilo común para los inputs */
+  .crear-plato-input {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  /* Estilo para el botón de enviar */
+  .crear-plato-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #f39c12;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Efecto de hover en el botón de enviar */
+  .crear-plato-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilo para el enlace de cancelar */
+  .crear-plato-link {
+    background-color: transparent;
+    border: none;
+    color: #be4f4f;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 17px;
+  }
+  
+  /* Espaciado en la parte superior de los botones */
+  .mt-4 {
+    margin-top: 20px;
+  }
+  
+  /* Responsive para dispositivos pequeños */
+  @media (max-width: 600px) {
+    .crear-plato-container {
+      padding: 20px;
+    }
+  
+    .crear-plato-content {
+      width: 100%;
+      max-width: 100%;
+      padding: 20px;
+    }
+  
+    .crear-plato-card {
+      padding: 20px;
+    }
+  
+    .crear-plato-button {
+      padding: 12px;
+      font-size: 14px;
+    }
+  }
+  

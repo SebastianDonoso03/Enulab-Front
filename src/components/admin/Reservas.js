@@ -84,12 +84,7 @@ const Reserva = () => {
     <div className="restaurantes-container min-vh-100 w-100">
       <h2 className="restaurantes-title text-center">Reservas</h2>
 
-      <div className="d-flex justify-content-center mb-4">
-        <Link to="/CrearReservas" className="btn btn-warning text-dark">
-          Agregar Reserva +
-        </Link>
-      </div>
-
+    
       {/* Botón o ícono para abrir el modal del QR */}
       <div className="d-flex justify-content-center mb-4">
         <Button

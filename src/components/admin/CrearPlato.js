@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPlato } from "../../services/dishService";
-import "bootstrap/dist/css/bootstrap.min.css";
-
+import CrearPlatos from "../../styles/CrearPlatos.css"
 const CrearPlato = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,42 +18,63 @@ const CrearPlato = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (menuId) {
-      try {
-        await createPlato(menuId, formData);
-        console.log("Plato agregado:", formData);
-        navigate("/Platos");
-      } catch (error) {
-        console.error("Error al agregar el plato:", error);
-      }
-    } else {
-      console.error("No se encontró el ID del menú.");
+    if (!menuId) {
+      alert("Error: No se ha seleccionado un menú.");
+      return;
+    }
+    try {
+      await createPlato(menuId, formData);
+      console.log("Plato agregado:", formData);
+      navigate("/Platos");
+    } catch (error) {
+      console.error("Error al agregar el plato:", error);
+      alert("Hubo un error al agregar el plato. Por favor, inténtalo de nuevo.");
     }
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100" style={{ color: "gold" }}>
-      <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
-        <h2 className="text-center mb-4" style={{ color: "gold" }}>Creación de Plato</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Nombre</label>
-            <input type="text" className="form-control" name="name" value={formData.name} onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Descripción</label>
-            <input type="text" className="form-control" name="description" value={formData.description} onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Precio</label>
-            <input type="number" className="form-control" name="price" value={formData.price} onChange={handleChange} required />
-          </div>
-          <div className="d-flex justify-content-between">
-            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate("/Platos")}>Atrás</button>
-            <button type="submit"  className="btn btn-warning text-dark">Guardar Plato</button>
-          </div>
-        </form>
+    <div className="crear-plato-container">
+      <div className="crear-plato-content">
+        <div className="crear-plato-card">
+          <h2 className="text-center">Crear Plato</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              className="crear-plato-input"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Nombre del Plato"
+              required
+            />
+            <input
+              type="text"
+              name="description"
+              className="crear-plato-input"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Descripción"
+              required
+            />
+            <input
+              type="number"
+              name="price"
+              className="crear-plato-input"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="Precio"
+              required
+            />
+            <div className="mt-4">
+              <button type="submit" className="crear-plato-button">Guardar Plato</button>
+            </div>
+            <div className="text-center mt-4">
+              <button type="button" className="crear-plato-link" onClick={() => navigate("/Platos")}>
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

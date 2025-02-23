@@ -68,7 +68,7 @@ const Repertorio = () => {
       <h2 className="restaurantes-title text-center">Menús Disponibles</h2>
 
       <div className="d-flex justify-content-center mb-4">
-        <button  className="btn btn-warning text-dark" onClick={() => navigate("/CrearMenu")}>
+        <button  className="btn btn-warning text-dark" onClick={() => navigate("/crear-menu")}>
           Agregar Menú +
         </button>
       </div>

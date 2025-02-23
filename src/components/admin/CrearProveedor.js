@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createSupplier } from "../../services/supplierServices";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CrearProveedores from "../../styles/CrearProveedores.css"
 
 const CrearProveedor = () => {
   const navigate = useNavigate();
@@ -57,49 +58,44 @@ const CrearProveedor = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100" style={{ color: "gold" }}>
-      <div className="card p-4 shadow-lg" style={{ maxWidth: "500px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
-        <h2 className="text-center mb-4" style={{ color: "gold" }}>Creación de proveedor</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Nombre del proveedor</label>
-            <input type="text" className="form-control" name="namesupplier" onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Número de contacto</label>
-            <input type="number" className="form-control" name="numcontact" onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Email</label>
-            <input type="email" className="form-control" name="email" onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Dirección</label>
-            <input type="text" className="form-control" name="direction" onChange={handleChange} required />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Ciudad</label>
-            <select className="form-control" name="city" onChange={handleChange} required>
-              <option value="">Seleccione una ciudad</option>
-              {ciudadesEcuador.map((ciudad, index) => (
-                <option key={index} value={ciudad}>{ciudad}</option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Provincia</label>
-            <select className="form-control" name="country" onChange={handleChange} required>
-              <option value="">Seleccione una provincia</option>
-              {provinciasEcuador.map((provincia, index) => (
-                <option key={index} value={provincia}>{provincia}</option>
-              ))}
-            </select>
-          </div>
-          <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-warning text-dark" onClick={() => navigate("/Proveedores")}>Atrás</button>
-            <button type="submit" className="btn btn-warning text-dark">Guardar Proveedor</button>
-          </div>
-        </form>
+    <div className="crear-proveedor-container">
+      <div className="crear-proveedor-content">
+        <div className="crear-proveedor-card">
+          <h2 className="text-center mb-4">Crear Proveedor</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <input type="text" className="form-control crear-proveedor-input" name="namesupplier" value={formData.namesupplier} onChange={handleChange} placeholder="Nombre del proveedor" required />
+            </div>
+            <div className="mb-3">
+              <input type="number" className="form-control crear-proveedor-input" name="numcontact" value={formData.numcontact} onChange={handleChange} placeholder="Número de contacto" required />
+            </div>
+            <div className="mb-3">
+              <input type="email" className="form-control crear-proveedor-input" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+            </div>
+            <div className="mb-3">
+              <input type="text" className="form-control crear-proveedor-input" name="direction" value={formData.direction} onChange={handleChange} placeholder="Dirección" required />
+            </div>
+            <div className="mb-3">
+              <select className="form-control crear-proveedor-input" name="city" value={formData.city} onChange={handleChange} required>
+                <option value="">Seleccione una ciudad</option>
+                {ciudadesEcuador.map((ciudad, index) => (
+                  <option key={index} value={ciudad}>{ciudad}</option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <select className="form-control crear-proveedor-input" name="country" value={formData.country} onChange={handleChange} required>
+                <option value="">Seleccione una provincia</option>
+                {provinciasEcuador.map((provincia, index) => (
+                  <option key={index} value={provincia}>{provincia}</option>
+                ))}
+              </select>
+            </div>
+            <div className="d-flex justify-content-between">
+              <button type="submit" className="btn btn-warning text-dark">Guardar Proveedor</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

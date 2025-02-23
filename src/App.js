@@ -34,86 +34,32 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        {/* Rutas públicas */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
-        <Route path="/Inicio" element={<Restaurantes />} />
-        <Route
-          path="/empleados"
-          element={<LayoutPrincipal><Empleado /></LayoutPrincipal>}
-        />
-        <Route
-          path="/empleados/nuevo"
-          element={<LayoutPrincipal><CrearEmpleado /></LayoutPrincipal>}
-        />
-        <Route
-          path="/crear-restaurantes"
-          element={<CrearRestaurante />}
-        />
-        <Route
-          path="/restaurantes"
-          element={<LayoutPrincipal><Restaurantes /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Inventario"
-          element={<LayoutPrincipal><Inventario /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Inventario/nuevo"
-          element={<LayoutPrincipal><CrearInventario /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Proveedores"
-          element={<LayoutPrincipal><Proveedores /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Proveedores/nuevo"
-          element={<LayoutPrincipal><CrearProveedor /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Platos"
-          element={<LayoutPrincipal><Platos /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Bebidas"
-          element={<LayoutPrincipal><Bebidas /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Postres"
-          element={<LayoutPrincipal><Postres /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Crear-Postre"
-          element={<LayoutPrincipal><CrearPostre /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Crear-Bebida"
-          element={<LayoutPrincipal><CrearBebida /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Crear-Plato"
-          element={<LayoutPrincipal><CrearPlato /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Repertorio"
-          element={<LayoutPrincipal><Repertorio /></LayoutPrincipal>}
-        />
-        <Route
-          path="/CrearMenu"
-          element={<LayoutPrincipal><CrearMenu /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Reservas"
-          element={<LayoutPrincipal><Reservas /></LayoutPrincipal>}
-        />
-        <Route
-          path="/CrearReservas"
-          element={<LayoutPrincipal><CrearReservas /></LayoutPrincipal>}
-        />
-        <Route
-          path="/Comentarios"
-          element={<LayoutPrincipal><Comentario /></LayoutPrincipal>}
-        />
+
+        {/* Rutas protegidas (requieren navegación con LayoutPrincipal) */}
+        <Route path="/inicio" element={<LayoutPrincipal><Restaurantes /></LayoutPrincipal>} />
+        <Route path="/empleados" element={<LayoutPrincipal><Empleado /></LayoutPrincipal>} />
+        <Route path="/empleados/nuevo" element={<LayoutPrincipal><CrearEmpleado /></LayoutPrincipal>} />
+        <Route path="/restaurantes" element={<LayoutPrincipal><Restaurantes /></LayoutPrincipal>} />
+        <Route path="/inventario" element={<LayoutPrincipal><Inventario /></LayoutPrincipal>} />
+        <Route path="/inventario/nuevo" element={<LayoutPrincipal><CrearInventario /></LayoutPrincipal>} />
+        <Route path="/proveedores" element={<LayoutPrincipal><Proveedores /></LayoutPrincipal>} />
+        <Route path="/proveedores/nuevo" element={<LayoutPrincipal><CrearProveedor /></LayoutPrincipal>} />
+        <Route path="/platos" element={<LayoutPrincipal><Platos /></LayoutPrincipal>} />
+        <Route path="/bebidas" element={<LayoutPrincipal><Bebidas /></LayoutPrincipal>} />
+        <Route path="/postres" element={<LayoutPrincipal><Postres /></LayoutPrincipal>} />
+        <Route path="/crear-postre" element={<LayoutPrincipal><CrearPostre /></LayoutPrincipal>} />
+        <Route path="/crear-bebida" element={<LayoutPrincipal><CrearBebida /></LayoutPrincipal>} />
+        <Route path="/crear-plato" element={<LayoutPrincipal><CrearPlato /></LayoutPrincipal>} />
+        <Route path="/repertorio" element={<LayoutPrincipal><Repertorio /></LayoutPrincipal>} />
+        <Route path="/crear-menu" element={<LayoutPrincipal><CrearMenu /></LayoutPrincipal>} />
+        <Route path="/reservas" element={<LayoutPrincipal><Reservas /></LayoutPrincipal>} />
+        <Route path="/crear-reservas" element={<LayoutPrincipal><CrearReservas /></LayoutPrincipal>} />
+        <Route path="/comentarios" element={<LayoutPrincipal><Comentario /></LayoutPrincipal>} />
+        <Route path="/crear-restaurantes" element={<CrearRestaurante />} />
       </Routes>
     </AnimatePresence>
   );

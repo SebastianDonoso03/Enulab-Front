@@ -65,5 +65,3 @@ export const updateMenu = async (restaurantId, menusId, menusData) => {
       throw error;
     }
   };
-  
-  

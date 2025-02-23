@@ -1,10 +1,10 @@
 /* Estilos generales */
 body {
   background-color: #1c1c1e; /* Fondo oscuro más elegante */
-  color: #ffffff; /* Texto en blanco para mayor contraste */
+  color: #E9E9E9; /* Texto en blanco para mayor contraste */
   font-family: "Arial", sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 0px;
 }
 
 /* Etiquetas */
@@ -50,7 +50,7 @@ h2 {
 
 /* Estilos para la sección de restaurantes */
 .restaurantes-container {
-  background-color: #d8d5d5;
+  background-color: #706f6f;
   color: white;
   padding: 20px;
 }

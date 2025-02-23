@@ -64,7 +64,7 @@ const Platos = () => {
         <h2 className="text-gold">Platos</h2>
         <Link to="/Crear-Plato"  className="btn btn-warning text-dark">
           <i className="bi bi-plus-circle me-2"></i>
-          Crear Plato +
+          Crear Plato
         </Link>
       </div>
 

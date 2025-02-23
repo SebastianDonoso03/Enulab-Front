@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createInventory } from "../../services/inventory.Services";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CrearInventarios from "../../styles/CrearInventarios.css"; // Importamos el archivo CSS
 
 const CrearInventario = () => {
   const navigate = useNavigate();
@@ -51,21 +52,18 @@ const CrearInventario = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100" style={{ color: "gold" }}>
-      <div className="card p-4 shadow-lg" style={{ maxWidth: "600px", width: "100%", borderRadius: "15px", backgroundColor: "#222", border: "2px solid gold" }}>
-        <h2 className="text-center mb-4" style={{ color: "gold" }}>Crear Inventario</h2>
+    <div className="crear-inventario-container">
+      <div className="crear-inventario-card">
+        <h2 className="text-center mb-4">Crear Inventario</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label fw-bold text-light">Nombre del Producto</label>
-            <input type="text" className="form-control" name="nombreproductos" value={formData.nombreproductos} onChange={handleChange} required />
+          <div className="form-group">
+            <input type="text" className="form-control" name="nombreproductos" value={formData.nombreproductos} onChange={handleChange} placeholder="Nombre del Producto" required />
           </div>
-          <div className="mb-3">
-            <label className="form-label fw-bold text-light">Cantidad</label>
-            <input type="number" className="form-control  " name="cantidad" value={formData.cantidad} onChange={handleChange} required />
+          <div className="form-group">
+            <input type="number" className="form-control" name="cantidad" value={formData.cantidad} onChange={handleChange} placeholder="Cantidad" required />
           </div>
-          <div className="mb-3">
-            <label className="form-label fw-bold text-light">Categoría</label>
-            <select className="form-select " name="categoria" value={formData.categoria} onChange={handleChange} required>
+          <div className="form-group">
+            <select className="form-control" name="categoria" value={formData.categoria} onChange={handleChange} required>
               <option value="">Seleccione una categoría</option>
               <option value="Lácteos y derivados">Grupo 1: Lácteos y derivados</option>
               <option value="Carne, huevos y pescado">Grupo 2: Carne, huevos y pescado</option>
@@ -76,13 +74,11 @@ const CrearInventario = () => {
               <option value="Grasas, aceites y mantequillas">Grupo 7: Grasas, aceites y mantequillas</option>
             </select>
           </div>
-          <div className="mb-3">
-            <label className="form-label fw-bold text-light">Descripción</label>
-            <textarea className="form-control" name="descripcion" value={formData.descripcion} onChange={handleChange} required></textarea>
+          <div className="form-group">
+            <textarea className="form-control" name="descripcion" value={formData.descripcion} onChange={handleChange} placeholder="Descripción" required></textarea>
           </div>
-          <div className="d-flex justify-content-between">
-            <button type="button"  className="btn btn-warning text-dark" onClick={() => navigate("/Inventario")}>Atrás</button>
-            <button type="submit"  className="btn btn-warning text-dark">Guardar Producto</button>
+          <div className="form-actions">
+            <button type="submit" className="btn btn-warning">Guardar Producto</button>
           </div>
         </form>
       </div>

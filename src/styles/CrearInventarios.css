@@ -1,0 +1,108 @@
+/* Estilos específicos para la página de Crear Inventario */
+
+/* Contenedor principal de la página */
+.crear-inventario-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Cambié align-items para que esté más arriba */
+  height: 50vh;
+  background-color: #706f6f;
+  padding-top: 50px; /* Añadí un poco de margen en la parte superior */
+}
+
+/* Tarjeta de creación de inventario */
+.crear-inventario-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 40px; /* Aumenté el padding para que el formulario sea más grande */
+  background-color: #292b2c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 30px; /* Agregué un margen en la parte inferior para más espacio */
+}
+
+/* Título del formulario */
+.crear-inventario-card h2 {
+  font-size: 28px; /* Aumenté el tamaño de la fuente */
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+/* Estilo común para los inputs, textarea y select */
+.form-control {
+  width: 100%;
+  padding: 15px; /* Aumenté el padding para los inputs */
+  margin: 15px 0; /* Añadí más margen entre los elementos */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Estilo para el botón de guardar */
+.btn-warning {
+  width: 40%;
+  padding: 15px; /* Aumenté el padding */
+  background-color: #f39c12;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Efecto hover en el botón de guardar */
+.btn-warning:hover {
+  background-color: #45a049;
+}
+
+/* Estilo para el botón de atrás */
+.btn-light {
+  width: 100%;
+  padding: 15px; /* Aumenté el padding */
+  background-color: transparent;
+  color: #be4f4f;
+  border: 1px solid #be4f4f;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Efecto hover en el botón de atrás */
+.btn-light:hover {
+  background-color: #be4f4f;
+  color: white;
+}
+
+/* Espaciado entre los botones */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Aumenté el margen entre los botones */
+}
+
+/* Responsive para dispositivos pequeños */
+@media (max-width: 600px) {
+  .crear-inventario-container {
+    padding: 20px;
+  }
+
+  .crear-inventario-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .form-control {
+    padding: 12px; /* Aumenté el padding para inputs en móvil también */
+    font-size: 14px;
+  }
+
+  .btn-warning {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

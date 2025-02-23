@@ -1,159 +1,105 @@
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useNavigate } from "react-router-dom";
+import "../../src/styles/Sidebar.css"; // Asegúrate de tener este archivo de estilo CSS
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla la apertura del menú "Menús"
   const [isCartasOpen, setIsCartasOpen] = useState(false); // Controla la apertura de "Cartas"
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false); // Controla la apertura del submenú de "Cartas" (Platos, Postres, Bebidas)
+  
   const navigate = useNavigate(); // Hook para la navegación
 
-  const handleLogout = () => {
-    localStorage.removeItem("user_id"); // Eliminar el ID del usuario
-    navigate("/login"); // Redirigir a la página de inicio de sesión
-  };
-  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     if (!isMenuOpen) setIsCartasOpen(false); // Si se cierra "Menús", también se cierra "Cartas"
+    setIsSubMenuOpen(false); // Cierra el submenú de cartas si se cierra el menú
   };
 
   const toggleCartas = (e) => {
     e.preventDefault(); // Evita que el enlace cambie la página al hacer clic en el ícono
     setIsCartasOpen(!isCartasOpen);
+    setIsSubMenuOpen(false); // Cierra el submenú de "Cartas" al cerrarse el menú
+    navigate("/repertorio"); // Redirige a "Repertorio" cuando se hace clic en "Cartas"
+  };
+
+  const toggleSubMenu = () => {
+    setIsSubMenuOpen(!isSubMenuOpen);
   };
 
   return (
-    <>
-      {/* Navbar */}
-      <Navbar bg="dark" variant="dark" expand="lg" className="p-3 fixed-top">
-        <Container fluid>
-          {/* Logo */}
-          <Navbar.Brand href="/inicio" className="text-warning">
-            <img
-              src={require("../images/logo_enulab.png")}
-              alt="Logo"
-              width="70"
-              height="60"
-              className="d-inline-block align-top me-2"
-            />
-           
-          </Navbar.Brand>
+    <div className="layout-container">
+      {/* Sidebar izquierdo */}
+      <div className="sidebar">
+        <ul className="sidebar-nav">
+          {/* Enlaces principales */}
+          <li>
+            <Link to="/inicio">Inicio</Link>
+          </li>
+          <li>
+            <Link to="/empleados">Empleados</Link>
+          </li>
+          <li>
+            <Link to="/restaurantes">Restaurantes</Link>
+          </li>
+          <li>
+            <Link to="/reservas">Reservas</Link>
+          </li>
+          <li>
+            <Link to="/proveedores">Proveedores</Link>
+          </li>
+          <li>
+            <Link to="/inventario">Inventario</Link>
+          </li>
+          <li>
+            <Link to="/comentarios">Comentarios</Link>
+          </li>
 
-          {/* Botón para colapsar el menú en móviles */}
-          <Navbar.Toggle aria-controls="navbar-nav" className="border-0">
-            <i className="bi bi-list text-warning"></i>
-          </Navbar.Toggle>
-
-          {/* Menú colapsable */}
-          <Navbar.Collapse id="navbar-nav">
-            <Nav className="me-auto">
-              {/* Restaurantes */}
-              <Nav.Link href="/inicio" className="text-warning me-3">
-                <i className="bi bi-plus-circle me-2"></i>
-                Restaurantes
-              </Nav.Link>
-
-              {/* Reservas */}
-              <Nav.Link as={Link} to="/Reservas" className="text-warning me-3">
-                <i className="bi bi-calendar-check me-2"></i>
-                Reservas
-              </Nav.Link>
-
-              {/* Empleados */}
-              <Nav.Link as={Link} to="/empleados" className="text-warning me-3">
-                <i className="bi bi-people me-2"></i>
-                Empleados
-              </Nav.Link>
-
-              {/* Proveedores */}
-              <Nav.Link as={Link} to="/Proveedores" className="text-warning me-3">
-                <i className="bi bi-people me-2"></i>
-                Proveedores
-              </Nav.Link>
-
-              {/* Inventario */}
-              <Nav.Link as={Link} to="/Inventario" className="text-warning me-3">
-                <i className="bi bi-people me-2"></i>
-                Inventario
-              </Nav.Link>
-              <Nav.Link as={Link} to="/Comentarios" className="text-warning me-3">
-                <i className="bi bi-people me-2"></i>
-                Comentarios
-              </Nav.Link>
-
-              {/* Menús */}
-              <Nav.Item className="me-3">
-                <Nav.Link
-                  className="text-warning"
-                  onClick={toggleMenu}
-                  style={{ cursor: "pointer" }}
+          {/* Menús */}
+          <li
+            onMouseEnter={() => setIsMenuOpen(true)} // Al pasar el mouse se abre "Menús"
+            onMouseLeave={() => setIsMenuOpen(false)} // Al salir el mouse se cierra "Menús"
+          >
+            <div style={{ cursor: "pointer" }}>
+              Menús
+            </div>
+            {isMenuOpen && (
+              <ul className="sub-menu">
+                {/* Cartas */}
+                <li
+                  onMouseEnter={() => setIsCartasOpen(true)} // Al pasar el mouse se abre "Cartas"
+                  onMouseLeave={() => setIsCartasOpen(false)} // Al salir el mouse se cierra "Cartas"
                 >
-                  <i className="bi bi-list me-2"></i>
-                  Menús
-                </Nav.Link>
-                {isMenuOpen && (
-                  <Nav className="flex-column ms-4">
-                    {/* Cartas */}
-                    <Nav.Item>
-                      <div className="d-flex align-items-center">
-                        <Nav.Link
-                          as={Link}
-                          to="/Repertorio"
-                          className="text-warning flex-grow-1"
-                        >
-                          <i className="bi bi-list-ul me-2"></i>
-                          Cartas
-                        </Nav.Link>
-                        <Button
-                          variant="link"
-                          className="text-warning p-0"
-                          onClick={toggleCartas}
-                        >
-                          <i className={`bi ${isCartasOpen ? "bi-chevron-up" : "bi-chevron-down"}`}></i>
-                        </Button>
-                      </div>
-                      {isCartasOpen && (
-                        <Nav className="flex-column ms-4">
-                          <Nav.Link as={Link} to="/Platos" className="text-warning">
-                            <i className="bi bi-egg me-2"></i>
-                            Platos
-                          </Nav.Link>
-                          <Nav.Link as={Link} to="/Bebidas" className="text-warning">
-                            <i className="bi bi-cup-straw me-2"></i>
-                            Bebidas
-                          </Nav.Link>
-                          <Nav.Link as={Link} to="/Postres" className="text-warning">
-                            <i className="bi bi-cake me-2"></i>
-                            Postres
-                          </Nav.Link>
-                        </Nav>
-                      )}
-                    </Nav.Item>
-                  </Nav>
-                )}
-              </Nav.Item>
-            </Nav>
-
-            {/* Botón de Cerrar Sesión */}
-            <Nav>
-              <Nav.Link className="text-warning">
-                <Button variant="outline-warning" onClick={handleLogout}>
-                  <i className="bi bi-box-arrow-right me-2"></i>
-                  Cerrar Sesión
-                </Button>
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+                  <Link to="#" onClick={toggleCartas}>
+                    Cartas
+                  </Link>
+                  {isCartasOpen && (
+                    <ul className="sub-sub-menu">
+                      {/* Submenú de Cartas */}
+                      <li>
+                        <Link to="/platos">Platos</Link>
+                      </li>
+                      <li>
+                        <Link to="/bebidas">Bebidas</Link>
+                      </li>
+                      <li>
+                        <Link to="/postres">Postres</Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              </ul>
+            )}
+          </li>
+        </ul>
+      </div>
 
       {/* Contenido Principal */}
-      <div style={{ marginTop: "80px", padding: "20px" }}>
+      <div className="content">
         <Outlet /> {/* Aquí se renderizan los componentes hijos */}
       </div>
-    </>
+    </div>
   );
 };
 
