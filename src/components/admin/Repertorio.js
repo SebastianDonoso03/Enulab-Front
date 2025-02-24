@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
+import "../../styles/Restaurantess.css"
 import { getMenusByRestaurant, updateMenu, deleteMenu } from "../../services/menuServices";
 
 const Repertorio = () => {
@@ -65,7 +66,7 @@ const Repertorio = () => {
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
-      <h2 className="restaurantes-title text-center">Menús Disponibles</h2>
+      <h2 className="repertorio-titulo ">Menús Disponibles</h2>
 
       <div className="d-flex justify-content-center mb-4">
         <button  className="btn btn-warning text-dark" onClick={() => navigate("/crear-menu")}>

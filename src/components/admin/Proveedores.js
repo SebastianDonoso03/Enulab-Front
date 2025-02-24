@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { deleteSupplier, updateSupplier, getSupplierByRestaurant } from "../../services/supplierServices";
+
+
 const ciudadesEcuador = [
   "Quito", "Guayaquil", "Cuenca", "Santo Domingo", "Machala", "Manta", "Portoviejo", "Ambato", "Loja", "Ibarra"
 ];

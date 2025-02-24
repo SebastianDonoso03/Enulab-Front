@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import "../styles/Home.css"; // Asegúrate de importar el archivo de estilos adecuado
+import Navbars from"../styles/Navbars.css"; // Asegúrate de importar el archivo de estilos adecuado
+import { FaBars } from "react-icons/fa"; // Importamos el ícono de hamburguesa
 
-const Navbar = () => {
+const Navbar = ({ toggleSidebar }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid">
@@ -17,9 +18,11 @@ const Navbar = () => {
 
         {/* Menú de navegación */}
         <div className="d-flex ms-auto">
-          <Link className="nav-link" to="/login">
-            Cerrar Sesión
-          </Link>
+          {/* Icono de hamburguesa solo visible en pantallas pequeñas */}
+          <button className="navbar-toggler" onClick={toggleSidebar}>
+            <FaBars />
+          </button>
+          
         </div>
       </div>
     </nav>

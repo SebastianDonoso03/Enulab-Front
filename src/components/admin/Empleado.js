@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import { getEmployeesByRestaurant, updateEmployee, deleteEmployee } from '../../services/employeeServices';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Empleados from "../../styles/Empleados.css"
 
 const Empleado = () => {
   const restaurantId = localStorage.getItem('selectedRestaurantId');

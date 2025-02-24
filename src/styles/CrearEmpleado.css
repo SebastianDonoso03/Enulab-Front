@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     min-height: 80vh; /* Cambié de 100vh a 80vh para darle más espacio arriba */
-    background-color: #706f6f;
+    background-color: #E4E4E4FF;
      padding-top: 20px; /* Espacio superior para separarlo del borde */
   }
   
@@ -46,9 +46,9 @@
   
   /* Estilo para el botón de enviar */
   .crear-empleado-button {
-    width: 100%;
+    width: 40%;
     padding: 12px;
-    background-color: #f39c12;
+    background-color: #70bee2;
     color: #000000;
     border: none;
     border-radius: 5px;

@@ -47,7 +47,7 @@
 .crear-empleado-button {
   width: 100%;
   padding: 12px;
-  background-color: #f39c12;
+  background-color: #4e9ce6;
   color: #000000;
   border: none;
   border-radius: 5px;
@@ -58,7 +58,7 @@
 
 /* Efecto de hover en el botón de enviar */
 .crear-empleado-button:hover {
-  background-color: #45a049;
+  background-color: #a04591;
 }
 
 /* Estilo para el enlace de cancelar */

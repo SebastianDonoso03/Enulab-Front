@@ -1,0 +1,115 @@
+/* Estilo minimalista mejorado para el layout */
+
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: row;
+}
+
+/* ======== SIDEBAR ======== */
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 50px);
+  background-color: rgb(188, 190, 190);
+  position: fixed;
+  top: 70px;
+  left: -220px; /* Inicialmente fuera de la pantalla */
+  padding: 10px 0;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  z-index: 5;
+  transition: left 0.3s ease; /* Animación para el deslizamiento */
+}
+
+/* Cuando el Sidebar está abierto */
+.sidebar.open {
+  left: 0; /* Cuando está abierto, se posiciona a la izquierda */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Elementos del menú */
+.sidebar ul li {
+  padding: 12px 20px;
+}
+
+.sidebar ul li a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+/* Hover en los enlaces del menú */
+.sidebar ul li:hover {
+  background-color: rgb(159, 175, 192);
+}
+
+/* Submenús */
+.sub-menu {
+  padding-left: 10px;
+  display: none;
+  color: black;
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+.sub-menu.open {
+  display: block; /* Mostrar cuando el submenú está abierto */
+}
+
+/* Ajuste de los submenús desplegables */
+.sub-menu li {
+  padding: 10px 25px; /* Espaciado para los submenús */
+  font-size: 14px; /* Tamaño de letra ajustado para submenús */
+}
+
+.sub-sub-menu {
+  padding-left: 20px;
+  display: none;
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+/* Mostrar el sub-sub-menú cuando se activa */
+.sub-sub-menu.open {
+  display: block;
+}
+
+/* Efecto hover para los elementos del sub-sub-menú (Platos, Bebidas, Postres) */
+.sub-sub-menu li:hover {
+  background-color: #d3d3d3; /* Gris claro */
+  cursor: pointer; /* Cambiar el cursor para indicar que es clickeable */
+}
+
+.sub-menu-toggle:hover .sub-sub-menu {
+  display: block;
+}
+
+/* ======== CONTENIDO PRINCIPAL ======== */
+.content {
+  margin-left: 220px;
+  padding: 0px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+}
+
+/* ======== SIDEBAR RESPONSIVO ======== */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -220px; /* Sidebar fuera de la pantalla en pantallas pequeñas */
+  }
+
+  .sidebar.open {
+    left: 0; /* Muestra el sidebar al hacer clic en el icono de hamburguesa */
+  }
+
+  .sidebar ul li {
+    padding: 10px 15px;
+  }
+
+  .sidebar ul li a {
+    font-size: 14px; /* Ajuste de tamaño de letra para pantallas pequeñas */
+  }
+}

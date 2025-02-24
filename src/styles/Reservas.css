@@ -1,11 +1,11 @@
 /* Estilos generales */
 body {
-    background-color: #333333; /* Fondo oscuro */
-    color: #f0d100; /* Color dorado */
+    background-color: #E4E4E4FF; /* Fondo oscuro */
+    color: #000000; /* Color dorado */
   }
  /*todos los label*/
  label{
-  color: aliceblue;
+  color: rgb(0, 0, 0);
 }
 
   /* Contenedor principal */
@@ -13,12 +13,16 @@ body {
     margin-top: 50px;
   }
   .btn{
-    background-color: #d99c29;
+    background-color: #70bee2; /*reservas tien todos los colores azules de botones*/
+    width: 20%;
+  
+    border-radius: 20px;
+    
   }
   
   /* Títulos */
   h2 {
-    color: #f0d100; /* Dorado */
+    color: #fdfdfd; /* color general de titulos letra */
     font-weight: bold;
     text-align: center;
   }
@@ -35,19 +39,19 @@ body {
   .card-body {
     padding: 5px;
     width: auto;
-    color: #d3d1c4; /* Color dorado */
+    color: #000000; /* Color dorado */
   }
   
   /* Título dentro de la tarjeta */
   .card-title {
-    color: #f0d100; /* Dorado */
+    color: #ffffff; /* Dorado */
     font-size: 1.2rem;
     font-weight: bold;
   }
   
   /* Texto dentro de la tarjeta */
   .card-text {
-    color: #c6c6c6; /* Color gris suave */
+    color: #000000; /* Color gris suave */
     font-size: 0.9rem;
     margin-bottom: 10px;
   }

@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import authService from "../../services/registerServices";
-import "../../styles/Auth.css";
+import "../../styles/Auth.css";  // Se mantiene Auth.css para ambos
 
 const images = [
   require("../../images/image1.jpg"),
   require("../../images/image2.jpg"),
   require("../../images/image3.jpg"),
 ];
-
 
 const pageVariants = {
   initial: { opacity: 0, x: 0 },
@@ -104,18 +103,26 @@ const Register = () => {
             {error && <div className="text-center text-red-500" aria-live="polite">{error}</div>}
             <form onSubmit={handleSubmit}>
               {["nombreCompleto", "correoElectronico", "ruc", "contacto", "password"].map((id) => (
-                <input key={id} type={id === "password" ? "password" : "text"} id={id} className="auth-input" value={formData[id]} onChange={handleChange} placeholder={id} />
+                <input 
+                  key={id} 
+                  type={id === "password" ? "password" : "text"} 
+                  id={id} 
+                  className="auth-input" 
+                  value={formData[id]} 
+                  onChange={handleChange} 
+                  placeholder={id} 
+                />
               ))}
               {passwordMessage && <p className="text-sm text-yellow-500">{passwordMessage}</p>}
               <label className="auth-checkbox">
                 <input type="checkbox" checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)} />
                 Acepto los <Link to="/terms" className="auth-link">términos y condiciones</Link>.
               </label>
-              <div className="mt-4">
+              <div className="mt-1">
                 <button type="submit" className="auth-button">Registrarse</button>
               </div>
             </form>
-            <div className="text-center mt-4">
+            <div className="text-center mt-1">
               <Link to="/login" className="auth-link">¿Ya tienes una cuenta? Inicia sesión</Link>
             </div>
           </div>

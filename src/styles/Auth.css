@@ -65,42 +65,45 @@
   justify-content: center;
   align-items: center;
   background: rgba(202, 202, 202, 0.555);
-  padding: 2rem;
+  padding: 1.5rem; /* Reducido el padding vertical */
+  height: auto; /* Hacer la altura dinámica según el contenido */
+  max-height: 80vh; /* Limitar la altura máxima */
+  overflow-y: auto; /* Añadir scroll si el contenido es demasiado grande */
 }
 
 /* Tarjeta de autenticación */
 .auth-card {
   width: 100%;
   max-width: 350px;
+  max-height: 150%; /* Limitar la altura máxima de la tarjeta */
   text-align: center;
-  
+  padding: 0.5rem; /* Ajustar padding */
+  overflow-y: auto; /* Añadir scroll si el contenido dentro de la tarjeta es grande */
 }
 
 /* Inputs */
 .auth-input {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #f4f4f4;
+  padding: 8px;
+  margin: 8px 0;
 }
 
 /* Botón */
 .auth-button {
-  background-color: #f1af33;
+  background-color: #000000;
   border: none;
-  padding: 10px;
+  padding: 8px; /* Reducido el padding del botón */
   width: 100%;
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s;
   font-weight: bold;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
 }
 
 .auth-button:hover {
-  background-color: #b68c33;
+  background-color: #70bee2;
 }
 
 /* Enlace */
@@ -108,10 +111,13 @@
   color: #000000;
   text-decoration: none;
   font-weight: bold;
+  
 }
-.text-center{
+
+.text-center {
   color: rgb(255, 255, 255);
 }
+
 .auth-link:hover {
   text-decoration: underline;
 }

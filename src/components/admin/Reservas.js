@@ -103,7 +103,7 @@ const Reserva = () => {
 
   return (
     <div className="restaurantes-container min-vh-100 w-100">
-      <h2 className="restaurantes-title text-center">Reservas</h2>
+      <h2 className="reservas-title">Reservas</h2>
 
       {/* Botón para abrir el modal del QR */}
       <div className="d-flex justify-content-center mb-4">
@@ -145,7 +145,7 @@ const Reserva = () => {
   }}
 >
   {reservas.length === 0 ? (
-    <p className="text-center">No hay reservas disponibles</p>
+    <p className="reservaDisponible">No hay reservas disponibles</p>
   ) : (
     reservas.map((reserva) => (
       <div key={reserva.id} className="restaurante-card p-3 border rounded shadow">

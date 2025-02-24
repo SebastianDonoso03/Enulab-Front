@@ -1,0 +1,38 @@
+/* ======== NAVBAR ======== */
+.navbar {
+  background-color: rgb(188, 190, 190);
+  height: 70px;
+  padding: 10px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+/* Logo */
+.img-logo {
+  margin-top: 10%;
+  margin-left: -20%;
+  height: 50px;
+  max-height: 700px;
+  width: auto;
+  object-fit: contain;
+}
+
+.navbar-toggler {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-toggler {
+    display: block;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+  }
+}

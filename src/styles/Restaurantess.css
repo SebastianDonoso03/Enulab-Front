@@ -1,10 +1,10 @@
 /* Estilos generales */
 body {
-  background-color: #1c1c1e; /* Fondo oscuro más elegante */
-  color: #E9E9E9; /* Texto en blanco para mayor contraste */
+  background-color: #1c1c1e;
+  color: #E9E9E9;
   font-family: "Arial", sans-serif;
   margin: 0;
-  padding: 0px;
+  padding: 0;
 }
 
 /* Etiquetas */
@@ -18,22 +18,26 @@ label {
   margin-top: 50px;
 }
 
-.text-centerAny{
+.text-centerAny {
   justify-content: center;
   padding: 20px;
   color: #000;
   text-align: center;
   font-size: 30px;
 }
+
 /* Botones */
 .btn {
-  background-color: #f39c12;
+  background-color: #12d1f3;
   color: #000;
   border-radius: 8px;
   padding: 10px 15px;
   font-weight: bold;
   transition: all 0.3s ease;
   border: none;
+  width: auto;
+  min-width: 100px;
+  text-align: center;
 }
 
 .btn:hover {
@@ -50,7 +54,7 @@ h2 {
 
 /* Estilos para la sección de restaurantes */
 .restaurantes-container {
-  background-color: #706f6f;
+  background-color: #E4E4E4FF;
   color: white;
   padding: 20px;
 }
@@ -62,18 +66,38 @@ h2 {
   text-align: center;
 }
 
-
-.restaurantes-titleytext-center{
+.restaurantes-titleytext-center {
   color: #000;
 }
+
 .restaurantes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Mejor ajuste responsivo */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   justify-content: center;
   padding: 20px;
-  color: #000;
+}
+.reservaDisponible,
+.reservas-title{
+  /* Tus estilos aquí */
+  color: black; /* Ejemplo de color negro */
+}
 
+
+.repertorio-titulo{
+  color: #000;
+}
+/* Responsividad */
+@media (max-width: 1024px) {
+  .restaurantes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .restaurantes-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .restaurante-card {
@@ -96,12 +120,12 @@ h2 {
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 15px;
-  border: 3px solid #f39c12;
+  border: 3px solid #e6e6e6;
 }
 
 .restaurante-info h3 {
   font-size: 1.5rem;
-  color: #f39c12;
+  color: #ebebeb;
   margin-bottom: 10px;
 }
 
@@ -111,11 +135,24 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* Botones en las tarjetas */
+/* Alineación de botones dentro de cada tarjeta */
+.restaurante-card .d-flex {
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
 .restaurante-card .btn {
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
   padding: 8px 12px;
-  border-radius: 5px;
+  width: auto;
+  min-width: 100px;
+  text-align: center;
 }
 
 /* Estilos del Modal */
@@ -131,17 +168,4 @@ h2 {
 
 .modal-footer {
   border-top: 1px solid #444;
-}
-
-/* Responsividad */
-@media (max-width: 576px) {
-  .restaurantes-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 1024px) {
-  .restaurantes-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }

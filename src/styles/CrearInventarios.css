@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: flex-start; /* Cambié align-items para que esté más arriba */
   height: 50vh;
-  background-color: #706f6f;
+  background-color: #E4E4E4FF;
   padding-top: 50px; /* Añadí un poco de margen en la parte superior */
 }
 
