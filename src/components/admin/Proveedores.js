@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { deleteSupplier, updateSupplier, getSupplierByRestaurant } from "../../services/supplierServices";
-
+import Swal from "sweetalert2"; // Importamos SweetAlert2
 
 const ciudadesEcuador = [
   "Quito", "Guayaquil", "Cuenca", "Santo Domingo", "Machala", "Manta", "Portoviejo", "Ambato", "Loja", "Ibarra"
@@ -13,15 +13,14 @@ const provinciasEcuador = [
   "Imbabura", "Loja", "Los Ríos", "Manabí", "Morona Santiago", "Napo", "Orellana", "Pastaza", "Pichincha", "Santa Elena",
   "Santo Domingo de los Tsáchilas", "Sucumbíos", "Tungurahua", "Zamora Chinchipe"
 ];
+
 const Proveedores = () => {
-  // Recuperamos el `restaurantId` desde el localStorage
   const restaurantId = localStorage.getItem("selectedRestaurantId");
 
   const [showModal, setShowModal] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [proveedores, setProveedores] = useState([]);
 
-  // Cargar proveedores al inicio
   useEffect(() => {
     const fetchSuppliers = async () => {
       try {
@@ -36,7 +35,6 @@ const Proveedores = () => {
     }
   }, [restaurantId]);
 
-  // Función para manejar la actualización del proveedor
   const handleUpdateClick = (proveedor) => {
     setSelectedSupplier(proveedor);
     setShowModal(true);
@@ -47,7 +45,6 @@ const Proveedores = () => {
     setSelectedSupplier(null);
   };
 
-  // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setSelectedSupplier((prev) => ({
@@ -56,33 +53,54 @@ const Proveedores = () => {
     }));
   };
 
-  // Guardar cambios después de actualizar
   const handleSaveChanges = async () => {
     if (selectedSupplier) {
-      try {
-        await updateSupplier(restaurantId, selectedSupplier.id, selectedSupplier);
-        setShowModal(false);
+      // Confirmar antes de guardar los cambios
+      const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¿Deseas guardar los cambios?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, guardar',
+        cancelButtonText: 'Cancelar',
+      });
 
-        // Actualizar la lista de proveedores después de la edición
-        const updatedSuppliers = await getSupplierByRestaurant(restaurantId);
-        setProveedores(updatedSuppliers);
-      } catch (error) {
-        console.error("Error al guardar los cambios", error);
+      if (result.isConfirmed) {
+        try {
+          await updateSupplier(restaurantId, selectedSupplier.id, selectedSupplier);
+          setShowModal(false);
+
+          const updatedSuppliers = await getSupplierByRestaurant(restaurantId);
+          setProveedores(updatedSuppliers);
+          Swal.fire('¡Éxito!', 'Proveedor actualizado correctamente.', 'success');
+        } catch (error) {
+          console.error("Error al guardar los cambios", error);
+          Swal.fire('Error', 'Hubo un problema al actualizar el proveedor.', 'error');
+        }
       }
     }
   };
 
-  // Manejo de eliminación de proveedor
   const handleDeleteClick = async (id) => {
-    if (window.confirm("¿Estás seguro que deseas eliminar este proveedor?")) {
+    // Confirmar antes de eliminar
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Deseas eliminar este proveedor?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    });
+
+    if (result.isConfirmed) {
       try {
         await deleteSupplier(restaurantId, id);
-
-        // Filtrar la lista para eliminar el proveedor eliminado
         const updatedSuppliers = proveedores.filter((prov) => prov.id !== id);
         setProveedores(updatedSuppliers);
+        Swal.fire('¡Eliminado!', 'Proveedor eliminado correctamente.', 'success');
       } catch (error) {
         console.error("Error al eliminar el proveedor", error);
+        Swal.fire('Error', 'Hubo un problema al eliminar el proveedor.', 'error');
       }
     }
   };
@@ -96,7 +114,6 @@ const Proveedores = () => {
         </Link>
       </div>
 
-      {/* Mostrar mensaje si no hay proveedores */}
       {proveedores.length === 0 ? (
         <div className="alert alert-info" role="alert">
           No hay proveedores registrados. ¡Agrega uno nuevo!
@@ -124,7 +141,7 @@ const Proveedores = () => {
                   <td>{prov.direction}</td>
                   <td>{prov.city}</td>
                   <td>{prov.country}</td>
-                  <td className="d-flex justify-content-start">
+                  <td className="d-flex justify-content-center">
                     <button
                       className="btn btn-warning btn-sm me-2"
                       onClick={() => handleUpdateClick(prov)}
@@ -145,7 +162,6 @@ const Proveedores = () => {
         </div>
       )}
 
-      {/* Modal para actualizar proveedor */}
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className=" text-light">
           <Modal.Title>
@@ -215,20 +231,20 @@ const Proveedores = () => {
             </div>
           </form>
         </Modal.Body>
-        <Modal.Footer >
+        <Modal.Footer>
           <Button className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
             backgroundColor: "#f39c12",
             borderColor: "#f39c12",
-            color: "#000", // Color del texto
+            color: "#000",
           }}>
             Cancelar
           </Button>
           <Button className="btn btn-warning text-dark" onClick={handleSaveChanges} style={{
             backgroundColor: "#f39c12",
             borderColor: "#f39c12",
-            color: "#000", // Color del texto
+            color: "#000",
           }}>
-            Guardar Cambios
+            Guardar
           </Button>
         </Modal.Footer>
       </Modal>

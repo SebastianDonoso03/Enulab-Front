@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
-import "../../styles/Restaurantess.css"
+import "../../styles/Restaurantess.css";
 import { getMenusByRestaurant, updateMenu, deleteMenu } from "../../services/menuServices";
+import Swal from "sweetalert2"; // Importamos SweetAlert2
 
 const Repertorio = () => {
   const restaurantId = localStorage.getItem("selectedRestaurantId");
@@ -37,26 +37,79 @@ const Repertorio = () => {
 
   const handleSaveChanges = async () => {
     if (selectedMenu) {
-      try {
-        await updateMenu(restaurantId, selectedMenu.id, selectedMenu);
-        setShowModal(false);
-        const updatedMenus = await getMenusByRestaurant(restaurantId);
-        setMenus(updatedMenus);
-      } catch (error) {
-        console.error("Error al guardar los cambios:", error);
-      }
+      // Mensaje de confirmación antes de guardar los cambios
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Los cambios realizados se guardarán.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#f39c12',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, guardar',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await updateMenu(restaurantId, selectedMenu.id, selectedMenu);
+            setShowModal(false);
+            const updatedMenus = await getMenusByRestaurant(restaurantId);
+            setMenus(updatedMenus);
+
+            // Alerta de éxito en la actualización
+            Swal.fire({
+              icon: 'success',
+              title: 'Menú actualizado',
+              text: 'El menú se actualizó correctamente',
+              confirmButtonColor: '#f39c12',
+            });
+          } catch (error) {
+            console.error("Error al guardar los cambios:", error);
+            // Alerta de error
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al actualizar el menú',
+              confirmButtonColor: '#f39c12',
+            });
+          }
+        }
+      });
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este menú?")) {
-      try {
-        await deleteMenu(restaurantId, id);
-        setMenus(menus.filter((menu) => menu.id !== id));
-      } catch (error) {
-        console.error("Error al eliminar el menú", error);
+    // Usamos Swal en lugar de window.confirm
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Este menú será eliminado de forma permanente.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#f39c12',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteMenu(restaurantId, id);
+          setMenus(menus.filter((menu) => menu.id !== id));
+          // Alerta de éxito en la eliminación
+          Swal.fire({
+            icon: 'success',
+            title: 'Menú eliminado',
+            text: 'El menú se eliminó correctamente',
+            confirmButtonColor: '#f39c12',
+          });
+        } catch (error) {
+          console.error("Error al eliminar el menú", error);
+          // Alerta de error en la eliminación
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un error al eliminar el menú',
+            confirmButtonColor: '#f39c12',
+          });
+        }
       }
-    }
+    });
   };
 
   const handleManage = (id) => {
@@ -69,7 +122,7 @@ const Repertorio = () => {
       <h2 className="repertorio-titulo ">Menús Disponibles</h2>
 
       <div className="d-flex justify-content-center mb-4">
-        <button  className="btn btn-warning text-dark" onClick={() => navigate("/crear-menu")}>
+        <button className="btn btn-warning text-dark" onClick={() => navigate("/crear-menu")}>
           Agregar Menú +
         </button>
       </div>
@@ -138,19 +191,27 @@ const Repertorio = () => {
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button  className="btn btn-warning text-dark" onClick={handleCloseModal} style={{
-      backgroundColor: "#f39c12",
-      borderColor: "#f39c12",
-      color: "#000", // Color del texto
-    }}>
+          <Button
+            className="btn btn-warning text-dark"
+            onClick={handleCloseModal}
+            style={{
+              backgroundColor: "#f39c12",
+              borderColor: "#f39c12",
+              color: "#000", // Color del texto
+            }}
+          >
             Cancelar
           </Button>
-          <Button   className="btn btn-warning text-dark" onClick={handleSaveChanges} style={{
-      backgroundColor: "#f39c12",
-      borderColor: "#f39c12",
-      color: "#000", // Color del texto
-    }}>
-            Guardar Cambios
+          <Button
+            className="btn btn-warning text-dark"
+            onClick={handleSaveChanges}
+            style={{
+              backgroundColor: "#f39c12",
+              borderColor: "#f39c12",
+              color: "#000", // Color del texto
+            }}
+          >
+            Guardar
           </Button>
         </Modal.Footer>
       </Modal>

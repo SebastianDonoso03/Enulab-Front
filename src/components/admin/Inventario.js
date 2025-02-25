@@ -6,7 +6,9 @@ import {
   updateInventory,
   deleteInventory,
 } from "../../services/inventory.Services";
+import Swal from "sweetalert2"; // Importa SweetAlert2
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Inventario = () => {
   const restaurantId = localStorage.getItem("selectedRestaurantId");
 
@@ -38,30 +40,79 @@ const Inventario = () => {
 
   const handleSaveChanges = async () => {
     if (selectedProducto) {
-      try {
-        await updateInventory(
-          restaurantId,
-          selectedProducto.id,
-          selectedProducto
-        );
-        setShowModal(false);
-        const updatedInventory = await getInventoryByRestaurant(restaurantId);
-        setProductos(updatedInventory);
-      } catch (error) {
-        console.error("Error al guardar los cambios:", error);
-      }
+      Swal.fire({
+        title: '¿Guardar cambios?',
+        text: "Se actualizarán los datos del producto.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, actualizar',
+        cancelButtonText: 'Cancelar',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await updateInventory(restaurantId, selectedProducto.id, selectedProducto);
+            
+            // Obtener el inventario actualizado
+            const updatedInventory = await getInventoryByRestaurant(restaurantId);
+            setProductos(updatedInventory);
+  
+            // ⚠️ Mover el cierre del modal después de la notificación de éxito
+            Swal.fire({
+              icon: 'success',
+              title: 'Producto actualizado',
+              text: 'El producto se ha actualizado correctamente.',
+            }).then(() => {
+              setShowModal(false);
+              setSelectedProducto(null);
+            });
+  
+          } catch (error) {
+            console.error("Error al guardar los cambios:", error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al guardar los cambios.',
+            });
+          }
+        }
+      });
     }
   };
 
   const handleDeleteClick = async (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este producto?")) {
-      try {
-        await deleteInventory(restaurantId, id);
-        setProductos(productos.filter((prod) => prod.id !== id));
-      } catch (error) {
-        console.error("Error al eliminar el producto:", error);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás recuperar este producto después de eliminarlo.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminarlo!',
+      cancelButtonText: 'Cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteInventory(restaurantId, id);
+          setProductos(productos.filter((prod) => prod.id !== id));
+
+          // Alerta de éxito cuando se elimina un producto
+          Swal.fire(
+            'Eliminado!',
+            'El producto ha sido eliminado.',
+            'success'
+          );
+        } catch (error) {
+          console.error("Error al eliminar el producto:", error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un error al eliminar el producto.',
+          });
+        }
       }
-    }
+    });
   };
 
   return (
@@ -72,8 +123,7 @@ const Inventario = () => {
           Agregar producto +
         </Link>
       </div>
-  
-      {/* Aquí se muestra el mensaje si no hay productos */}
+
       {productos.length === 0 ? (
         <div className="alert alert-info" role="alert">
           No hay productos registrados. ¡Agrega uno nuevo!
@@ -97,7 +147,7 @@ const Inventario = () => {
                   <td>{prod.cantidad}</td>
                   <td>{prod.categoria}</td>
                   <td>{prod.descripcion}</td>
-                  <td className="d-flex justify-content-start">
+                  <td className="d-flex justify-content-center">
                     <button
                       className="btn btn-warning btn-sm me-2"
                       onClick={() => handleUpdateClick(prod)}
@@ -117,7 +167,7 @@ const Inventario = () => {
           </table>
         </div>
       )}
-  
+
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -154,7 +204,7 @@ const Inventario = () => {
                 }
               />
             </div>
-  
+
             <div className="mb-3">
               <label className="form-label fw-bold text-light">Categoría</label>
               <select
@@ -215,7 +265,7 @@ const Inventario = () => {
               color: "#000", // Color del texto
             }}
           >
-            Guardar Cambios
+            Guardar
           </Button>
         </Modal.Footer>
       </Modal>

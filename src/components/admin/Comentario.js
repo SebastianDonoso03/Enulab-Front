@@ -4,39 +4,66 @@ import { getCommentByRestaurant } from "../../services/commentService";
 
 const Reserva = () => {
     const restaurantId = localStorage.getItem("selectedRestaurantId");
-    const [comment, setComment] = useState([]);
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        const fetchReservas = async () => {
+        const fetchComments = async () => {
             try {
                 const data = await getCommentByRestaurant(restaurantId);
-                setComment(data);
+                setComments(data);
             } catch (error) {
-                console.error("Error al obtener las Comentario:", error);
+                console.error("Error al obtener los comentarios:", error);
             }
         };
-        fetchReservas();
+        fetchComments();
     }, [restaurantId]);
 
     return (
-        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 3, p: 3 }}>
-            {comment.length === 0 ? (
-                <Typography variant="body1" sx={{ fontSize: "1.5rem", textAlign: "center" }}>
-                    No hay reservas disponibles
+        <Box
+            sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gap: 3,
+                p: 3,
+            }}
+        >
+            {comments.length === 0 ? (
+                <Typography variant="h6" sx={{ textAlign: "center", color: "gray" }}>
+                    No hay comentarios disponibles
                 </Typography>
             ) : (
-                comment.map((comment) => (
-                    <Card key={comment.id} sx={{ width: "100%", maxWidth: 300, borderRadius: "20px", boxShadow: 3, padding: 2 }}>
+                comments.map((comment) => (
+                    <Card
+                        key={comment.id}
+                        sx={{
+                            maxWidth: 350,
+                            borderRadius: "15px",
+                            boxShadow: 3,
+                            p: 2,
+                            transition: "transform 0.2s ease-in-out",
+                            "&:hover": { transform: "scale(1.03)" },
+                            backgroundColor: "#f9f9f9",
+                        }}
+                    >
                         <CardContent>
-                            <Typography variant="body1" sx={{ fontSize: "1.2rem" }}>Puntuación: {comment.rating} 🌟</Typography>
-                            <Typography variant="body1" sx={{ fontSize: "1.2rem" }}>Nota: {comment.content}</Typography>
-                            <Typography variant="body1" sx={{ fontSize: "1.2rem" }}>Fecha: {new Date(comment.date).toISOString().split('T')[0]}</Typography>
+                            <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333" }}>
+                                {comment.name}
+                            </Typography>
+                            <Typography variant="body1" sx={{ color: "#555", mb: 1 }}>
+                                <strong>Puntuación:</strong> {comment.rating} ⭐
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: "#666", fontStyle: "italic" }}>
+                                "{comment.content}"
+                            </Typography>
+                            <Typography variant="caption" sx={{ display: "block", color: "#888", mt: 1 }}>
+                                Fecha: {new Date(comment.date).toLocaleDateString()}
+                            </Typography>
                         </CardContent>
                     </Card>
                 ))
             )}
         </Box>
     );
-}
+};
 
 export default Reserva;

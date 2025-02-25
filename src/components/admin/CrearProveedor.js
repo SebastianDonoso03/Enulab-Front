@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createSupplier } from "../../services/supplierServices";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CrearProveedores from "../../styles/CrearProveedores.css"
+import Swal from 'sweetalert2'
 
 const CrearProveedor = () => {
   const navigate = useNavigate();
@@ -51,9 +52,29 @@ const CrearProveedor = () => {
     try {
       const createdSupplier = await createSupplier(restaurantId, formData);
       console.log("Proveedor creado:", createdSupplier);
-      navigate("/Proveedores");
+
+      // Alerta de éxito con SweetAlert2
+      Swal.fire({
+        icon: "success",
+        title: "Proveedor Creado",
+        text: "El proveedor se ha creado con éxito.",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Aceptar"
+      }).then(() => {
+        navigate("/Proveedores");
+      });
+
     } catch (error) {
       console.error("Error al crear el proveedor:", error);
+      
+      // Alerta de error
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al crear el proveedor. Inténtelo de nuevo.",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Cerrar"
+      });
     }
   };
 
@@ -91,7 +112,7 @@ const CrearProveedor = () => {
                 ))}
               </select>
             </div>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-center">
               <button type="submit" className="btn btn-warning text-dark">Guardar Proveedor</button>
             </div>
           </form>

@@ -80,7 +80,7 @@
 /* Espaciado entre los botones */
 .form-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content:  center;
   margin-top: 20px; /* Aumenté el margen entre los botones */
 }
 

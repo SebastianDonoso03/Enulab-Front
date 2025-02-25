@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import { getEmployeesByRestaurant, updateEmployee, deleteEmployee } from '../../services/employeeServices';
+import Swal from 'sweetalert2'; // Importamos SweetAlert2
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Empleados from "../../styles/Empleados.css"
 
@@ -35,26 +36,79 @@ const Empleado = () => {
 
   const handleSaveChanges = async () => {
     if (selectedEmployee) {
-      try {
-        await updateEmployee(restaurantId, selectedEmployee.id, selectedEmployee);
-        setShowModal(false);
-        const updatedEmployees = await getEmployeesByRestaurant(restaurantId);
-        setEmployees(updatedEmployees);
-      } catch (error) {
-        console.error("Error al guardar los cambios:", error);
-      }
+      // Mensaje de confirmación antes de guardar los cambios
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Los cambios realizados se guardarán.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#f39c12',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, guardar',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await updateEmployee(restaurantId, selectedEmployee.id, selectedEmployee);
+            setShowModal(false);
+            const updatedEmployees = await getEmployeesByRestaurant(restaurantId);
+            setEmployees(updatedEmployees);
+  
+            // Alerta de éxito en la actualización
+            Swal.fire({
+              icon: 'success',
+              title: 'Empleado actualizado',
+              text: 'El empleado se actualizó correctamente',
+              confirmButtonColor: '#f39c12',
+            });
+          } catch (error) {
+            console.error("Error al guardar los cambios:", error);
+            // Alerta de error
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al actualizar el empleado',
+              confirmButtonColor: '#f39c12',
+            });
+          }
+        }
+      });
     }
   };
 
-  const handleDeleteClick = async (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este empleado?")) {
-      try {
-        await deleteEmployee(restaurantId, id);
-        setEmployees(employees.filter((emp) => emp.id !== id));
-      } catch (error) {
-        console.error("Error al eliminar el empleado:", error);
+  const handleDeleteClick = (id) => {
+    // Confirmación de eliminación
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminarlo',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteEmployee(restaurantId, id);
+          setEmployees(employees.filter((emp) => emp.id !== id));
+          // Alerta de éxito en la eliminación
+          Swal.fire({
+            icon: 'success',
+            title: 'Empleado eliminado',
+            text: 'El empleado se eliminó correctamente',
+            confirmButtonColor: '#f39c12',
+          });
+        } catch (error) {
+          console.error("Error al eliminar el empleado:", error);
+          // Alerta de error en eliminación
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un error al eliminar el empleado',
+            confirmButtonColor: '#f39c12',
+          });
+        }
       }
-    }
+    });
   };
 
   return (
@@ -65,7 +119,7 @@ const Empleado = () => {
           Agregar empleado +
         </Link>
       </div>
-  
+
       {/* Aquí se muestra el mensaje si no hay empleados */}
       {employees.length === 0 ? (
         <div className="alert alert-info" role="alert">
@@ -94,7 +148,7 @@ const Empleado = () => {
                   <td>{emp.genero}</td>
                   <td>{emp.sueldo}</td>
                   <td>{emp.horario}</td>
-                  <td className="d-flex justify-content-start">
+                  <td className="d-flex justify-content-center">
                     <button className="btn btn-warning btn-sm me-2" onClick={() => handleUpdateClick(emp)}>
                       <i className="bi bi-arrow-repeat"></i> Actualizar
                     </button>
@@ -108,7 +162,7 @@ const Empleado = () => {
           </table>
         </div>
       )}
-  
+
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className="text-warning">
           <Modal.Title>
@@ -213,12 +267,12 @@ const Empleado = () => {
               color: "#000", // Color del texto
             }}
           >
-            Guardar Cambios
+            Guardar
           </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
-};  
+};
 
 export default Empleado;

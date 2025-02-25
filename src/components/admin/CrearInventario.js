@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createInventory } from "../../services/inventory.Services";
+import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CrearInventarios from "../../styles/CrearInventarios.css"; // Importamos el archivo CSS
 
@@ -37,17 +38,42 @@ const CrearInventario = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!restaurantId) {
-      alert("Error: No se ha seleccionado un restaurante.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se ha seleccionado un restaurante.",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Cerrar"
+      });
       return;
     }
 
     try {
       const createdInventory = await createInventory(restaurantId, formData);
       console.log("Inventario creado:", createdInventory);
-      navigate("/Inventario");
+
+      // Alerta de éxito
+      Swal.fire({
+        icon: "success",
+        title: "Producto Agregado",
+        text: "El producto se ha registrado correctamente en el inventario.",
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Aceptar"
+      }).then(() => {
+        navigate("/Inventario");
+      });
+
     } catch (error) {
       console.error("Error al crear el inventario:", error.response?.data || error.message);
-      alert("Hubo un error al crear el inventario. Por favor, inténtalo de nuevo.");
+
+      // Alerta de error
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al crear el producto en el inventario. Inténtelo de nuevo.",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Cerrar"
+      });
     }
   };
 
@@ -77,7 +103,7 @@ const CrearInventario = () => {
           <div className="form-group">
             <textarea className="form-control" name="descripcion" value={formData.descripcion} onChange={handleChange} placeholder="Descripción" required></textarea>
           </div>
-          <div className="form-actions">
+          <div className="form-actions d-flex justify-content-center">
             <button type="submit" className="btn btn-warning">Guardar Producto</button>
           </div>
         </form>

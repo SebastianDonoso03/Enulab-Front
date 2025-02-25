@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createRestaurant } from "../../services/restaurantServices";
+import Swal from "sweetalert2";
 import "../../styles/CrearRestaurant.css";
-import { div, h2 } from "framer-motion/client";
 
 const CrearRestaurante = () => {
   const navigate = useNavigate();
@@ -16,27 +16,42 @@ const CrearRestaurante = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (files) {
-      setFormData({ ...formData, [name]: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar que todos los campos estén completos
+    if (!formData.name || !formData.ubicacion || !formData.objetivos || !formData.descripcion || !formData.logo) {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos antes de enviar.",
+      });
+      return;
+    }
+
     try {
       await createRestaurant(formData);
-      console.log("Restaurante creado exitosamente");
-      navigate("/inicio");
+      Swal.fire({
+        icon: "success",
+        title: "Éxito",
+        text: "Restaurante creado exitosamente.",
+      }).then(() => navigate("/restaurantes"));
     } catch (error) {
-      console.error("Error al crear el restaurante:", error.message);
-      alert(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.message || "Hubo un problema al crear el restaurante.",
+      });
     }
   };
 
   return (
-    
     <div className="crear-restaurante-container">
       <div className="crear-restaurante-content">
         <div className="crear-restaurante-card">
@@ -72,18 +87,20 @@ const CrearRestaurante = () => {
               className="crear-restaurante-input"
               accept="image/*"
               onChange={handleChange}
+              required
             />
             <div className="mt-4">
               <button type="submit" className="crear-restaurante-button">Guardar Restaurante</button>
             </div>
             <div className="text-center mt-4">
-              <button type="button" className="crear-restaurante-link" onClick={() => navigate("/restaurantes")}>Cancelar</button>
+              <button type="button" className="crear-restaurante-link" onClick={() => navigate("/restaurantes")}>
+                Cancelar
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-    
   );
 };
 

@@ -10,7 +10,6 @@ const Reserva = () => {
   const restaurantId = localStorage.getItem("selectedRestaurantId");
   const [openModal, setOpenModal] = useState(false);
   const [openQrModal, setOpenQrModal] = useState(false); // Estado para el modal del QR
-  const [openViewModal, setOpenViewModal] = useState(false); // Estado para el modal de visualización
   const [selectedReserva, setSelectedReserva] = useState({});
   const [reservas, setReservas] = useState([]);
   const reservasRef = useRef([]);
@@ -50,16 +49,6 @@ const Reserva = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setSelectedReserva(null);
-  };
-
-  const handleOpenViewModal = (reserva) => {
-    setSelectedReserva(reserva);
-    setOpenViewModal(true);
-  };
-
-  const handleCloseViewModal = () => {
-    setOpenViewModal(false);
     setSelectedReserva(null);
   };
 
@@ -160,40 +149,12 @@ const Reserva = () => {
           <button className="btn btn-warning btn-sm" onClick={() => handleOpenModal(reserva)}>
             <i className="bi bi-arrow-repeat"></i> Actualizar
           </button>
-          <button className="btn btn-info btn-sm" onClick={() => handleOpenViewModal(reserva)}>
-            <i className="bi bi-eye"></i> Visualizar
-          </button>
         </div>
       </div>
     ))
   )}
 </div>
-       {/* Modal de visualización */}
-      <Modal isOpen={openViewModal} toggle={handleCloseViewModal} centered>
-        <ModalHeader toggle={handleCloseViewModal} className="text-white">
-          <i className="bi bi-eye me-2"></i> Visualizar Reserva
-        </ModalHeader>
-        <ModalBody className="text-white">
-          {selectedReserva && (
-            <div>
-              <p><strong>Nombre Completo:</strong> {selectedReserva.name}</p>
-              <p><strong>Código:</strong> {selectedReserva.code}</p>
-              <p><strong>Banco:</strong> {selectedReserva.bank}</p>
-              <p><strong>Fecha:</strong> {selectedReserva.date}</p>
-              <p><strong>Hora:</strong> {selectedReserva.hour}</p>
-              <p><strong>Teléfono:</strong> {selectedReserva.numcontact}</p>
-              <p><strong>Número de Personas:</strong> {selectedReserva.guests}</p>
-              <p><strong>Notas:</strong> {selectedReserva.note}</p>
-              <p><strong>Confirmada:</strong> {selectedReserva.confirmed ? "Sí" : "No"}</p>
-            </div>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button className="btn btn-secondary" onClick={handleCloseViewModal}>
-            Cerrar
-          </Button>
-        </ModalFooter>
-      </Modal>
+
 
       {/* Modal de edición */}
       <Modal isOpen={openModal} toggle={handleCloseModal} centered>
