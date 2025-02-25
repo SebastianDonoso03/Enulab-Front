@@ -1,16 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "../styles/Sidebars.css"; // Asegúrate de tener este archivo de estilo CSS
+import { Link, useNavigate } from "react-router-dom"; // Importa useNavigate
+import "../styles/Sidebars.css";
+import { FaSignOutAlt } from 'react-icons/fa';
+
 
 const Sidebar = ({ isOpen }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartasOpen, setIsCartasOpen] = useState(false);
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false); // Nuevo estado para manejar el submenú
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  
+  const navigate = useNavigate(); // Inicializamos useNavigate
 
   const handleCartasClick = () => {
-    setIsCartasOpen(!isCartasOpen); // Alterna la visibilidad de las opciones de cartas
-    setIsSubMenuOpen(!isSubMenuOpen); // Alterna la visibilidad de los submenús (Platos, Bebidas, Postres)
+    setIsCartasOpen(!isCartasOpen);
+    setIsSubMenuOpen(!isSubMenuOpen);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Elimina el token
+    navigate("/login"); // Redirige al login
+  };
+  
 
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
@@ -24,22 +34,11 @@ const Sidebar = ({ isOpen }) => {
         <li><Link to="/comentarios">Comentarios</Link></li>
 
         {/* Menús */}
-        <li
-          onMouseEnter={() => setIsMenuOpen(true)}
-          onMouseLeave={() => setIsMenuOpen(false)}
-          className="menu-toggle"
-        >
-          <div style={{ cursor: "pointer", color: "black", paddingLeft: "15px" }}>
-            Menús
-          </div>
+        <li onMouseEnter={() => setIsMenuOpen(true)} onMouseLeave={() => setIsMenuOpen(false)} className="menu-toggle">
+          <div style={{ cursor: "pointer", color: "black", paddingLeft: "15px" }}>Menús</div>
           <ul className={`sub-menu ${isMenuOpen ? 'open' : ''}`}>
-            {/* Cartas */}
-            <li
-              onClick={handleCartasClick} // Cambié a onClick para abrir y cerrar el submenú de Cartas
-              className="sub-menu-toggle"
-            >
+            <li onClick={handleCartasClick} className="sub-menu-toggle">
               <Link to="/repertorio">Cartas</Link>
-              {/* Submenú de Platos, Bebidas y Postres */}
               <ul className={`sub-sub-menu ${isSubMenuOpen ? 'open' : ''}`}>
                 <li><Link to="/platos">Platos</Link></li>
                 <li><Link to="/bebidas">Bebidas</Link></li>
@@ -47,6 +46,14 @@ const Sidebar = ({ isOpen }) => {
               </ul>
             </li>
           </ul>
+        </li>
+        
+        {/* Opción de Cerrar Sesión */}
+        <li className="logout" onClick={handleLogout}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", cursor: "pointer" }}>
+            <span>Cerrar Sesión</span>
+            <FaSignOutAlt />
+          </div>
         </li>
       </ul>
     </div>

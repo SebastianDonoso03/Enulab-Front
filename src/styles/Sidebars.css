@@ -113,3 +113,30 @@
     font-size: 14px; /* Ajuste de tamaño de letra para pantallas pequeñas */
   }
 }
+
+/* ======== CERRAR SESIÓN ======== */
+.logout {
+  position: absolute;
+  bottom: 20px; /* Ubicación en la parte inferior */
+  width: 100%;
+}
+
+.logout div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+.logout div:hover {
+  background-color: rgb(159, 175, 192);
+}
+
+/* Estilo del ícono */
+.logout svg {
+  font-size: 18px;
+  color: black;
+}
+
