@@ -103,7 +103,6 @@ const Platos = () => {
           </tbody>
         </table>
       </div>
-
       {/* Modal for updating dish */}
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton className=" text-light">
