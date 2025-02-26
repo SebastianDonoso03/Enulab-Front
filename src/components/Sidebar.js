@@ -25,9 +25,9 @@ const Sidebar = ({ isOpen }) => {
   return (
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <ul className="sidebar-nav">
-        <li><Link to="/inicio">Inicio</Link></li>
-        <li><Link to="/empleados">Empleados</Link></li>
+{/*         <li><Link to="/inicio">Inicio</Link></li> */}
         <li><Link to="/restaurantes">Restaurantes</Link></li>
+        <li><Link to="/empleados">Empleados</Link></li>
         <li><Link to="/reservas">Reservas</Link></li>
         <li><Link to="/proveedores">Proveedores</Link></li>
         <li><Link to="/inventario">Inventario</Link></li>

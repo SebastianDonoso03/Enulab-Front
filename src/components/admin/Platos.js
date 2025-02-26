@@ -84,7 +84,7 @@ const Platos = () => {
                 <td>{plato.name}</td>
                 <td>{plato.description}</td>
                 <td>{plato.price}</td>
-                <td className="d-flex justify-content-start">
+                <td className="d-flex justify-content-center">
                   <button
                     className="btn btn-warning btn-sm me-2"
                     onClick={() => handleUpdateClick(plato)}

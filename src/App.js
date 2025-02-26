@@ -40,7 +40,7 @@ const AnimatedRoutes = () => {
         <Route path="/registro" element={<Register />} />
 
         {/* Rutas protegidas (requieren navegación con LayoutPrincipal) */}
-        <Route path="/inicio" element={<LayoutPrincipal><Restaurantes /></LayoutPrincipal>} />
+        <Route path="/inicio" element={<Restaurantes />} />
         <Route path="/empleados" element={<LayoutPrincipal><Empleado /></LayoutPrincipal>} />
         <Route path="/empleados/nuevo" element={<LayoutPrincipal><CrearEmpleado /></LayoutPrincipal>} />
         <Route path="/restaurantes" element={<LayoutPrincipal><Restaurantes /></LayoutPrincipal>} />
